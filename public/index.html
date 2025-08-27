@@ -1,0 +1,742 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Додаток для збереження карт лояльності">
+    <meta name="theme-color" content="#667eea">
+    <title>Карти Лояльності</title>
+    
+    <!-- PWA Manifest -->
+    <link rel="manifest" href="/manifest.json">
+    
+    <!-- Icons -->
+    <link rel="icon" type="image/png" sizes="32x32" href="/logo-disCard.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/logo-disCard.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/logo-disCard.png">
+    <link rel="mask-icon" href="/logo-disCard.png" color="#10b981">
+    
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="/style.css">
+    
+    <!-- External Libraries -->
+    <script src="https://unpkg.com/quagga@0.12.1/dist/quagga.min.js"></script>
+    <script src="https://unpkg.com/qrcode@1.5.3/build/qrcode.min.js"></script>
+</head>
+<body>
+    <div id="app">
+        <!-- Loading Screen -->
+        <div id="loading-screen" class="loading-screen">
+            <img src="/logo-disCard.png" alt="disCard" class="loading-logo">
+            <div class="spinner"></div>
+            <p data-translate="common.loading">Завантаження...</p>
+        </div>
+
+        <!-- Navigation -->
+        <nav id="navbar" class="navbar" style="display: none;">
+            <div class="nav-brand">
+                <img src="/logo-disCard.png" alt="disCard" class="nav-logo">
+                <h1 data-translate="app.title">💳 Карти Лояльності</h1>
+            </div>
+            <div class="nav-actions">
+                <button id="language-toggle" class="btn-icon" title="Switch Language / Змінити мову">
+                    🌐
+                </button>
+                <button id="theme-toggle" class="btn-icon" title="Перемкнути тему">
+                    🌙
+                </button>
+                <button id="logout-btn" class="btn-icon" title="Вийти">
+                    🚪
+                </button>
+            </div>
+        </nav>
+
+        <!-- Main Tabs Navigation -->
+        <div id="main-tabs" class="main-tabs" style="display: none;">
+            <button class="tab-btn active" data-tab="cards">
+                <span class="tab-icon">💳</span>
+                <span data-translate="tabs.cards">Карти</span>
+            </button>
+            <button class="tab-btn" data-tab="shopping">
+                <span class="tab-icon">🛒</span>
+                <span data-translate="tabs.shopping">Покупки</span>
+            </button>
+            <button class="tab-btn" data-tab="friends">
+                <span class="tab-icon">👥</span>
+                <span data-translate="tabs.friends">Друзі</span>
+            </button>
+            <button class="tab-btn" data-tab="profile">
+                <span class="tab-icon">👤</span>
+                <span data-translate="tabs.profile">Профіль</span>
+            </button>
+        </div>
+
+        <!-- Login Page -->
+        <div id="login-page" class="page" style="display: none;">
+            <div class="auth-container">
+                <div class="auth-card">
+                    <div class="auth-logo">
+                        <img src="/logo-disCard.png" alt="disCard" class="auth-logo-img">
+                    </div>
+                    <h2 data-translate="login.title">Вхід до системи</h2>
+                    <form id="login-form">
+                        <div class="form-group">
+                            <label for="login-email" data-translate="common.email">Email</label>
+                            <input type="email" id="login-email" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="login-password" data-translate="common.password">Пароль</label>
+                            <input type="password" id="login-password" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="checkbox-container">
+                                <input type="checkbox" id="remember-me">
+                                <span class="checkmark"></span>
+                                <span data-translate="login.remember_me">Запам'ятати мене</span>
+                            </label>
+                        </div>
+                        <button type="submit" class="btn btn-primary" data-translate="login.submit">Увійти</button>
+                    </form>
+                    <div class="auth-switch">
+                        <p><span data-translate="login.no_account">Немає акаунту?</span> <a href="#" id="show-register" data-translate="login.register_link">Зареєструватися</a></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Register Page -->
+        <div id="register-page" class="page" style="display: none;">
+            <div class="auth-container">
+                <div class="auth-card">
+                    <div class="auth-logo">
+                        <img src="/logo-disCard.png" alt="disCard" class="auth-logo-img">
+                    </div>
+                    <h2 data-translate="register.title">Реєстрація</h2>
+                    <form id="register-form">
+                        <div class="form-group">
+                            <label for="register-email" data-translate="common.email">Email</label>
+                            <input type="email" id="register-email" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="register-password" data-translate="common.password">Пароль</label>
+                            <input type="password" id="register-password" required minlength="6">
+                        </div>
+                        <div class="form-group">
+                            <label for="register-confirm-password" data-translate="register.confirm_password">Підтвердити пароль</label>
+                            <input type="password" id="register-confirm-password" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary" data-translate="register.submit">Зареєструватися</button>
+                    </form>
+                    <div class="auth-switch">
+                        <p><span data-translate="register.have_account">Вже є акаунт?</span> <a href="#" id="show-login" data-translate="register.login_link">Увійти</a></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Cards Page -->
+        <div id="cards-page" class="page" style="display: none;">
+            <div class="container">
+                <div class="page-header">
+                    <h2 data-translate="cards.my_cards">Мої карти</h2>
+                    <div class="header-actions">
+                        <button id="security-settings-btn" class="btn btn-secondary">
+                            🛡️ <span data-translate="cards.security">Безпека</span>
+                        </button>
+                        <button id="add-card-btn" class="btn btn-primary">
+                            ➕ <span data-translate="cards.add_card">Додати картку</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Search -->
+                <div class="search-container">
+                    <input type="text" id="search-cards" data-translate-placeholder="cards.search" placeholder="Пошук карт..." class="search-input">
+                </div>
+
+                <!-- Cards Grid -->
+                <div id="cards-grid" class="cards-grid">
+                    <!-- Cards will be dynamically loaded here -->
+                </div>
+
+                <!-- Empty State -->
+                <div id="empty-state" class="empty-state" style="display: none;">
+                    <div class="empty-icon">💳</div>
+                    <h3 data-translate="cards.no_cards">Немає карт</h3>
+                    <p data-translate="cards.add_first_card">Додайте свою першу карту лояльності</p>
+                    <button class="btn btn-primary" onclick="showAddCard()" data-translate="cards.add_card">Додати картку</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Add Card Page -->
+        <div id="add-card-page" class="page" style="display: none;">
+            <div class="container">
+                <div class="page-header">
+                    <button id="back-to-cards" class="btn-back">← <span data-translate="common.back">Назад</span></button>
+                    <h2 data-translate="add_card.title">Додати картку</h2>
+                </div>
+
+                <form id="add-card-form">
+                    <div class="form-group">
+                        <label for="card-name" data-translate="add_card.name">Назва картки</label>
+                        <input type="text" id="card-name" required maxlength="100" 
+                               data-translate-placeholder="add_card.name_placeholder" placeholder="Наприклад: АТБ, Сільпо, Rozetka">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="card-code" data-translate="add_card.code">Номер картки</label>
+                        <div class="input-with-scanner">
+                            <input type="text" id="card-code" required 
+                                   data-translate-placeholder="add_card.code_placeholder" placeholder="Введіть номер або скануйте">
+                            <button type="button" id="scan-barcode-btn" class="btn-scanner">
+                                📷 <span data-translate="add_card.scan">Сканувати</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label data-translate="add_card.code_type">Тип коду</label>
+                        <div class="radio-group">
+                            <label class="radio-label">
+                                <input type="radio" name="code-type" value="barcode" checked>
+                                <span data-translate="add_card.barcode">Штрих-код</span>
+                            </label>
+                            <label class="radio-label">
+                                <input type="radio" name="code-type" value="qr">
+                                <span data-translate="add_card.qr_code">QR-код</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="button" id="cancel-add-card" class="btn btn-secondary" data-translate="common.cancel">Скасувати</button>
+                        <button type="submit" class="btn btn-primary" data-translate="add_card.save">Зберегти картку</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- Scanner Modal -->
+        <div id="scanner-modal" class="modal" style="display: none;">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3 data-translate="scanner.title">Сканування коду</h3>
+                    <button id="close-scanner" class="btn-close">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <div id="scanner-container">
+                        <video id="scanner-video" autoplay playsinline></video>
+                        <div id="scanner-overlay">
+                            <div class="scan-frame"></div>
+                        </div>
+                    </div>
+                    <div class="scanner-controls">
+                        <button id="toggle-camera" class="btn btn-secondary">🔄 <span data-translate="scanner.switch_camera">Перемкнути камеру</span></button>
+                        <button id="toggle-flash" class="btn btn-secondary">💡 <span data-translate="scanner.flash">Спалах</span></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Card View Modal -->
+        <div id="card-modal" class="modal" style="display: none;">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3 id="card-modal-title" data-translate="card_modal.title">Картка</h3>
+                    <button id="close-card-modal" class="btn-close">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <div id="card-display">
+                        <div id="card-code-display"></div>
+                        <p id="card-code-number"></p>
+                    </div>
+                    <div class="card-actions">
+                        <button id="delete-card" class="btn btn-danger">🗑️ <span data-translate="card_modal.delete">Видалити</span></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 2FA Login Modal -->
+        <div id="twofa-login-modal" class="modal" style="display: none;">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3 data-translate="twofa.login_title">Двофакторна автентифікація</h3>
+                </div>
+                <div class="modal-body">
+                    <p data-translate="twofa.enter_code">Введіть код з додатку автентифікатора:</p>
+                    <form id="twofa-login-form">
+                        <div class="form-group">
+                            <input type="text" id="twofa-token" class="twofa-input" maxlength="6" placeholder="000000" required>
+                        </div>
+                        <div class="form-actions">
+                            <button type="button" id="cancel-twofa-login" class="btn btn-secondary" data-translate="common.cancel">Скасувати</button>
+                            <button type="submit" class="btn btn-primary" data-translate="twofa.verify">Підтвердити</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- Security Settings Modal -->
+        <div id="security-modal" class="modal" style="display: none;">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3 data-translate="security.title">Налаштування безпеки</h3>
+                    <button id="close-security-modal" class="btn-close">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <div class="security-section">
+                        <h4 data-translate="security.twofa_section">Двофакторна автентифікація (2FA)</h4>
+                        <p data-translate="security.twofa_description">Додайте додатковий рівень захисту для вашого акаунту</p>
+                        
+                        <div id="twofa-disabled" class="twofa-status" style="display: none;">
+                            <div class="status-badge status-disabled">
+                                <span data-translate="security.twofa_disabled">2FA вимкнена</span>
+                            </div>
+                            <button id="setup-twofa-btn" class="btn btn-primary" data-translate="security.enable_twofa">Увімкнути 2FA</button>
+                        </div>
+
+                        <div id="twofa-enabled" class="twofa-status" style="display: none;">
+                            <div class="status-badge status-enabled">
+                                <span data-translate="security.twofa_enabled">2FA увімкнена</span>
+                            </div>
+                            <button id="disable-twofa-btn" class="btn btn-danger" data-translate="security.disable_twofa">Вимкнути 2FA</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 2FA Setup Modal -->
+        <div id="twofa-setup-modal" class="modal" style="display: none;">
+            <div class="modal-content modal-large">
+                <div class="modal-header">
+                    <h3 data-translate="security.setup_twofa">Налаштування 2FA</h3>
+                    <button id="close-twofa-setup" class="btn-close">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <div class="setup-step">
+                        <h4 data-translate="security.step1">Крок 1: Скануйте QR-код</h4>
+                        <p data-translate="security.scan_instructions">Скануйте цей QR-код у вашому додатку автентифікатора (Google Authenticator, Authy тощо):</p>
+                        <div class="qr-container">
+                            <div id="qr-code-display"></div>
+                        </div>
+                        <div class="manual-entry">
+                            <p data-translate="security.manual_entry">Або введіть код вручну:</p>
+                            <code id="manual-entry-key"></code>
+                            <button id="copy-key" class="btn btn-small" data-translate="common.copy">Копіювати</button>
+                        </div>
+                    </div>
+                    
+                    <div class="setup-step">
+                        <h4 data-translate="security.step2">Крок 2: Введіть код підтвердження</h4>
+                        <p data-translate="security.verify_instructions">Введіть 6-значний код з вашого додатку:</p>
+                        <form id="twofa-setup-form">
+                            <div class="form-group">
+                                <input type="text" id="twofa-verify-token" class="twofa-input" maxlength="6" placeholder="000000" required>
+                            </div>
+                            <div class="form-actions">
+                                <button type="button" id="cancel-twofa-setup" class="btn btn-secondary" data-translate="common.cancel">Скасувати</button>
+                                <button type="submit" class="btn btn-primary" data-translate="security.complete_setup">Завершити налаштування</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 2FA Disable Modal -->
+        <div id="twofa-disable-modal" class="modal" style="display: none;">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3 data-translate="security.disable_twofa_title">Вимкнути 2FA</h3>
+                    <button id="close-twofa-disable" class="btn-close">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <p data-translate="security.disable_warning">Ви впевнені, що хочете вимкнути двофакторну автентифікацію? Це знизить безпеку вашого акаунту.</p>
+                    <form id="twofa-disable-form">
+                        <div class="form-group">
+                            <label for="disable-password" data-translate="common.password">Поточний пароль:</label>
+                            <input type="password" id="disable-password" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="disable-twofa-token" data-translate="security.current_code">Поточний код 2FA:</label>
+                            <input type="text" id="disable-twofa-token" class="twofa-input" maxlength="6" placeholder="000000" required>
+                        </div>
+                        <div class="form-actions">
+                            <button type="button" id="cancel-twofa-disable" class="btn btn-secondary" data-translate="common.cancel">Скасувати</button>
+                            <button type="submit" class="btn btn-danger" data-translate="security.confirm_disable">Підтвердити вимкнення</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- Shopping Lists Page -->
+        <div id="shopping-page" class="page" style="display: none;">
+            <div class="container">
+                <div class="page-header">
+                    <h2 data-translate="shopping.my_lists">Мої списки покупок</h2>
+                    <div class="header-actions">
+                        <button id="add-shopping-list-btn" class="btn btn-primary">
+                            ➕ <span data-translate="shopping.add_list">Новий список</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Search -->
+                <div class="search-container">
+                    <input type="text" id="search-lists" data-translate-placeholder="shopping.search" placeholder="Пошук списків..." class="search-input">
+                </div>
+
+                <!-- Shopping Lists Grid -->
+                <div id="shopping-lists-grid" class="shopping-lists-grid">
+                    <!-- Lists will be dynamically loaded here -->
+                </div>
+
+                <!-- Empty State -->
+                <div id="shopping-empty-state" class="empty-state" style="display: none;">
+                    <div class="empty-icon">🛒</div>
+                    <h3 data-translate="shopping.no_lists">Немає списків покупок</h3>
+                    <p data-translate="shopping.add_first_list">Створіть свій перший список покупок</p>
+                    <button class="btn btn-primary" onclick="showAddShoppingList()" data-translate="shopping.add_list">Новий список</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Add Shopping List Page -->
+        <div id="add-shopping-list-page" class="page" style="display: none;">
+            <div class="container">
+                <div class="page-header">
+                    <button id="back-to-shopping" class="btn-back">← <span data-translate="common.back">Назад</span></button>
+                    <h2 data-translate="shopping.add_list_title">Новий список покупок</h2>
+                </div>
+
+                <form id="add-shopping-list-form">
+                    <div class="form-group">
+                        <label for="list-name" data-translate="shopping.list_name">Назва списку</label>
+                        <input type="text" id="list-name" name="name" required maxlength="100" 
+                               data-translate-placeholder="shopping.list_name_placeholder" placeholder="Наприклад: Тижневі покупки">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="list-description" data-translate="shopping.list_description">Опис (опціонально)</label>
+                        <textarea id="list-description" name="description" rows="3" maxlength="500" 
+                                  data-translate-placeholder="shopping.list_description_placeholder" placeholder="Короткий опис списку..."></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="list-budget" data-translate="shopping.list_budget">Бюджет (грн, опціонально)</label>
+                        <input type="number" id="list-budget" name="budget" min="0" step="0.01" 
+                               data-translate-placeholder="shopping.list_budget_placeholder" placeholder="0.00">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="list-color" data-translate="shopping.list_color">Колір</label>
+                        <div class="color-picker">
+                            <input type="color" id="list-color" name="color" value="#10B981">
+                            <div class="color-preview" style="background-color: #10B981;"></div>
+                        </div>
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="button" onclick="goToShopping()" class="btn btn-secondary" data-translate="common.cancel">Скасувати</button>
+                        <button type="submit" class="btn btn-primary" data-translate="shopping.create_list">Створити список</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- Shopping List Detail Page -->
+        <div id="shopping-list-detail-page" class="page" style="display: none;">
+            <div class="container">
+                <div class="page-header">
+                    <button id="back-to-shopping-lists" class="btn-back">← <span data-translate="common.back">Назад</span></button>
+                    <h2 id="list-detail-title">Список покупок</h2>
+                    <div class="header-actions">
+                        <button id="share-list-btn" class="btn btn-info">
+                            📤 <span data-translate="shopping.share_list">Поділитися</span>
+                        </button>
+                        <button id="edit-list-btn" class="btn btn-secondary">
+                            ✏️ <span data-translate="common.edit">Редагувати</span>
+                        </button>
+                        <button id="delete-list-btn" class="btn btn-danger">
+                            🗑️ <span data-translate="common.delete">Видалити</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- List Stats -->
+                <div class="list-stats">
+                    <div class="stat-item">
+                        <span class="stat-label" data-translate="shopping.total_items">Всього товарів:</span>
+                        <span id="total-items-count" class="stat-value">0</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-label" data-translate="shopping.completed_items">Куплено:</span>
+                        <span id="completed-items-count" class="stat-value">0</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-label" data-translate="shopping.total_budget">Бюджет:</span>
+                        <span id="list-budget-display" class="stat-value">--</span>
+                    </div>
+                </div>
+
+                <!-- Add Item Form -->
+                <div class="add-item-form">
+                    <h3 data-translate="shopping.add_item">Додати товар</h3>
+                    <form id="add-item-form">
+                        <div class="form-row">
+                            <div class="form-group flex-1">
+                                <input type="text" id="item-name" name="name" required maxlength="100" 
+                                       data-translate-placeholder="shopping.item_name_placeholder" placeholder="Назва товару">
+                            </div>
+                            <div class="form-group">
+                                <input type="text" id="item-quantity" name="quantity" maxlength="20" 
+                                       data-translate-placeholder="shopping.quantity_placeholder" placeholder="1 кг" value="1">
+                            </div>
+                            <div class="form-group">
+                                <select id="item-category" name="category">
+                                    <option value="Інше">Інше</option>
+                                    <option value="М'ясо і риба">М'ясо і риба</option>
+                                    <option value="Молочні продукти">Молочні продукти</option>
+                                    <option value="Фрукти і овочі">Фрукти і овочі</option>
+                                    <option value="Хліб і випічка">Хліб і випічка</option>
+                                    <option value="Крупи і макарони">Крупи і макарони</option>
+                                    <option value="Напої">Напої</option>
+                                    <option value="Побутова хімія">Побутова хімія</option>
+                                    <option value="Особиста гігієна">Особиста гігієна</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <input type="number" id="item-price" name="price" min="0" step="0.01" 
+                                       data-translate-placeholder="shopping.price_placeholder" placeholder="Ціна (грн)">
+                            </div>
+                            <button type="submit" class="btn btn-primary">+</button>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- Shopping Items -->
+                <div id="shopping-items-container" class="shopping-items">
+                    <!-- Items will be loaded here -->
+                </div>
+
+                <!-- Share List Modal -->
+                <div id="share-list-modal" class="modal" style="display: none;">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h3 data-translate="shopping.share_with_friends">Поділитися з друзями</h3>
+                            <button class="btn-close">&times;</button>
+                        </div>
+                        <div class="modal-body">
+                            <div id="friends-to-share" class="friends-to-share">
+                                <!-- Friends list will be loaded here -->
+                            </div>
+                            <div class="share-permissions">
+                                <label data-translate="shopping.permission_label">Дозвіл:</label>
+                                <select id="share-permission">
+                                    <option value="view" data-translate="shopping.permission_view">Тільки переглядати</option>
+                                    <option value="edit" data-translate="shopping.permission_edit">Редагувати</option>
+                                </select>
+                            </div>
+                            <div class="shared-with-list">
+                                <h4 data-translate="shopping.already_shared_with">Вже поділено з:</h4>
+                                <div id="current-shares">
+                                    <!-- Current shares will be shown here -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Friends Page -->
+        <div id="friends-page" class="page" style="display: none;">
+            <div class="container">
+                <div class="page-header">
+                    <h2 data-translate="friends.title">Друзі</h2>
+                    <button id="add-friend-btn" class="btn btn-primary">
+                        <span>➕</span>
+                        <span data-translate="friends.add_friend">Додати друга</span>
+                    </button>
+                </div>
+
+                <!-- Friend Search Modal -->
+                <div id="friend-search-modal" class="modal" style="display: none;">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h3 data-translate="friends.search_title">Пошук друга</h3>
+                            <button class="btn-close">&times;</button>
+                        </div>
+                        <div class="modal-body">
+                            <form id="friend-search-form">
+                                <div class="form-group">
+                                    <label for="friend-search-id" data-translate="friends.user_id_label">ID користувача</label>
+                                    <input type="text" id="friend-search-id" required 
+                                           data-translate-placeholder="friends.user_id_placeholder" placeholder="Введіть ID користувача">
+                                </div>
+                                <button type="submit" class="btn btn-primary" data-translate="friends.search_user">Знайти користувача</button>
+                            </form>
+                            <div id="friend-search-result" style="display: none;">
+                                <!-- Search result will be shown here -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Friend Requests Section -->
+                <div class="friends-section">
+                    <h3 data-translate="friends.requests_title">Запити на дружбу</h3>
+                    <div id="friend-requests-tabs" class="mini-tabs">
+                        <button class="mini-tab-btn active" data-request-tab="received">
+                            <span data-translate="friends.received_requests">Отримані</span>
+                            <span id="received-count" class="badge">0</span>
+                        </button>
+                        <button class="mini-tab-btn" data-request-tab="sent">
+                            <span data-translate="friends.sent_requests">Надіслані</span>
+                            <span id="sent-count" class="badge">0</span>
+                        </button>
+                    </div>
+                    <div id="received-requests" class="request-list">
+                        <!-- Received requests will be loaded here -->
+                    </div>
+                    <div id="sent-requests" class="request-list" style="display: none;">
+                        <!-- Sent requests will be loaded here -->
+                    </div>
+                </div>
+
+                <!-- Friends List Section -->
+                <div class="friends-section">
+                    <h3 data-translate="friends.my_friends">Мої друзі</h3>
+                    <div id="friends-search" class="search-container">
+                        <input type="text" id="friends-search-input" class="search-input" 
+                               data-translate-placeholder="friends.search_friends" placeholder="Пошук друзів...">
+                        <span class="search-icon">🔍</span>
+                    </div>
+                    <div id="friends-list" class="friends-list">
+                        <!-- Friends will be loaded here -->
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Profile Page -->
+        <div id="profile-page" class="page" style="display: none;">
+            <div class="container">
+                <div class="page-header">
+                    <h2 data-translate="profile.title">Профіль користувача</h2>
+                </div>
+
+                <!-- User Info Card -->
+                <div class="profile-card">
+                    <div class="profile-header">
+                        <div class="profile-avatar">
+                            <span class="avatar-icon">👤</span>
+                        </div>
+                        <div class="profile-info">
+                            <h3 id="profile-display-name" class="profile-name">--</h3>
+                            <p id="profile-display-email" class="profile-email">--</p>
+                            <p class="profile-id">
+                                <span data-translate="profile.user_id">ID користувача:</span> 
+                                <span id="profile-display-id" class="user-id">--</span>
+                                <button id="copy-user-id" class="btn-copy" title="Копіювати ID">📋</button>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Profile Settings -->
+                <div class="profile-sections">
+                    <!-- Change Name Section -->
+                    <div class="profile-section">
+                        <h4 data-translate="profile.change_name">Змінити ім'я</h4>
+                        <p data-translate="profile.change_name_desc">Оновіть своє відображуване ім'я</p>
+                        <form id="change-name-form" class="profile-form">
+                            <div class="form-group">
+                                <label for="new-name" data-translate="profile.new_name">Нове ім'я</label>
+                                <input type="text" id="new-name" name="name" required maxlength="50" 
+                                       data-translate-placeholder="profile.new_name_placeholder" placeholder="Введіть ваше ім'я">
+                            </div>
+                            <button type="submit" class="btn btn-primary" data-translate="profile.update_name">Оновити ім'я</button>
+                        </form>
+                    </div>
+
+                    <!-- Change Password Section -->
+                    <div class="profile-section">
+                        <h4 data-translate="profile.change_password">Змінити пароль</h4>
+                        <p data-translate="profile.change_password_desc">Оновіть пароль для підвищення безпеки</p>
+                        <form id="change-password-form" class="profile-form">
+                            <div class="form-group">
+                                <label for="current-password" data-translate="profile.current_password">Поточний пароль</label>
+                                <input type="password" id="current-password" name="currentPassword" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="new-password" data-translate="profile.new_password">Новий пароль</label>
+                                <input type="password" id="new-password" name="newPassword" required minlength="6">
+                            </div>
+                            <div class="form-group">
+                                <label for="confirm-new-password" data-translate="profile.confirm_new_password">Підтвердити новий пароль</label>
+                                <input type="password" id="confirm-new-password" name="confirmNewPassword" required minlength="6">
+                            </div>
+                            <button type="submit" class="btn btn-primary" data-translate="profile.update_password">Оновити пароль</button>
+                        </form>
+                    </div>
+
+                    <!-- Account Stats Section -->
+                    <div class="profile-section">
+                        <h4 data-translate="profile.account_stats">Статистика акаунту</h4>
+                        <div class="stats-grid">
+                            <div class="stat-card">
+                                <div class="stat-icon">💳</div>
+                                <div class="stat-info">
+                                    <span class="stat-number" id="total-cards-count">0</span>
+                                    <span class="stat-label" data-translate="profile.total_cards">Всього карт</span>
+                                </div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-icon">🛒</div>
+                                <div class="stat-info">
+                                    <span class="stat-number" id="total-lists-count">0</span>
+                                    <span class="stat-label" data-translate="profile.total_lists">Всього списків</span>
+                                </div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-icon">📅</div>
+                                <div class="stat-info">
+                                    <span class="stat-number" id="account-age">0</span>
+                                    <span class="stat-label" data-translate="profile.account_age">Днів з нами</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Security Section -->
+                    <div class="profile-section">
+                        <h4 data-translate="profile.security">Безпека</h4>
+                        <div class="security-actions">
+                            <button id="profile-security-btn" class="btn btn-secondary">
+                                🛡️ <span data-translate="profile.manage_2fa">Керувати 2FA</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Notification -->
+        <div id="notification" class="notification" style="display: none;">
+            <div class="notification-content">
+                <span id="notification-message"></span>
+                <button id="close-notification" class="btn-close">&times;</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="/script.js"></script>
+</body>
+</html>

@@ -1,0 +1,80 @@
+{
+  "name": "Карти Лояльності",
+  "short_name": "LoyaltyCards",
+  "description": "Додаток для збереження та сканування карт лояльності",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#667eea",
+  "theme_color": "#667eea",
+  "orientation": "portrait-primary",
+  "categories": ["shopping", "utilities"],
+  "lang": "uk",
+  "icons": [
+    {
+      "src": "/logo-disCard.png",
+      "sizes": "72x72 96x96 128x128 144x144 152x152 192x192 384x384 512x512",
+      "type": "image/png",
+      "purpose": "maskable any"
+    },
+    {
+      "src": "/logo-disCard.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/logo-disCard.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Додати картку",
+      "short_name": "Додати",
+      "description": "Швидко додати нову карту лояльності",
+      "url": "/?action=add-card",
+      "icons": [
+        {
+          "src": "/logo-disCard.png",
+          "sizes": "96x96"
+        }
+      ]
+    },
+    {
+      "name": "Сканувати код",
+      "short_name": "Сканер",
+      "description": "Відкрити сканер штрих-кодів",
+      "url": "/?action=scan",
+      "icons": [
+        {
+          "src": "/logo-disCard.png",
+          "sizes": "96x96"
+        }
+      ]
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "/icons/screenshot-wide.png",
+      "sizes": "1280x720",
+      "type": "image/png",
+      "form_factor": "wide",
+      "label": "Головна сторінка з картами лояльності"
+    },
+    {
+      "src": "/icons/screenshot-narrow.png", 
+      "sizes": "640x1136",
+      "type": "image/png",
+      "form_factor": "narrow",
+      "label": "Мобільний вигляд додатку"
+    }
+  ],
+  "related_applications": [],
+  "prefer_related_applications": false,
+  "protocol_handlers": [],
+  "edge_side_panel": {
+    "preferred_width": 400
+  }
+}

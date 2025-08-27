@@ -1,4 +1,5 @@
 # Environment files
+.gitignore
 .env
 .env.local
 .env.production
@@ -71,7 +72,6 @@ dist
 
 # Gatsby files
 .cache/
-public
 
 # Vuepress build output
 .vuepress/dist
@@ -92,7 +92,6 @@ public
 .vscode-test
 
 # Logs
-logs
 *.log
 
 # OS generated files
