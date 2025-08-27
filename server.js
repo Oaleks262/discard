@@ -60,19 +60,21 @@ app.use(helmet({
   contentSecurityPolicy: {
     directives: {
       defaultSrc: ["'self'"],
-      scriptSrc: ["'self'", "https://unpkg.com"],
-      styleSrc: ["'self'", "'unsafe-inline'"], // Тимчасово для CSS
-      imgSrc: ["'self'", "data:", "blob:"],
-      mediaSrc: ["'self'", "blob:"],
-      connectSrc: ["'self'"],
-      fontSrc: ["'self'", "data:"],
+      scriptSrc: ["'self'", "'unsafe-inline'", "https://unpkg.com", "http://unpkg.com"],
+      styleSrc: ["'self'", "'unsafe-inline'"],
+      imgSrc: ["'self'", "data:", "blob:", "http:", "https:"],
+      mediaSrc: ["'self'", "blob:", "http:", "https:"],
+      connectSrc: ["'self'", "http:", "https:"],
+      fontSrc: ["'self'", "data:", "http:", "https:"],
       objectSrc: ["'none'"],
       baseUri: ["'self'"],
       formAction: ["'self'"],
-      frameAncestors: ["'none'"]
+      frameAncestors: ["'none'"],
+      upgradeInsecureRequests: false
     }
   },
-  crossOriginEmbedderPolicy: false
+  crossOriginEmbedderPolicy: false,
+  crossOriginOpenerPolicy: false
 }));
 
 // MongoDB sanitization
@@ -103,8 +105,8 @@ app.use(session({
 // CORS configuration
 app.use(cors({
   origin: process.env.NODE_ENV === 'production' ? 
-    [process.env.FRONTEND_URL, 'http://78.27.236.157:2804'] : 
-    ['http://localhost:3000'],
+    [process.env.FRONTEND_URL, 'http://78.27.236.157:2804', 'https://78.27.236.157:2804'] : 
+    ['http://localhost:2804', 'http://localhost:3000'],
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
   allowedHeaders: ['Content-Type', 'Authorization', 'X-CSRF-Token']
