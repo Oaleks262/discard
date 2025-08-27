@@ -55,25 +55,14 @@ app.use(expressWinston.logger({
 // Trust proxy (важливо для HTTPS/rate limiting)
 app.set('trust proxy', 1);
 
-// Security middleware
+// Security middleware - minimal for HTTP
 app.use(helmet({
-  contentSecurityPolicy: {
-    directives: {
-      defaultSrc: ["'self'"],
-      scriptSrc: ["'self'", "'unsafe-inline'", "https://unpkg.com", "http://unpkg.com"],
-      styleSrc: ["'self'", "'unsafe-inline'"],
-      imgSrc: ["'self'", "data:", "blob:", "http:", "https:"],
-      mediaSrc: ["'self'", "blob:", "http:", "https:"],
-      connectSrc: ["'self'", "http:", "https:"],
-      fontSrc: ["'self'", "data:", "http:", "https:"],
-      objectSrc: ["'none'"],
-      baseUri: ["'self'"],
-      formAction: ["'self'"],
-      frameAncestors: ["'none'"]
-    }
-  },
+  contentSecurityPolicy: false,
   crossOriginEmbedderPolicy: false,
-  crossOriginOpenerPolicy: false
+  crossOriginOpenerPolicy: false,
+  crossOriginResourcePolicy: false,
+  hsts: false,
+  originAgentCluster: false
 }));
 
 // MongoDB sanitization
