@@ -103,7 +103,7 @@ app.use(session({
 // CORS configuration
 app.use(cors({
   origin: process.env.NODE_ENV === 'production' ? 
-    [process.env.FRONTEND_URL] : 
+    [process.env.FRONTEND_URL, 'http://78.27.236.157:2804'] : 
     ['http://localhost:3000'],
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
