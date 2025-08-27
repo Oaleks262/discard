@@ -69,8 +69,7 @@ app.use(helmet({
       objectSrc: ["'none'"],
       baseUri: ["'self'"],
       formAction: ["'self'"],
-      frameAncestors: ["'none'"],
-      upgradeInsecureRequests: false
+      frameAncestors: ["'none'"]
     }
   },
   crossOriginEmbedderPolicy: false,
