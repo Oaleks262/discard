@@ -154,7 +154,7 @@ class ScannerManager {
         return true;
       }
     } catch (error) {
-      console.warn('QR scanning error:', error);
+      console.error('QR scanning error:', error);
     }
     return false;
   }
@@ -162,7 +162,7 @@ class ScannerManager {
   // Barcode scanning method
   scanBarcode(canvas) {
     if (typeof Quagga === 'undefined') {
-      console.error('❌ Quagga library not loaded');
+      console.error('Quagga library not loaded');
       return false;
     }
 
@@ -189,7 +189,7 @@ class ScannerManager {
         }
       });
     } catch (error) {
-      console.warn('Barcode scanning error:', error);
+      console.error('Barcode scanning error:', error);
     }
     return false;
   }

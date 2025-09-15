@@ -32,8 +32,6 @@ class LoyaltyCardsApp {
   }
 
   async init() {
-    console.log('App initializing...');
-    
     // Wait for DOM to be ready
     if (document.readyState === 'loading') {
       await new Promise(resolve => document.addEventListener('DOMContentLoaded', resolve));
@@ -136,10 +134,7 @@ class LoyaltyCardsApp {
         }, 10);
       }
     } else {
-      console.error(`❌ Could not find panel with id="${tabName}-panel"`);
-      // Debug: log available panels
-      const availablePanels = Array.from(document.querySelectorAll('[id$="-panel"]')).map(p => p.id);
-      console.log('Available panels:', availablePanels);
+      console.error(`Could not find panel with id="${tabName}-panel"`);
     }
   }
 
@@ -195,7 +190,6 @@ class LoyaltyCardsApp {
     if ('serviceWorker' in navigator) {
       navigator.serviceWorker.register('/sw.js')
         .then(registration => {
-          console.log('SW registered:', registration);
           
           registration.addEventListener('updatefound', () => {
             const newWorker = registration.installing;
@@ -207,7 +201,7 @@ class LoyaltyCardsApp {
           });
         })
         .catch(error => {
-          console.error('SW registration failed:', error);
+          console.error('Service Worker registration failed:', error);
         });
     }
   }

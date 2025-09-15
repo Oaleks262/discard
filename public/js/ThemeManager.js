@@ -81,13 +81,11 @@ class ThemeManager {
 
   regenerateModalCode() {
     if (!this.app.currentCard) {
-      console.warn('No current card to regenerate modal code');
       return;
     }
 
     const canvas = document.getElementById('modal-canvas');
     if (!canvas) {
-      console.warn('Modal canvas not found');
       return;
     }
 
@@ -131,7 +129,7 @@ class ThemeManager {
         });
       }
     } catch (error) {
-      console.error('❌ Modal code regeneration error:', error);
+      console.error('Modal code regeneration error:', error);
     }
   }
 

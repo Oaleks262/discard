@@ -92,6 +92,11 @@ const userSchema = new mongoose.Schema({
     default: 'uk',
     enum: ['uk', 'en']
   },
+  // Server-side encryption key for this user's cards
+  encryptionKey: {
+    type: String,
+    required: false // Will be generated on first card creation
+  },
   cards: [{
     name: {
       type: String,
@@ -131,10 +136,52 @@ const userSchema = new mongoose.Schema({
   timestamps: true
 });
 
-// Note: Card encryption is handled on the client side.
-// The server stores cards exactly as received from the client - 
-// either encrypted (with encryptedCode field) or unencrypted (with code field).
-// This provides end-to-end encryption where only the client can decrypt the card codes.
+// Server-side encryption utilities
+const crypto = require('crypto');
+
+// Generate encryption key for user
+function generateUserEncryptionKey() {
+  return crypto.randomBytes(32).toString('base64');
+}
+
+// Encrypt card code
+function encryptCardCode(code, encryptionKey) {
+  try {
+    const key = Buffer.from(encryptionKey, 'base64');
+    const iv = crypto.randomBytes(16);
+    const cipher = crypto.createCipheriv('aes-256-cbc', key, iv);
+    
+    let encrypted = cipher.update(code, 'utf8', 'base64');
+    encrypted += cipher.final('base64');
+    
+    // Combine IV and encrypted data
+    const result = Buffer.concat([iv, Buffer.from(encrypted, 'base64')]);
+    return result.toString('base64');
+  } catch (error) {
+    console.error('Encryption error:', error);
+    throw new Error('Failed to encrypt card code');
+  }
+}
+
+// Decrypt card code
+function decryptCardCode(encryptedCode, encryptionKey) {
+  try {
+    const key = Buffer.from(encryptionKey, 'base64');
+    const data = Buffer.from(encryptedCode, 'base64');
+    
+    const iv = data.slice(0, 16);
+    const encrypted = data.slice(16);
+    
+    const decipher = crypto.createDecipheriv('aes-256-cbc', key, iv);
+    let decrypted = decipher.update(encrypted, null, 'utf8');
+    decrypted += decipher.final('utf8');
+    
+    return decrypted;
+  } catch (error) {
+    console.error('Decryption error:', error);
+    throw new Error('Failed to decrypt card code');
+  }
+}
 
 // Hash password before saving
 userSchema.pre('save', async function(next) {
@@ -296,10 +343,51 @@ app.post('/api/auth/login', [
   }
 });
 
-// Get current user
+// Get current user with decrypted cards
 app.get('/api/auth/me', authenticateToken, async (req, res) => {
   try {
     const user = await User.findById(req.user._id);
+    
+    // Decrypt cards for client display if user has encryption key
+    let cardsToReturn = user.cards;
+    if (user.encryptionKey && user.cards.length > 0) {
+      cardsToReturn = user.cards.map(card => {
+        if (card.isEncrypted && card.encryptedCode) {
+          try {
+            const decryptedCode = decryptCardCode(card.encryptedCode, user.encryptionKey);
+            return {
+              ...card.toObject(),
+              code: decryptedCode,
+              encryptedCode: undefined // Don't send encrypted data to client
+            };
+          } catch (error) {
+            console.error(`Failed to decrypt card ${card.name} - migration issue:`, error.message);
+            // For migration compatibility - if decryption fails, check if it needs re-encryption
+            return {
+              ...card.toObject(),
+              code: '[Потрібна переміграція]',
+              encryptedCode: undefined,
+              needsRemigration: true
+            };
+          }
+        }
+        return card.toObject();
+      });
+    } else if (user.cards.length > 0) {
+      // No encryption key but has cards - they need to be re-migrated
+      cardsToReturn = user.cards.map(card => {
+        if (card.isEncrypted && card.encryptedCode) {
+          return {
+            ...card.toObject(),
+            code: '[Потрібна переміграція]',
+            encryptedCode: undefined,
+            needsRemigration: true
+          };
+        }
+        return card.toObject();
+      });
+    }
+    
     res.json({
       user: {
         id: user._id,
@@ -308,7 +396,7 @@ app.get('/api/auth/me', authenticateToken, async (req, res) => {
         language: user.language,
         createdAt: user.createdAt
       },
-      cards: user.cards
+      cards: cardsToReturn
     });
   } catch (error) {
     console.error('Get user error:', error);
@@ -373,7 +461,7 @@ app.put('/api/auth/password', [
   }
 });
 
-// Add card
+// Add card with server-side encryption
 app.post('/api/cards', [
   body('name').trim().isLength({ min: 1, max: 100 }).escape(),
   body('code').trim().isLength({ min: 1, max: 500 }),
@@ -384,24 +472,41 @@ app.post('/api/cards', [
 
     const user = await User.findById(req.user._id);
     
+    // Generate encryption key for user if they don't have one
+    if (!user.encryptionKey) {
+      user.encryptionKey = generateUserEncryptionKey();
+      console.log(`Generated new encryption key for user: ${user.email}`);
+    }
+    
+    // Encrypt the card code on the server
+    const encryptedCode = encryptCardCode(code, user.encryptionKey);
+    
     const newCard = {
       name,
-      code,
       codeType,
+      encryptedCode,
+      isEncrypted: true,
       createdAt: new Date()
     };
 
     user.cards.push(newCard);
     await user.save();
 
-    res.status(201).json({ cards: user.cards });
+    // Return cards with decrypted codes for client display
+    const cardsWithDecryptedCodes = user.cards.map(card => ({
+      ...card.toObject(),
+      code: card.isEncrypted ? decryptCardCode(card.encryptedCode, user.encryptionKey) : card.code,
+      encryptedCode: undefined // Don't send encrypted data to client
+    }));
+
+    res.status(201).json({ cards: cardsWithDecryptedCodes });
   } catch (error) {
     console.error('Add card error:', error);
     res.status(500).json({ error: 'Internal server error' });
   }
 });
 
-// Update card
+// Update card with server-side encryption
 app.put('/api/cards/:id', [
   body('name').optional().trim().isLength({ min: 1, max: 100 }).escape(),
   body('code').optional().trim().isLength({ min: 1, max: 500 }),
@@ -419,11 +524,31 @@ app.put('/api/cards/:id', [
     }
 
     if (name) card.name = name;
-    if (code) card.code = code;
     if (codeType) card.codeType = codeType;
+    
+    // Handle code update with server-side encryption
+    if (code !== undefined) {
+      // Generate encryption key for user if they don't have one
+      if (!user.encryptionKey) {
+        user.encryptionKey = generateUserEncryptionKey();
+      }
+      
+      // Encrypt the new code on the server
+      card.encryptedCode = encryptCardCode(code, user.encryptionKey);
+      card.isEncrypted = true;
+      card.code = undefined; // Clear plain code
+    }
 
     await user.save();
-    res.json({ cards: user.cards });
+    
+    // Return cards with decrypted codes for client display
+    const cardsWithDecryptedCodes = user.cards.map(card => ({
+      ...card.toObject(),
+      code: card.isEncrypted ? decryptCardCode(card.encryptedCode, user.encryptionKey) : card.code,
+      encryptedCode: undefined // Don't send encrypted data to client
+    }));
+
+    res.json({ cards: cardsWithDecryptedCodes });
   } catch (error) {
     console.error('Update card error:', error);
     res.status(500).json({ error: 'Internal server error' });
@@ -439,7 +564,17 @@ app.delete('/api/cards/:id', authenticateToken, async (req, res) => {
     user.cards.pull({ _id: id });
     await user.save();
 
-    res.json({ cards: user.cards });
+    // Return cards with decrypted codes for client display
+    let cardsToReturn = user.cards;
+    if (user.encryptionKey && user.cards.length > 0) {
+      cardsToReturn = user.cards.map(card => ({
+        ...card.toObject(),
+        code: card.isEncrypted ? decryptCardCode(card.encryptedCode, user.encryptionKey) : card.code,
+        encryptedCode: undefined // Don't send encrypted data to client
+      }));
+    }
+
+    res.json({ cards: cardsToReturn });
   } catch (error) {
     console.error('Delete card error:', error);
     res.status(500).json({ error: 'Internal server error' });

@@ -12,17 +12,11 @@ class MigrationManager {
   needsMigration() {
     const migrationCompleted = localStorage.getItem(this.migrationKey);
     const hasUnencryptedCards = this.hasUnencryptedCards();
-    
-    console.log('Migration check:', {
-      migrationCompleted,
-      hasUnencryptedCards,
-      encryptionEnabled: this.dataManager.encryptionEnabled
-    });
 
     return !migrationCompleted && hasUnencryptedCards && this.dataManager.encryptionEnabled;
   }
 
-  // Check if there are unencrypted cards in storage
+  // Check if there are unencrypted cards in storage or cards needing re-encryption
   hasUnencryptedCards() {
     try {
       const cardsData = localStorage.getItem('cards');
@@ -31,8 +25,8 @@ class MigrationManager {
       const cards = JSON.parse(cardsData);
       if (!Array.isArray(cards) || cards.length === 0) return false;
 
-      // Check if any card lacks the 'isEncrypted' flag
-      return cards.some(card => !card.isEncrypted);
+      // Check if any card lacks the 'isEncrypted' flag or needs client encryption
+      return cards.some(card => !card.isEncrypted || card.needsClientEncryption);
     } catch (error) {
       console.error('Error checking for unencrypted cards:', error);
       return false;
@@ -48,7 +42,7 @@ class MigrationManager {
       const cards = JSON.parse(cardsData);
       if (!Array.isArray(cards)) return 0;
 
-      return cards.filter(card => !card.isEncrypted).length;
+      return cards.filter(card => !card.isEncrypted || card.needsClientEncryption).length;
     } catch (error) {
       console.error('Error counting unencrypted cards:', error);
       return 0;
@@ -58,7 +52,6 @@ class MigrationManager {
   // Perform migration of cards to encrypted format
   async performMigration(showProgress = true) {
     if (!this.needsMigration()) {
-      console.log('Migration not needed');
       return { success: true, message: 'No migration needed' };
     }
 
@@ -68,7 +61,6 @@ class MigrationManager {
     }
 
     try {
-      console.log('Starting card migration to encrypted format...');
       
       if (showProgress) {
         UIUtils.showToast('info', 'Міграція карток до захищеного формату...');
@@ -87,16 +79,52 @@ class MigrationManager {
         return { success: true, message: 'No cards to migrate' };
       }
 
-      // Count cards that need migration
-      const unencryptedCards = currentCards.filter(card => !card.isEncrypted);
-      console.log(`Found ${unencryptedCards.length} cards to migrate`);
+      // Count cards that need migration or re-encryption
+      const cardsNeedingMigration = currentCards.filter(card => !card.isEncrypted || card.needsClientEncryption);
 
-      if (unencryptedCards.length === 0) {
+      if (cardsNeedingMigration.length === 0) {
         this.markMigrationCompleted();
         return { success: true, message: 'All cards already encrypted' };
       }
 
-      // Migrate cards using CryptoManager
+      // Handle cards that need client-side re-encryption
+      for (const card of currentCards) {
+        if (card.needsClientEncryption && card.code && !card.isEncrypted) {
+          // This card was auto-migrated and fixed for display - contains plain text in code
+          // We need to properly encrypt it
+          try {
+            console.log(`🔐 Properly encrypting card: ${card.name}`);
+            const encryptedCode = await this.dataManager.cryptoManager.encryptCard(
+              { code: card.code }, 
+              this.dataManager.encryptionKey
+            );
+            
+            // Update the card with proper encryption
+            card.encryptedCode = encryptedCode;
+            card.isEncrypted = true;
+            card.needsClientEncryption = false; // Remove flag
+            card.code = undefined; // Remove plain text
+            
+            // Update on server
+            try {
+              await this.dataManager.app.apiCall(`/cards/${card.id || card._id}`, {
+                method: 'PUT',
+                body: JSON.stringify({
+                  encryptedCode: encryptedCode,
+                  isEncrypted: true
+                })
+              });
+              console.log(`✅ Card "${card.name}" encrypted and updated on server`);
+            } catch (serverError) {
+              console.error('Failed to update card on server:', serverError);
+            }
+          } catch (error) {
+            console.error('Failed to re-encrypt card:', card.name, error);
+          }
+        }
+      }
+
+      // Migrate remaining cards using CryptoManager
       const migratedCards = await this.dataManager.cryptoManager.migrateCards(
         currentCards, 
         this.dataManager.encryptionKey
@@ -113,8 +141,6 @@ class MigrationManager {
 
       // Mark migration as completed
       this.markMigrationCompleted();
-
-      console.log('Migration completed successfully');
       
       if (showProgress) {
         UIUtils.showToast('success', `Мігровано ${unencryptedCards.length} карток до захищеного формату`);
@@ -149,13 +175,11 @@ class MigrationManager {
     };
     
     localStorage.setItem(this.migrationKey, JSON.stringify(migrationInfo));
-    console.log('Migration marked as completed:', migrationInfo);
   }
 
   // Reset migration status (for testing)
   resetMigration() {
     localStorage.removeItem(this.migrationKey);
-    console.log('Migration status reset');
   }
 
   // Get migration status
@@ -190,17 +214,14 @@ class MigrationManager {
     const status = this.getMigrationStatus();
     
     if (status.completed) {
-      console.log('Migration already completed');
       return { success: true, message: 'Migration already completed' };
     }
 
     if (!status.needsMigration) {
-      console.log('No migration needed');
       return { success: true, message: 'No migration needed' };
     }
 
     const unencryptedCount = this.getUnencryptedCardsCount();
-    console.log(`Found ${unencryptedCount} unencrypted cards`);
 
     if (requireConfirmation && window.confirm) {
       const confirmed = await window.confirm(
@@ -226,7 +247,6 @@ class MigrationManager {
 
   // Force migration (for manual triggers)
   async forceMigration() {
-    console.log('Forcing migration...');
     this.resetMigration();
     return await this.performMigration(true);
   }

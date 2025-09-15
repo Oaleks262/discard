@@ -16,7 +16,6 @@ class DataManager {
   async initializeEncryption(userEmail, userPassword) {
     try {
       if (!CryptoManager.isSupported()) {
-        console.warn('Web Crypto API not supported, encryption disabled');
         this.encryptionEnabled = false;
         return false;
       }
@@ -28,20 +27,16 @@ class DataManager {
       // Initialize migration manager
       this.migrationManager = new MigrationManager(this);
       
-      console.log('Encryption initialized successfully');
-      
       // Check and perform migration if needed
       setTimeout(async () => {
         try {
-          console.log('🔄 Starting auto-migration check...');
           await this.migrationManager.checkAndMigrate({
             showProgress: true,
             autoRun: true,
             requireConfirmation: false
           });
-          console.log('✅ Auto-migration check completed');
         } catch (error) {
-          console.error('❌ Auto-migration failed:', error);
+          console.error('Auto-migration failed:', error);
         }
       }, 1000);
       
@@ -78,9 +73,8 @@ class DataManager {
           if (this.encryptionEnabled && this.encryptionKey) {
             try {
               AppState.cards = await this.cryptoManager.decryptCards(cards, this.encryptionKey);
-              console.log('Cards decrypted successfully');
             } catch (error) {
-              console.warn('Failed to decrypt cards, using as-is:', error);
+              console.error('Failed to decrypt cards, using as-is:', error);
               AppState.cards = cards;
             }
           } else {
@@ -114,9 +108,8 @@ class DataManager {
         if (this.encryptionEnabled && this.encryptionKey && AppState.cards.length > 0) {
           try {
             cardsToSave = await this.cryptoManager.encryptCards(AppState.cards, this.encryptionKey);
-            console.log('Cards encrypted for local storage');
           } catch (error) {
-            console.warn('Failed to encrypt cards, saving unencrypted:', error);
+            console.error('Failed to encrypt cards, saving unencrypted:', error);
             cardsToSave = AppState.cards;
           }
         }
@@ -137,12 +130,10 @@ class DataManager {
     // Check cooldown period
     const now = Date.now();
     if (now - this.lastSyncTime < this.syncCooldown) {
-      console.log('Sync blocked: cooldown period active');
       return;
     }
 
     try {
-      console.log('Starting data sync...');
       this.lastSyncTime = now;
       
       const response = await this.apiCall('/auth/me');
@@ -156,7 +147,7 @@ class DataManager {
           try {
             AppState.cards = await this.cryptoManager.decryptCards(serverCards, this.encryptionKey);
           } catch (error) {
-            console.warn('Failed to decrypt server cards:', error);
+            console.error('Failed to decrypt server cards:', error);
             AppState.cards = serverCards;
           }
         } else {
@@ -194,7 +185,7 @@ class DataManager {
   async apiCall(endpoint, options = {}) {
     // Check if API client is available
     if (!window.api) {
-      console.error('❌ window.api is not available. API client not loaded.');
+      console.error('window.api is not available. API client not loaded.');
       throw new Error('API client not loaded. Please refresh the page.');
     }
     
@@ -225,7 +216,7 @@ class DataManager {
             const encryptedCards = await this.cryptoManager.encryptCards([cardData], this.encryptionKey);
             return await window.api.createCard(encryptedCards[0]);
           } catch (error) {
-            console.warn('Failed to encrypt card for server, sending unencrypted:', error);
+            console.error('Failed to encrypt card for server, sending unencrypted:', error);
             return await window.api.createCard(cardData);
           }
         }
@@ -241,7 +232,6 @@ class DataManager {
       // Handle common error scenarios
       if (error.message.includes('401') || error.message.includes('Unauthorized')) {
         // Token expired or invalid
-        console.log('🚨 DataManager.apiCall calling showAuthScreen due to 401/Unauthorized:', error.message);
         localStorage.removeItem('authToken');
         window.api.setToken(null);
         AppState.user = null;
@@ -281,7 +271,7 @@ class DataManager {
       }
     }
     } catch (error) {
-      console.warn('Error updating profile UI:', error);
+      console.error('Error updating profile UI:', error);
     }
   }
 
@@ -313,12 +303,10 @@ class DataManager {
     // Check cooldown period
     const now = Date.now();
     if (now - this.lastRefreshTime < this.refreshCooldown) {
-      console.log('Refresh blocked: cooldown period active');
       throw new Error('Please wait before refreshing again');
     }
 
     try {
-      console.log('Starting data refresh...');
       this.lastRefreshTime = now;
       const response = await this.apiCall('/auth/me');
       
@@ -341,7 +329,7 @@ class DataManager {
           try {
             AppState.cards = await this.cryptoManager.decryptCards(serverCards, this.encryptionKey);
           } catch (error) {
-            console.warn('Failed to decrypt server cards during refresh:', error);
+            console.error('Failed to decrypt server cards during refresh:', error);
             AppState.cards = serverCards;
           }
         } else {
@@ -352,13 +340,12 @@ class DataManager {
         await this.saveLocalData();
         
       } else {
-        console.warn('Invalid response from /auth/me:', response);
+        console.error('Invalid response from /auth/me:', response);
       }
     } catch (error) {
       console.error('Refresh failed:', error);
       
       if (error.message.includes('401') || error.message.includes('Unauthorized')) {
-        console.log('🚨 DataManager calling logout due to 401/Unauthorized:', error.message);
         this.app.auth.handleLogout();
         throw new Error('Session expired');
       }

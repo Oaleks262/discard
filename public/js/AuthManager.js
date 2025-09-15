@@ -121,24 +121,11 @@ class AuthManager {
         // API client handles token storage
         AppState.user = response.user;
         
-        // Initialize encryption
-        await this.app.data.initializeEncryption(email, password);
+        // Server handles encryption, cards come decrypted
+        AppState.cards = response.cards || [];
         
-        // Handle cards (decrypt if encrypted)
-        let serverCards = response.cards || [];
-        if (this.app.data.encryptionEnabled && serverCards.length > 0) {
-          try {
-            AppState.cards = await this.app.data.cryptoManager.decryptCards(serverCards, this.app.data.encryptionKey);
-          } catch (error) {
-            console.warn('Failed to decrypt cards during login:', error);
-            AppState.cards = serverCards;
-          }
-        } else {
-          AppState.cards = serverCards;
-        }
-        
-        // Save data locally (encrypted)
-        await this.app.data.saveLocalData();
+        // Save data locally
+        this.app.saveLocalData();
         
         // Update language
         if (response.user.language) {
@@ -245,14 +232,11 @@ class AuthManager {
   }
 
   handleLogout() {
-    console.log('🚪 LOGOUT TRIGGERED - Stack trace:');
-    console.trace();
     
     window.api.logout();
     AppState.user = null;
     
-    // Disable encryption
-    this.app.data.disableEncryption();
+    // Clear any cached data
     AppState.cards = [];
     
     UIUtils.showToast('success', UIUtils.safeT('messages.logoutSuccess', 'Вихід виконано'));
@@ -360,7 +344,6 @@ class AuthManager {
     
     // Don't check if we just authenticated (prevent resume check right after login/register)
     if (this.justAuthenticated) {
-      console.log('🔄 Skipping resume check - user just authenticated');
       return;
     }
 

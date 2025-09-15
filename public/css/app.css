@@ -650,6 +650,12 @@ a {
   background: var(--secondary-hover);
 }
 
+.scan-button img {
+  display: block;
+  object-fit: contain;
+  flex-shrink: 0;
+}
+
 .code-preview {
   margin: var(--spacing-lg) 0;
   padding: var(--spacing-lg);

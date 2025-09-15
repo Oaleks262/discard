@@ -520,10 +520,7 @@ class I18n {
   }
 
   setLanguage(language) {
-    console.log('i18n.setLanguage called with:', language);
-    
     if (!this.translations[language]) {
-      console.warn(`Language '${language}' not supported`);
       return false;
     }
 
@@ -532,8 +529,6 @@ class I18n {
     
     // Update HTML lang attribute
     document.documentElement.lang = language;
-    
-    console.log('Language changed to:', language, 'Updating page texts...');
     
     // Update page texts immediately
     this.updatePageTexts();
@@ -565,7 +560,6 @@ class I18n {
           if (value && typeof value === 'object' && k in value) {
             value = value[k];
           } else {
-            console.warn(`Translation key '${key}' not found`);
             return key;
           }
         }
@@ -574,7 +568,6 @@ class I18n {
     }
 
     if (typeof value !== 'string') {
-      console.warn(`Translation key '${key}' is not a string`);
       return key;
     }
 
@@ -585,11 +578,8 @@ class I18n {
   }
 
   updatePageTexts() {
-    console.log('Updating page texts for language:', this.currentLanguage);
-    
     // Update all elements with data-i18n attribute
     const elements = document.querySelectorAll('[data-i18n]');
-    console.log('Found', elements.length, 'elements with data-i18n');
     
     elements.forEach(element => {
       const key = element.getAttribute('data-i18n');
@@ -699,8 +689,6 @@ function initializeI18n() {
     
     // Update texts
     window.i18n.updatePageTexts();
-    
-    console.log('i18n initialized successfully');
   } catch (error) {
     console.error('Failed to initialize i18n:', error);
     

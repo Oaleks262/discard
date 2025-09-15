@@ -57,7 +57,6 @@ class APIClient {
     getFromCache(cacheKey, maxAge = 30000) { // 30 seconds default
         const cached = this.requestCache.get(cacheKey);
         if (cached && Date.now() - cached.timestamp < maxAge) {
-            console.log('Using cached response for:', cacheKey);
             return cached.data;
         }
         return null;
@@ -85,7 +84,6 @@ class APIClient {
     async request(endpoint, options = {}) {
         // Check rate limiting
         if (!this.checkRateLimit()) {
-            console.warn('Rate limit approaching, request blocked');
             throw new Error('Rate limit approached - please wait a moment');
         }
 
@@ -105,7 +103,6 @@ class APIClient {
         };
 
         try {
-            console.log(`API Request: ${options.method || 'GET'} ${url}`);
             this.recordRequest(); // Record timestamp
             const response = await fetch(url, config);
             
@@ -114,7 +111,6 @@ class APIClient {
                 
                 // Handle 401 errors (token expired/invalid)
                 if (response.status === 401) {
-                    console.log('Token expired or invalid, clearing authentication');
                     this.setToken(null);
                     localStorage.removeItem('authToken');
                     
@@ -128,7 +124,6 @@ class APIClient {
                 
                 // Handle 429 errors (Too Many Requests)
                 if (response.status === 429) {
-                    console.warn('⚠️ Too many requests, please wait before trying again');
                     throw new Error('Too many requests - please wait a moment');
                 }
                 
@@ -136,12 +131,10 @@ class APIClient {
             }
 
             const data = await response.json();
-            console.log('API Response:', data);
             
             // Check for refreshed token in response headers
             const newToken = response.headers.get('X-New-Token');
             if (newToken) {
-                console.log('🔄 Token refreshed automatically');
                 this.setToken(newToken);
             }
             
@@ -239,13 +232,10 @@ class APIClient {
     // Sync method for offline/online data
     async syncData() {
         if (!this.isOnline() || !this.isAuthenticated()) {
-            console.log('Cannot sync: offline or not authenticated');
             return false;
         }
 
         try {
-            console.log('🔄 Starting data synchronization...');
-            
             // Get server data
             const serverCards = await this.getCards();
             
@@ -253,10 +243,9 @@ class APIClient {
             // In a more complex app, you'd compare timestamps and merge changes
             localStorage.setItem('cards', JSON.stringify(serverCards));
             
-            console.log('✅ Data synchronized successfully');
             return true;
         } catch (error) {
-            console.error('❌ Sync failed:', error);
+            console.error('Sync failed:', error);
             return false;
         }
     }

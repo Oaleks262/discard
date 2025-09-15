@@ -34,18 +34,15 @@ self.addEventListener('install', event => {
         const cachePromises = PRECACHE_URLS.map(async url => {
           try {
             await cache.add(url);
-            console.log(`✅ Cached: ${url}`);
           } catch (error) {
-            console.warn(`⚠️ Failed to cache: ${url}`, error);
+            console.error(`Failed to cache: ${url}`, error);
             // Continue with other resources even if one fails
           }
         });
         
         await Promise.allSettled(cachePromises);
-        console.log('App shell precaching completed');
       })
       .then(() => {
-        console.log('Service Worker installed successfully');
         return self.skipWaiting();
       })
       .catch(error => {
@@ -65,12 +62,10 @@ self.addEventListener('activate', event => {
       })
       .then(cachesToDelete => {
         return Promise.all(cachesToDelete.map(cacheToDelete => {
-          console.log('Deleting old cache:', cacheToDelete);
           return caches.delete(cacheToDelete);
         }));
       })
       .then(() => {
-        console.log('Service Worker activated successfully');
         
         // Notify all clients about update
         return self.clients.matchAll();
@@ -131,7 +126,6 @@ async function networkFirstWithFallback(request) {
     
     return networkResponse;
   } catch (error) {
-    console.log('Network failed, trying cache:', request.url);
     const cachedResponse = await caches.match(request);
     
     if (cachedResponse) {
@@ -210,7 +204,6 @@ async function serveAppShell(request) {
     throw new Error('Network failed');
   } catch (error) {
     // Fallback to cached app shell
-    console.log('Network failed for app shell, using cache');
     const cache = await caches.open(CACHE_NAME);
     const cachedResponse = await cache.match('/app.html');
     
@@ -238,8 +231,6 @@ function isApiRequest(request) {
 
 // Background Sync for offline actions
 self.addEventListener('sync', event => {
-  console.log('Background sync triggered:', event.tag);
-  
   if (event.tag === 'card-sync') {
     event.waitUntil(syncCards());
   } else if (event.tag === 'profile-sync') {
@@ -285,8 +276,6 @@ async function syncProfile() {
 
 // Push Notifications
 self.addEventListener('push', event => {
-  console.log('Push message received');
-  
   const options = {
     body: 'У вас є нові оновлення!',
     icon: '/icons/logo.png',
@@ -317,8 +306,6 @@ self.addEventListener('push', event => {
 
 // Notification click handler
 self.addEventListener('notificationclick', event => {
-  console.log('Notification click received.');
-  
   event.notification.close();
   
   if (event.action === 'explore') {
@@ -330,8 +317,6 @@ self.addEventListener('notificationclick', event => {
 
 // Message handler for communication with main app
 self.addEventListener('message', event => {
-  console.log('SW received message:', event.data);
-  
   if (event.data && event.data.type === 'SKIP_WAITING') {
     self.skipWaiting();
   }
@@ -425,7 +410,6 @@ self.addEventListener('periodicsync', event => {
 
 // Share Target API (if the app is installed)
 self.addEventListener('share', event => {
-  console.log('Share event received:', event);
   // Handle shared content
 });
 
@@ -438,14 +422,6 @@ self.addEventListener('unhandledrejection', event => {
   console.error('Service Worker unhandled rejection:', event.reason);
 });
 
-console.log('Service Worker script loaded successfully');
-
-// Performance monitoring
-let swStartTime = Date.now();
-
-self.addEventListener('install', () => {
-  console.log(`SW install took ${Date.now() - swStartTime}ms`);
-});
 
 // Cache management - clean up old caches periodically
 async function cleanupOldCaches() {

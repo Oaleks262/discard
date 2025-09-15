@@ -2072,7 +2072,7 @@ class LoyaltyCardsApp {
       cancelBtn.textContent = cancelText;
 
       // Show/hide cancel button
-      cancelBtn.style.display = showCancel ? 'inline-flex' : 'none';
+      cancelBtn.style.display = showCancel ? 'block' : 'none';
 
       // Add type class for styling
       modalContent.className = `modal modal-${type}`;

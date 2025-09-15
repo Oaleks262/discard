@@ -7,8 +7,6 @@ class CardManager {
   }
 
   async handleAddCard(e) {
-    console.log('=== handleAddCard called in CardManager ===');
-    console.log('Event:', e);
     e.preventDefault();
     
     // Check if user is authenticated
@@ -44,17 +42,21 @@ class CardManager {
     
     if (submitBtn) {
       UIUtils.setButtonLoading(submitBtn, true);
-    } else {
-      console.warn('Submit button not found for loading state');
     }
 
     try {
+      // Send plain code to server - server will handle encryption
       const response = await this.app.apiCall('/cards', {
         method: 'POST',
-        body: JSON.stringify({ name, code, codeType })
+        body: JSON.stringify({ 
+          name, 
+          code,
+          codeType
+        })
       });
 
       if (response && response.cards) {
+        // Server returns decrypted cards ready for display
         AppState.cards = response.cards;
         this.renderCards();
         
@@ -96,15 +98,9 @@ class CardManager {
       const grid = document.getElementById('cards-grid');
       const emptyState = document.getElementById('cards-empty');
       
-      if (!grid) {
-        console.warn('cards-grid element not found - app screen may not be ready yet');
+      if (!grid || !emptyState) {
         return;
       }
-      
-      if (!emptyState) {
-        console.warn('cards-empty element not found - app screen may not be ready yet');
-      return;
-    }
     
     if (AppState.cards.length === 0) {
       grid.innerHTML = '';
@@ -133,7 +129,7 @@ class CardManager {
       cardsCount.textContent = AppState.cards.length;
     }
     } catch (error) {
-      console.warn('Error rendering cards:', error);
+      console.error('Error rendering cards:', error);
     }
   }
 
@@ -161,14 +157,12 @@ class CardManager {
   generateCardPreview(card, cardElement) {
     const canvas = cardElement.querySelector(`#card-canvas-${card._id}`);
     if (!canvas) {
-      console.warn('Canvas not found for card:', card._id);
       return;
     }
 
     try {
       if (card.codeType === 'qrcode') {
         if (typeof QRCode === 'undefined') {
-          console.warn('QRCode library not available for card preview');
           return;
         }
         
@@ -190,7 +184,6 @@ class CardManager {
         });
       } else {
         if (typeof JsBarcode === 'undefined') {
-          console.warn('JsBarcode library not available for card preview');
           return;
         }
         
@@ -222,7 +215,7 @@ class CardManager {
     const codeText = document.getElementById('modal-code-text');
     
     if (!modal || !title || !canvas || !codeText) {
-      console.error('❌ Modal elements not found');
+      console.error('Modal elements not found');
       return;
     }
     
@@ -268,7 +261,7 @@ class CardManager {
         });
       }
     } catch (error) {
-      console.error('❌ Modal code generation error:', error);
+      console.error('Modal code generation error:', error);
       
       // Show error message in modal
       const errorMsg = document.createElement('div');
@@ -410,7 +403,7 @@ class CardManager {
         });
       }
     } catch (error) {
-      console.error('❌ Code generation error:', error);
+      console.error('Code generation error:', error);
       UIUtils.showToast('error', UIUtils.safeT('messages.invalidCode', 'Помилка генерації коду'));
     }
   }
@@ -422,13 +415,11 @@ class CardManager {
 
   regenerateModalCode() {
     if (!this.currentCard) {
-      console.warn('No current card to regenerate modal code');
       return;
     }
 
     const canvas = document.getElementById('modal-canvas');
     if (!canvas) {
-      console.warn('Modal canvas not found');
       return;
     }
 
@@ -472,17 +463,14 @@ class CardManager {
         });
       }
     } catch (error) {
-      console.error('❌ Modal code regeneration error:', error);
+      console.error('Modal code regeneration error:', error);
     }
   }
 
   // Setup card event listeners
   setupCardEventListeners() {
-    console.log('=== Setting up CardManager event listeners ===');
-    
     // Card form handling
     const addCardForm = document.getElementById('add-card-form');
-    console.log('Add card form found:', !!addCardForm);
     if (addCardForm) {
       const submitButton = addCardForm.querySelector('button[type="submit"]') || 
                           addCardForm.querySelector('.submit-button') || 
@@ -495,7 +483,6 @@ class CardManager {
         
         newSubmitButton.addEventListener('click', (e) => {
           e.preventDefault();
-          console.log('Submit button clicked');
           
           // Create proper form event
           const formEvent = {
@@ -510,13 +497,10 @@ class CardManager {
         // Also handle form submission directly
         addCardForm.addEventListener('submit', (e) => {
           e.preventDefault();
-          console.log('Form submitted');
           this.handleAddCard(e);
         });
         
         this.updateFormValidation();
-      } else {
-        console.error('Submit button not found in add card form');
       }
     }
     

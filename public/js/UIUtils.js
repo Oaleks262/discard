@@ -17,8 +17,6 @@ class UIUtils {
     
     // Reset body overflow
     document.body.style.overflow = '';
-    
-    console.log('Cleaned up stuck modals');
   }
 
   // Initialize emergency modal cleanup
@@ -56,14 +54,12 @@ class UIUtils {
       }
       return fallback;
     } catch (error) {
-      console.warn('Translation error for key:', key, error);
       return fallback;
     }
   }
 
   static setButtonLoading(button, isLoading) {
     if (!button) {
-      console.warn('Button not found for loading state');
       return;
     }
     
@@ -80,7 +76,6 @@ class UIUtils {
   static showToast(type, message, duration = 3000) {
     const container = document.getElementById('toast-container');
     if (!container) {
-      console.warn('Toast container not found, falling back to alert');
       alert(message);
       return;
     }
@@ -196,7 +191,7 @@ class UIUtils {
       cancelBtn.textContent = cancelText;
 
       // Show/hide cancel button
-      cancelBtn.style.display = showCancel ? 'inline-flex' : 'none';
+      cancelBtn.style.display = showCancel ? 'block' : 'none';
 
       // Add type class for styling
       modalContent.className = `modal modal-${type}`;

@@ -92,24 +92,30 @@ class CryptoManager {
     }
   }
 
-  // Decrypt card data
+  // Decrypt card data with proper Web Crypto API GCM
   async decryptCard(encryptedData, key) {
     try {
       // Convert from base64
       const data = this.base64ToArrayBuffer(encryptedData);
       
-      // Extract IV and encrypted content
+      // Extract IV (12 bytes), AuthTag (16 bytes), and encrypted content
       const iv = data.slice(0, this.ivLength);
-      const encryptedContent = data.slice(this.ivLength);
+      const authTag = data.slice(this.ivLength, this.ivLength + 16);
+      const encryptedContent = data.slice(this.ivLength + 16);
 
-      // Decrypt the data
+      // Decrypt with GCM - need to add auth tag to the encrypted content
+      const encryptedWithTag = new Uint8Array(encryptedContent.length + authTag.length);
+      encryptedWithTag.set(encryptedContent);
+      encryptedWithTag.set(authTag, encryptedContent.length);
+
       const decryptedData = await crypto.subtle.decrypt(
         {
           name: this.algorithm,
-          iv: iv
+          iv: iv,
+          additionalData: new TextEncoder().encode('discard-card')
         },
         key,
-        encryptedContent
+        encryptedWithTag
       );
 
       // Convert back to string and parse JSON
@@ -118,6 +124,9 @@ class CryptoManager {
       return JSON.parse(jsonString);
     } catch (error) {
       console.error('Error decrypting card data:', error);
+      // For debugging - try to show what we have
+      console.log('Encrypted data length:', encryptedData.length);
+      console.log('First 50 chars:', encryptedData.substring(0, 50));
       throw new Error('Failed to decrypt card data');
     }
   }
@@ -166,16 +175,41 @@ class CryptoManager {
           continue;
         }
 
-        // Decrypt the code
+        // Handle auto-migrated cards that need proper encryption
+        if (encryptedCard.needsClientEncryption && encryptedCard.encryptedCode) {
+          // This card was auto-migrated and contains plain text in encryptedCode
+          const plainCode = encryptedCard.encryptedCode;
+          
+          // Reconstruct card with plain code for display
+          const decryptedCard = {
+            id: encryptedCard.id || encryptedCard._id,
+            name: encryptedCard.name,
+            code: plainCode,
+            codeType: encryptedCard.codeType,
+            createdAt: encryptedCard.createdAt,
+            needsClientEncryption: true // Preserve flag for re-encryption
+          };
+          
+          decryptedCards.push(decryptedCard);
+          continue;
+        }
+
+        // Decrypt properly encrypted cards
         let code = '';
         if (encryptedCard.encryptedCode) {
-          const decryptedData = await this.decryptCard(encryptedCard.encryptedCode, key);
-          code = decryptedData.code || '';
+          try {
+            const decryptedData = await this.decryptCard(encryptedCard.encryptedCode, key);
+            code = decryptedData.code || '';
+          } catch (error) {
+            console.warn('Failed to decrypt card, may be auto-migrated:', encryptedCard.name);
+            // Treat as auto-migrated card
+            code = encryptedCard.encryptedCode;
+          }
         }
 
         // Reconstruct original card object
         const decryptedCard = {
-          id: encryptedCard.id,
+          id: encryptedCard.id || encryptedCard._id,
           name: encryptedCard.name,
           code: code,
           codeType: encryptedCard.codeType,
@@ -221,8 +255,6 @@ class CryptoManager {
   // Migrate unencrypted cards to encrypted format
   async migrateCards(unencryptedCards, key) {
     try {
-      console.log('Migrating', unencryptedCards.length, 'cards to encrypted format');
-      
       const migratedCards = [];
       for (const card of unencryptedCards) {
         if (card.isEncrypted) {
@@ -246,7 +278,6 @@ class CryptoManager {
         migratedCards.push(encryptedCard);
       }
 
-      console.log('Migration completed:', migratedCards.length, 'cards encrypted');
       return migratedCards;
     } catch (error) {
       console.error('Error migrating cards:', error);
