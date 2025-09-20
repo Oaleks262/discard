@@ -202,10 +202,10 @@
     <header class="header">
         <div class="container">
             <div class="header-content">
-                <a href="#" class="logo" id="logo-link">
+                <div class="logo">
                     <img src="/icons/logo.png" alt="disCard" width="48" height="48" class="logo-icon">
                     <span class="logo-text">disCard</span>
-                </a>
+                </div>
                 
                 <div class="header-actions">
                     <button class="theme-toggle" id="theme-toggle">
@@ -300,74 +300,6 @@
                         </div>
                         <h3 class="feature-title" data-i18n="features.access">Швидкий доступ</h3>
                         <p class="feature-description" data-i18n="features.accessDescription">Миттєвий доступ до всіх ваших карт навіть офлайн завдяки PWA технології</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Key Features Section -->
-        <section class="key-features" id="key-features">
-            <div class="container">
-                <h2 class="section-title" data-i18n="keyFeatures.title">Переваги disCard</h2>
-                <div class="key-features-grid">
-                    <div class="key-feature-card">
-                        <div class="key-feature-icon">
-                            <svg viewBox="0 0 24 24" width="48" height="48">
-                                <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" fill="currentColor"/>
-                            </svg>
-                        </div>
-                        <h3 class="key-feature-title" data-i18n="keyFeatures.pwa.title">PWA додаток</h3>
-                        <p class="key-feature-description" data-i18n="keyFeatures.pwa.description">Прогресивний веб-додаток що працює як нативна програма. Встановлюється прямо з браузера без потреби App Store чи Google Play. Автоматичні оновлення та швидкий запуск.</p>
-                        <ul class="key-feature-list">
-                            <li data-i18n="keyFeatures.pwa.benefit1">Встановлення за 10 секунд</li>
-                            <li data-i18n="keyFeatures.pwa.benefit2">Не займає багато місця</li>
-                            <li data-i18n="keyFeatures.pwa.benefit3">Автооновлення в фоні</li>
-                        </ul>
-                    </div>
-                    
-                    <div class="key-feature-card">
-                        <div class="key-feature-icon">
-                            <svg viewBox="0 0 24 24" width="48" height="48">
-                                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z" fill="currentColor"/>
-                            </svg>
-                        </div>
-                        <h3 class="key-feature-title" data-i18n="keyFeatures.offline.title">Робота офлайн</h3>
-                        <p class="key-feature-description" data-i18n="keyFeatures.offline.description">Всі ваші карти доступні навіть без інтернет-з'єднання. Використовуйте картки лояльності в магазині, метро чи будь-де. Синхронізація відбувається автоматично при підключенні.</p>
-                        <ul class="key-feature-list">
-                            <li data-i18n="keyFeatures.offline.benefit1">100% доступність карток</li>
-                            <li data-i18n="keyFeatures.offline.benefit2">Швидке завантаження</li>
-                            <li data-i18n="keyFeatures.offline.benefit3">Економія трафіку</li>
-                        </ul>
-                    </div>
-                    
-                    <div class="key-feature-card">
-                        <div class="key-feature-icon">
-                            <svg viewBox="0 0 24 24" width="48" height="48">
-                                <path d="M12,1L3,5V11C3,16.55 6.84,21.74 12,23C17.16,21.74 21,16.55 21,11V5L12,1M12,7C13.4,7 14.8,8.6 14.8,10V11.4C15.5,11.4 16,11.9 16,12.6V16.6C16,17.3 15.5,17.8 14.8,17.8H9.2C8.5,17.8 8,17.3 8,16.6V12.6C8,11.9 8.5,11.4 9.2,11.4V10C9.2,8.6 10.6,7 12,7M12,8.2C11.2,8.2 10.4,8.7 10.4,10V11.4H13.6V10C13.6,8.7 12.8,8.2 12,8.2Z" fill="currentColor"/>
-                            </svg>
-                        </div>
-                        <h3 class="key-feature-title" data-i18n="keyFeatures.secure.title">Безпечне зберігання</h3>
-                        <p class="key-feature-description" data-i18n="keyFeatures.secure.description">Ваші дані захищені сучасним шифруванням та зберігаються локально на вашому пристрої. Ніхто не має доступу до ваших карток, крім вас. Повна конфіденційність гарантована.</p>
-                        <ul class="key-feature-list">
-                            <li data-i18n="keyFeatures.secure.benefit1">AES-256 шифрування</li>
-                            <li data-i18n="keyFeatures.secure.benefit2">Локальне зберігання</li>
-                            <li data-i18n="keyFeatures.secure.benefit3">Нульовий доступ третіх осіб</li>
-                        </ul>
-                    </div>
-                    
-                    <div class="key-feature-card">
-                        <div class="key-feature-icon">
-                            <svg viewBox="0 0 24 24" width="48" height="48">
-                                <path d="M7,15H9C9,16.08 10.37,17 12,17C13.63,17 15,16.08 15,15C15,13.9 13.96,13.5 11.76,12.97C9.64,12.44 7,11.78 7,9C7,7.21 8.47,5.69 10.5,5.18V3H13.5V5.18C15.53,5.69 17,7.21 17,9H15C15,7.92 13.63,7 12,7C10.37,7 9,7.92 9,9C9,10.1 10.04,10.5 12.24,11.03C14.36,11.56 17,12.22 17,15C17,16.79 15.53,18.31 13.5,18.82V21H10.5V18.82C8.47,18.31 7,16.79 7,15Z" fill="currentColor"/>
-                            </svg>
-                        </div>
-                        <h3 class="key-feature-title" data-i18n="keyFeatures.free.title">Повністю безкоштовно</h3>
-                        <p class="key-feature-description" data-i18n="keyFeatures.free.description">Ніяких прихованих платежів, підписок чи обмежень. Всі функції доступні безкоштовно назавжди. Підтримується рекламою, що не заважає користуванню додатком.</p>
-                        <ul class="key-feature-list">
-                            <li data-i18n="keyFeatures.free.benefit1">Без підписок</li>
-                            <li data-i18n="keyFeatures.free.benefit2">Всі функції доступні</li>
-                            <li data-i18n="keyFeatures.free.benefit3">Мінімум реклами</li>
-                        </ul>
                     </div>
                 </div>
             </div>
@@ -536,15 +468,24 @@
             <div class="footer-content">
                 <div class="footer-main">
                     <div class="footer-brand">
-                        <a href="#" class="logo" id="footer-logo-link">
+                        <div class="logo">
                             <img src="/icons/logo.png" alt="disCard" width="48" height="48" class="logo-icon">
                             <span class="logo-text">disCard</span>
-                        </a>
+                        </div>
                         <p class="footer-description" data-i18n="footer.description">
                             Сучасний додаток для управління картами лояльності
                         </p>
                     </div>
                     
+                    <div class="footer-features">
+                        <h4 class="footer-title" data-i18n="footer.features.title">Особливості</h4>
+                        <ul class="footer-list">
+                            <li data-i18n="footer.features.pwa">PWA додаток</li>
+                            <li data-i18n="footer.features.offline">Робота офлайн</li>
+                            <li data-i18n="footer.features.secure">Безпечне зберігання</li>
+                            <li data-i18n="footer.features.free">Безкоштовно</li>
+                        </ul>
+                    </div>
                     
                     <div class="footer-support">
                         <h4 class="footer-title" data-i18n="footer.support.title">Підтримка</h4>
@@ -558,7 +499,7 @@
                 
                 <div class="footer-bottom">
                     <div class="footer-info">
-                        <p>&copy; 2025 disCard. <span data-i18n="footer.rights">Всі права захищені.</span></p>
+                        <p>&copy; 2024 disCard. <span data-i18n="footer.rights">Всі права захищені.</span></p>
                     </div>
                     <div class="footer-tech">
                         <span class="tech-badge">PWA</span>
@@ -855,18 +796,6 @@
                     } else {
                         console.error('i18n not available on landing page');
                     }
-                });
-            });
-            
-            // Logo scroll to top functionality
-            const logoLinks = document.querySelectorAll('#logo-link, #footer-logo-link');
-            logoLinks.forEach(logoLink => {
-                logoLink.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    window.scrollTo({
-                        top: 0,
-                        behavior: 'smooth'
-                    });
                 });
             });
             

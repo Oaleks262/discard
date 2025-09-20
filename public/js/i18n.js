@@ -32,7 +32,7 @@ const translations = {
         eva: "EVA"
       },
       scanner: {
-        instruction: "Наведіть камеру на код"
+        instruction: "Наведіть камеру на штрих-код або QR-код"
       },
       settings: {
         darkTheme: "🌙 Темна тема",
@@ -104,6 +104,39 @@ const translations = {
       }
     },
     
+    // Key Features Section
+    keyFeatures: {
+      title: "Переваги disCard",
+      pwa: {
+        title: "PWA додаток",
+        description: "Прогресивний веб-додаток що працює як нативна програма. Встановлюється прямо з браузера без потреби App Store чи Google Play. Автоматичні оновлення та швидкий запуск.",
+        benefit1: "Встановлення за 10 секунд",
+        benefit2: "Не займає багато місця",
+        benefit3: "Автооновлення в фоні"
+      },
+      offline: {
+        title: "Робота офлайн",
+        description: "Всі ваші карти доступні навіть без інтернет-з'єднання. Використовуйте картки лояльності в магазині, метро чи будь-де. Синхронізація відбувається автоматично при підключенні.",
+        benefit1: "100% доступність карток",
+        benefit2: "Швидке завантаження",
+        benefit3: "Економія трафіку"
+      },
+      secure: {
+        title: "Безпечне зберігання",
+        description: "Ваші дані захищені сучасним шифруванням та зберігаються локально на вашому пристрої. Ніхто не має доступу до ваших карток, крім вас. Повна конфіденційність гарантована.",
+        benefit1: "AES-256 шифрування",
+        benefit2: "Локальне зберігання",
+        benefit3: "Нульовий доступ третіх осіб"
+      },
+      free: {
+        title: "Повністю безкоштовно",
+        description: "Ніяких прихованих платежів, підписок чи обмежень. Всі функції доступні безкоштовно назавжди. Підтримується рекламою, що не заважає користуванню додатком.",
+        benefit1: "Без підписок",
+        benefit2: "Всі функції доступні",
+        benefit3: "Мінімум реклами"
+      }
+    },
+    
     // App Navigation
     tabs: {
       cards: "Карти",
@@ -124,6 +157,34 @@ const translations = {
       noAccount: "Немає акаунту?",
       hasAccount: "Вже є акаунт?",
       forgotPassword: "Забули пароль?"
+    },
+    
+    // Two-Factor Authentication
+    twofa: {
+      title: "Підтвердження входу",
+      subtitle: "Введіть код підтвердження, відправлений на вашу електронну пошту",
+      sentTo: "Надіслано на:",
+      verify: "Підтвердити",
+      resend: "Надіслати код повторно",
+      back: "Назад до входу",
+      resendIn: "Повторне надсилання доступне через:",
+      seconds: "секунд",
+      invalidCode: "Невірний код підтвердження",
+      codeExpired: "Код підтвердження минув",
+      verificationSuccess: "Вхід підтверджено успішно",
+      resendSuccess: "Код відправлено повторно",
+      enterAllDigits: "Введіть усі 6 цифр коду"
+    },
+    
+    // Security
+    security: {
+      title: "Безпека",
+      twoFactor: "Двофакторна автентифікація",
+      twoFactorDescription: "Додатковий рівень безпеки для вашого акаунту",
+      twoFactorEnabled: "2FA увімкнено",
+      twoFactorDisabled: "2FA вимкнено",
+      enableTwoFactor: "Увімкнути 2FA",
+      disableTwoFactor: "Вимкнути 2FA"
     },
     
     // Profile
@@ -173,7 +234,7 @@ const translations = {
       copyCode: "Копіювати код",
       scanCode: "Сканувати код",
       manualEntry: "Введіть код або скануйте",
-      scanInstructions: "Наведіть камеру на код для сканування",
+      scanInstructions: "Наведіть камеру на штрих-код або QR-код для сканування",
       created: "Створено",
       codeWillAppear: "Код з'явиться тут"
     },
@@ -181,7 +242,7 @@ const translations = {
     // Scanner
     scanner: {
       title: "Сканування коду",
-      instructions: "Наведіть камеру на код для сканування",
+      instructions: "Наведіть камеру на штрих-код або QR-код для сканування",
       permissionDenied: "Доступ до камери заборонено",
       notFound: "Камера не знайдена",
       scanning: "Сканування...",
@@ -216,7 +277,8 @@ const translations = {
       cardDeleted: "Картку видалено",
       invalidCredentials: "Невірні дані для входу",
       emailExists: "Користувач з таким email вже існує",
-      passwordTooShort: "Пароль повинен містити мінімум 6 символів",
+      passwordTooShort: "Пароль повинен містити мінімум 8 символів",
+      invalidName: "Некоректне ім'я. Використовуйте тільки літери, апостроф, дефіс та пробіли (2-50 символів)",
       passwordsDontMatch: "Паролі не співпадають",
       fillAllFields: "Заповніть всі поля",
       networkError: "Помилка мережі",
@@ -274,7 +336,7 @@ const translations = {
         eva: "EVA"
       },
       scanner: {
-        instruction: "Point your camera at the code"
+        instruction: "Point your camera at barcode or QR code"
       },
       settings: {
         darkTheme: "🌙 Dark theme",
@@ -346,6 +408,39 @@ const translations = {
       }
     },
     
+    // Key Features Section
+    keyFeatures: {
+      title: "disCard Advantages",
+      pwa: {
+        title: "PWA App",
+        description: "Progressive Web Application that works like a native program. Installs directly from the browser without needing App Store or Google Play. Automatic updates and fast startup.",
+        benefit1: "10-second installation",
+        benefit2: "Doesn't take much space",
+        benefit3: "Auto-updates in background"
+      },
+      offline: {
+        title: "Works Offline",
+        description: "All your cards are accessible even without internet connection. Use loyalty cards in stores, subway or anywhere. Synchronization happens automatically when connected.",
+        benefit1: "100% card availability",
+        benefit2: "Fast loading",
+        benefit3: "Traffic savings"
+      },
+      secure: {
+        title: "Secure Storage",
+        description: "Your data is protected with modern encryption and stored locally on your device. No one has access to your cards except you. Complete privacy guaranteed.",
+        benefit1: "AES-256 encryption",
+        benefit2: "Local storage",
+        benefit3: "Zero third-party access"
+      },
+      free: {
+        title: "Completely Free",
+        description: "No hidden fees, subscriptions or restrictions. All features are available for free forever. Supported by ads that don't interfere with app usage.",
+        benefit1: "No subscriptions",
+        benefit2: "All features available",
+        benefit3: "Minimal advertising"
+      }
+    },
+    
     // App Navigation
     tabs: {
       cards: "Cards",
@@ -366,6 +461,34 @@ const translations = {
       noAccount: "Don't have an account?",
       hasAccount: "Already have an account?",
       forgotPassword: "Forgot password?"
+    },
+    
+    // Two-Factor Authentication
+    twofa: {
+      title: "Verify Sign In",
+      subtitle: "Enter the verification code sent to your email address",
+      sentTo: "Sent to:",
+      verify: "Verify",
+      resend: "Resend code",
+      back: "Back to sign in",
+      resendIn: "Resend available in:",
+      seconds: "seconds",
+      invalidCode: "Invalid verification code",
+      codeExpired: "Verification code expired",
+      verificationSuccess: "Sign in verified successfully",
+      resendSuccess: "Code sent again",
+      enterAllDigits: "Enter all 6 digits of the code"
+    },
+    
+    // Security
+    security: {
+      title: "Security",
+      twoFactor: "Two-Factor Authentication",
+      twoFactorDescription: "Extra security layer for your account",
+      twoFactorEnabled: "2FA enabled",
+      twoFactorDisabled: "2FA disabled",
+      enableTwoFactor: "Enable 2FA",
+      disableTwoFactor: "Disable 2FA"
     },
     
     // Profile
@@ -415,7 +538,7 @@ const translations = {
       copyCode: "Copy code",
       scanCode: "Scan code",
       manualEntry: "Enter code or scan",
-      scanInstructions: "Point your camera at the code to scan",
+      scanInstructions: "Point your camera at barcode or QR code to scan",
       created: "Created",
       codeWillAppear: "Code will appear here"
     },
@@ -423,7 +546,7 @@ const translations = {
     // Scanner
     scanner: {
       title: "Code scanning",
-      instructions: "Point your camera at the code to scan",
+      instructions: "Point your camera at barcode or QR code to scan",
       permissionDenied: "Camera access denied",
       notFound: "Camera not found",
       scanning: "Scanning...",
@@ -458,7 +581,8 @@ const translations = {
       cardDeleted: "Card deleted",
       invalidCredentials: "Invalid login credentials",
       emailExists: "User with this email already exists",
-      passwordTooShort: "Password must be at least 6 characters",
+      passwordTooShort: "Password must be at least 8 characters",
+      invalidName: "Invalid name. Use only letters, apostrophe, hyphen and spaces (2-50 characters)",
       passwordsDontMatch: "Passwords don't match",
       fillAllFields: "Please fill all fields",
       networkError: "Network error",

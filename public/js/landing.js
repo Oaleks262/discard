@@ -96,28 +96,8 @@ class LandingPage {
   }
 
   navigateToApp() {
-    // Check if user is already logged in
-    const token = localStorage.getItem('authToken');
-    
-    if (token) {
-      // Redirect directly to app
-      window.location.href = '/app.html';
-    } else {
-      // Show info modal before redirect
-      if (window.modal) {
-        window.modal.show({
-          title: '🚀 Ласкаво просимо в disCard!',
-          message: 'Для використання додатку потрібно увійти в акаунт або зареєструватися.',
-          confirmText: 'Продовжити',
-          onConfirm: () => {
-            window.location.href = '/app.html';
-          }
-        });
-      } else {
-        // Fallback if modal system not available
-        window.location.href = '/app.html';
-      }
-    }
+    // Redirect directly to app
+    window.location.href = '/app.html';
   }
 
   animatePhoneMockup() {

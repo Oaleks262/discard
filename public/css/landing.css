@@ -553,6 +553,123 @@ body {
   line-height: 1.6;
 }
 
+/* Key Features Section */
+.key-features {
+  padding: var(--spacing-3xl) 0;
+  background: var(--bg-secondary);
+}
+
+.key-features-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--spacing-xl);
+}
+
+.key-feature-card {
+  background: var(--bg-primary);
+  border-radius: var(--radius-lg);
+  padding: var(--spacing-xl);
+  box-shadow: 0 4px 20px var(--shadow);
+  transition: var(--transition);
+  border: 1px solid var(--border);
+  position: relative;
+  overflow: hidden;
+  opacity: 0;
+  animation: fadeInUp 1s ease forwards;
+}
+
+.key-feature-card:nth-child(1) {
+  animation-delay: 0.2s;
+}
+
+.key-feature-card:nth-child(2) {
+  animation-delay: 0.4s;
+}
+
+.key-feature-card:nth-child(3) {
+  animation-delay: 0.6s;
+}
+
+.key-feature-card:nth-child(4) {
+  animation-delay: 0.8s;
+}
+
+.key-feature-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, var(--primary), var(--secondary));
+}
+
+.key-feature-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 30px var(--shadow-lg);
+}
+
+.key-feature-icon {
+  margin-bottom: var(--spacing-lg);
+  display: flex;
+  justify-content: center;
+  transition: var(--transition);
+}
+
+.key-feature-icon svg {
+  transition: var(--transition);
+}
+
+.key-feature-card:hover .key-feature-icon svg {
+  transform: scale(1.1);
+  color: var(--primary);
+}
+
+.key-feature-title {
+  font-size: 1.5rem;
+  font-weight: var(--font-weight-semibold);
+  color: var(--text-primary);
+  margin-bottom: var(--spacing-md);
+  text-align: center;
+}
+
+.key-feature-description {
+  color: var(--text-secondary);
+  line-height: 1.6;
+  margin-bottom: var(--spacing-lg);
+  text-align: center;
+}
+
+.key-feature-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-sm);
+  align-items: center;
+}
+
+.key-feature-list li {
+  display: flex;
+  align-items: center;
+  color: var(--text-secondary);
+  font-size: 0.95rem;
+  position: relative;
+  padding-left: var(--spacing-lg);
+  text-align: center;
+  justify-content: flex-start;
+}
+
+.key-feature-list li::before {
+  content: '✓';
+  position: absolute;
+  left: 0;
+  color: var(--primary);
+  font-weight: bold;
+  font-size: 1.1rem;
+}
+
 /* Installation Section */
 .installation {
   padding: var(--spacing-3xl) 0;
@@ -762,7 +879,7 @@ body {
 }
 
 .mockup-content {
-  width: 200px;
+  width: 250px;
   height: 350px;
   background: var(--bg-primary);
   border-radius: var(--radius-lg);
@@ -799,16 +916,24 @@ body {
 .mini-barcode, .mini-qr {
   width: 30px;
   height: 20px;
-  background: var(--text-primary);
 }
 
 .mini-barcode {
+  background: var(--bg-primary);
   background-image: repeating-linear-gradient(
     90deg,
-    #000000 0px,
-    #000000 1px,
+    var(--text-primary) 0px,
+    var(--text-primary) 1px,
     transparent 1px,
-    transparent 2px
+    transparent 3px,
+    var(--text-primary) 3px,
+    var(--text-primary) 4px,
+    transparent 4px,
+    transparent 5px,
+    var(--text-primary) 5px,
+    var(--text-primary) 6px,
+    transparent 6px,
+    transparent 8px
   );
 }
 
@@ -897,7 +1022,7 @@ body {
 .footer {
   background: var(--bg-tertiary);
   color: var(--text-primary);
-  padding: var(--spacing-2xl) 0 var(--spacing-lg) 0;
+  padding: var(--spacing-3xl) 0;
   border-top: 1px solid var(--border);
 }
 
@@ -908,10 +1033,10 @@ body {
 }
 
 .footer-main {
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
   gap: var(--spacing-2xl);
-  align-items: start;
 }
 
 .footer-brand .logo {
@@ -965,7 +1090,8 @@ body {
 
 .footer-bottom {
   display: flex;
-  justify-content: space-between;
+  flex-direction: column;
+  justify-content: center;
   align-items: center;
   gap: var(--spacing-lg);
   padding-top: var(--spacing-lg);
@@ -998,7 +1124,8 @@ body {
     font-size: 3rem;
   }
   
-  .features-grid {
+  .features-grid,
+  .key-features-grid {
     grid-template-columns: 1fr;
     gap: var(--spacing-lg);
   }
@@ -1036,17 +1163,17 @@ body {
   }
   
   .footer-main {
-    grid-template-columns: 1fr 1fr;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
     gap: var(--spacing-xl);
   }
   
   .footer-brand {
-    grid-column: 1 / -1;
     text-align: center;
     margin-bottom: var(--spacing-lg);
   }
   
-  .footer-features,
   .footer-support {
     text-align: center;
   }
@@ -1107,7 +1234,7 @@ body {
     min-width: 200px;
   }
   
-  .features, .screenshots {
+  .features, .key-features, .screenshots {
     padding: var(--spacing-xl) 0;
   }
   
@@ -1129,13 +1256,15 @@ body {
     font-size: 0.875rem;
   }
   
-  .installation, .features, .screenshots {
+  .installation, .features, .key-features, .screenshots, .footer {
     padding: var(--spacing-xl) 0;
   }
   
   .footer-main {
-    grid-template-columns: 1fr;
+    flex-direction: column;
+    justify-content: center;
     gap: var(--spacing-lg);
+    align-items: center;
     text-align: center;
   }
   
