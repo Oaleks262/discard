@@ -140,13 +140,21 @@ class AuthManager {
         // Wait for app screen to load before updating UI
         setTimeout(() => {
           this.app.updateProfile();
-          this.app.renderCards();
+          
+          // Wait for encryption initialization before rendering cards
+          setTimeout(() => {
+            this.app.renderCards();
+          }, 1200); // Wait extra time for encryption setup
           
           // Reset flag after UI is updated
           setTimeout(() => {
             this.justAuthenticated = false;
           }, 2000);
         }, 100);
+      } else if (response.requiresVerification) {
+        // Show 2FA verification screen
+        this.showTwoFactorScreen(response.email);
+        UIUtils.showToast('info', UIUtils.safeT('twofa.sentTo', 'Код відправлено на:') + ' ' + response.email);
       } else {
         throw new Error('No token received');
       }
@@ -160,19 +168,13 @@ class AuthManager {
 
   async handleRegister(e) {
     e.preventDefault();
-
+    
     const name = document.getElementById('register-name').value;
     const email = document.getElementById('register-email').value;
     const password = document.getElementById('register-password').value;
-    const termsAccepted = document.getElementById('register-terms').checked;
-
+    
     if (!name || !email || !password) {
       UIUtils.showToast('error', UIUtils.safeT('messages.fillAllFields', 'Заповніть всі поля'));
-      return;
-    }
-
-    if (!termsAccepted) {
-      UIUtils.showToast('error', UIUtils.safeT('messages.acceptTerms', 'Ви повинні прийняти умови використання'));
       return;
     }
 
@@ -315,21 +317,11 @@ class AuthManager {
   showLoginForm() {
     document.getElementById('register-form').classList.add('hidden');
     document.getElementById('login-form').classList.remove('hidden');
-
-    // Update translations for login form
-    if (window.i18n) {
-      window.i18n.updatePageTexts();
-    }
   }
 
   showRegisterForm() {
     document.getElementById('login-form').classList.add('hidden');
     document.getElementById('register-form').classList.remove('hidden');
-
-    // Update translations for register form
-    if (window.i18n) {
-      window.i18n.updatePageTexts();
-    }
   }
 
   showAuthScreen() {
@@ -341,6 +333,7 @@ class AuthManager {
   showAppScreen() {
     document.getElementById('loading-screen').classList.add('hidden');
     document.getElementById('auth-screen').classList.add('hidden');
+    document.getElementById('twofa-screen')?.classList.add('hidden');
     document.getElementById('app-container').classList.remove('hidden');
     
     // Initialize default active tab if no tab is currently active
@@ -350,6 +343,243 @@ class AuthManager {
     
     // Close any open modals
     this.app.closeAllModals();
+  }
+
+  showTwoFactorScreen(email) {
+    document.getElementById('loading-screen').classList.add('hidden');
+    document.getElementById('auth-screen').classList.add('hidden');
+    
+    // Show 2FA screen or create it if it doesn't exist
+    let twofaScreen = document.getElementById('twofa-screen');
+    if (!twofaScreen) {
+      this.createTwoFactorScreen();
+      twofaScreen = document.getElementById('twofa-screen');
+    }
+    
+    twofaScreen.classList.remove('hidden');
+    
+    // Update email display
+    const emailDisplay = document.getElementById('twofa-email');
+    if (emailDisplay) {
+      emailDisplay.textContent = email;
+    }
+    
+    // Store email for verification
+    this.verificationEmail = email;
+    
+    // Clear any previous input
+    const codeInputs = document.querySelectorAll('.twofa-code-input');
+    codeInputs.forEach(input => input.value = '');
+    
+    // Focus first input
+    const firstInput = document.querySelector('.twofa-code-input');
+    if (firstInput) {
+      setTimeout(() => firstInput.focus(), 100);
+    }
+    
+    // Start countdown timer
+    this.startResendTimer();
+  }
+
+  createTwoFactorScreen() {
+    const html = `
+      <div class="auth-screen" id="twofa-screen">
+        <div class="auth-container">
+          <div class="auth-header">
+            <div class="logo">
+              <img src="/icons/logo.png" alt="disCard" width="48" height="48" class="logo-icon">
+              <span class="logo-text">disCard</span>
+            </div>
+          </div>
+          
+          <div class="auth-form">
+            <h2 class="auth-title" data-i18n="twofa.title">Підтвердження входу</h2>
+            <p class="auth-subtitle" data-i18n="twofa.subtitle">Введіть код підтвердження, відправлений на вашу електронну пошту</p>
+            
+            <div class="twofa-email-display">
+              <span data-i18n="twofa.sentTo">Надіслано на:</span>
+              <strong id="twofa-email"></strong>
+            </div>
+            
+            <form id="twofa-form">
+              <div class="twofa-code-container">
+                <input type="text" class="twofa-code-input" maxlength="1" pattern="[0-9]" data-index="0">
+                <input type="text" class="twofa-code-input" maxlength="1" pattern="[0-9]" data-index="1">
+                <input type="text" class="twofa-code-input" maxlength="1" pattern="[0-9]" data-index="2">
+                <input type="text" class="twofa-code-input" maxlength="1" pattern="[0-9]" data-index="3">
+                <input type="text" class="twofa-code-input" maxlength="1" pattern="[0-9]" data-index="4">
+              </div>
+              
+              <button type="submit" class="auth-button" id="twofa-verify-btn" data-i18n="twofa.verify">Підтвердити</button>
+            </form>
+            
+            <div class="twofa-actions">
+              <button type="button" class="link-button" id="twofa-resend-btn" data-i18n="twofa.resend">Надіслати код повторно</button>
+              <span class="twofa-timer" id="twofa-timer"></span>
+            </div>
+            
+            <div class="auth-switch">
+              <button type="button" class="link-button" id="twofa-back-btn" data-i18n="twofa.back">Назад до входу</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    `;
+    
+    document.body.insertAdjacentHTML('beforeend', html);
+    
+    // Setup event listeners
+    this.setupTwoFactorEventListeners();
+  }
+
+  setupTwoFactorEventListeners() {
+    const form = document.getElementById('twofa-form');
+    const inputs = document.querySelectorAll('.twofa-code-input');
+    const resendBtn = document.getElementById('twofa-resend-btn');
+    const backBtn = document.getElementById('twofa-back-btn');
+    
+    // Handle form submission
+    form?.addEventListener('submit', (e) => this.handleTwoFactorVerification(e));
+    
+    // Handle input navigation
+    inputs.forEach((input, index) => {
+      input.addEventListener('input', (e) => {
+        const value = e.target.value.replace(/[^0-9]/g, '');
+        e.target.value = value;
+        
+        if (value && index < inputs.length - 1) {
+          inputs[index + 1].focus();
+        }
+        
+        // Auto-submit when all inputs are filled
+        if (index === inputs.length - 1 && value) {
+          const allFilled = Array.from(inputs).every(input => input.value);
+          if (allFilled) {
+            this.handleTwoFactorVerification(new Event('submit'));
+          }
+        }
+      });
+      
+      input.addEventListener('keydown', (e) => {
+        if (e.key === 'Backspace' && !e.target.value && index > 0) {
+          inputs[index - 1].focus();
+        }
+      });
+    });
+    
+    // Handle resend button
+    resendBtn?.addEventListener('click', () => this.handleResendCode());
+    
+    // Handle back button
+    backBtn?.addEventListener('click', () => this.showAuthScreen());
+  }
+
+  async handleTwoFactorVerification(e) {
+    e.preventDefault();
+    
+    const inputs = document.querySelectorAll('.twofa-code-input');
+    const code = Array.from(inputs).map(input => input.value).join('');
+    
+    if (code.length !== 5) {
+      UIUtils.showToast('error', UIUtils.safeT('twofa.enterAllDigits', 'Введіть усі 5 цифр коду'));
+      return;
+    }
+    
+    const submitBtn = document.getElementById('twofa-verify-btn');
+    UIUtils.setButtonLoading(submitBtn, true);
+    
+    try {
+      const response = await this.app.apiCall('/auth/verify-code', {
+        method: 'POST',
+        body: JSON.stringify({ 
+          email: this.verificationEmail, 
+          code: code 
+        })
+      });
+      
+      if (response.token) {
+        // API client handles token storage
+        AppState.user = response.user;
+        AppState.cards = response.cards || [];
+        
+        // Save data locally
+        this.app.saveLocalData();
+        
+        // Update language
+        if (response.user.language) {
+          window.i18n.setLanguage(response.user.language);
+          window.i18n.updatePageTexts();
+        }
+        
+        UIUtils.showToast('success', UIUtils.safeT('twofa.verificationSuccess', 'Вхід підтверджено успішно'));
+        this.justAuthenticated = true;
+        this.showAppScreen();
+        
+        // Wait for app screen to load before updating UI
+        setTimeout(() => {
+          this.app.updateProfile();
+          
+          // Wait for encryption initialization before rendering cards
+          setTimeout(() => {
+            this.app.renderCards();
+          }, 1200); // Wait extra time for encryption setup
+          
+          setTimeout(() => {
+            this.justAuthenticated = false;
+          }, 2000);
+        }, 100);
+      }
+    } catch (error) {
+      console.error('2FA verification error:', error);
+      UIUtils.showToast('error', error.message || UIUtils.safeT('twofa.invalidCode', 'Невірний код підтвердження'));
+      
+      // Clear inputs on error
+      inputs.forEach(input => input.value = '');
+      inputs[0].focus();
+    } finally {
+      UIUtils.setButtonLoading(submitBtn, false);
+    }
+  }
+
+  async handleResendCode() {
+    const resendBtn = document.getElementById('twofa-resend-btn');
+    UIUtils.setButtonLoading(resendBtn, true);
+    
+    try {
+      await this.app.apiCall('/auth/resend-code', {
+        method: 'POST',
+        body: JSON.stringify({ email: this.verificationEmail })
+      });
+      
+      UIUtils.showToast('success', UIUtils.safeT('twofa.resendSuccess', 'Код відправлено повторно'));
+      this.startResendTimer();
+    } catch (error) {
+      console.error('Resend code error:', error);
+      UIUtils.showToast('error', error.message || UIUtils.safeT('messages.networkError', 'Помилка мережі'));
+    } finally {
+      UIUtils.setButtonLoading(resendBtn, false);
+    }
+  }
+
+  startResendTimer() {
+    const timerElement = document.getElementById('twofa-timer');
+    const resendBtn = document.getElementById('twofa-resend-btn');
+    
+    if (!timerElement || !resendBtn) return;
+    
+    let seconds = 60;
+    resendBtn.disabled = true;
+    
+    const timer = setInterval(() => {
+      timerElement.textContent = `(${UIUtils.safeT('twofa.resendIn', 'Повторне надсилання доступне через:')} ${seconds} ${UIUtils.safeT('twofa.seconds', 'секунд')})`;
+      seconds--;
+      
+      if (seconds < 0) {
+        clearInterval(timer);
+        timerElement.textContent = '';
+        resendBtn.disabled = false;
+      }
+    }, 1000);
   }
 
   async handleAppResume() {
@@ -434,10 +664,124 @@ class AuthManager {
       this.showLoginForm();
     });
 
+    // Forgot password
+    document.getElementById('forgot-password-btn')?.addEventListener('click', (e) => {
+      e.preventDefault();
+      this.showForgotPasswordModal();
+    });
+
     // Profile actions
     document.getElementById('logout-button')?.addEventListener('click', this.handleLogout.bind(this));
     document.getElementById('change-password-form')?.addEventListener('submit', this.handleChangePassword.bind(this));
     document.getElementById('edit-name')?.addEventListener('click', this.handleEditName.bind(this));
+  }
+
+  // Forgot Password Modal functionality
+  showForgotPasswordModal() {
+    const modal = document.getElementById('forgot-password-modal');
+    const form = document.getElementById('forgot-password-form');
+    const emailInput = document.getElementById('forgot-email');
+    const alert = document.getElementById('forgot-password-alert');
+    const loading = document.getElementById('forgot-password-loading');
+
+    // Reset form
+    form.reset();
+    alert.style.display = 'none';
+    loading.classList.add('hidden');
+    form.style.display = 'block';
+
+    // Show modal
+    modal.classList.remove('hidden');
+    modal.classList.add('show');
+
+    // Setup event listeners
+    const closeModal = () => {
+      modal.classList.add('hidden');
+      modal.classList.remove('show');
+    };
+
+    // Close button
+    document.getElementById('forgot-password-close').onclick = closeModal;
+    document.getElementById('forgot-password-cancel').onclick = closeModal;
+
+    // Close on backdrop click
+    modal.onclick = (e) => {
+      if (e.target === modal || e.target.classList.contains('modal-backdrop')) {
+        closeModal();
+      }
+    };
+
+    // Form submission
+    form.onsubmit = (e) => this.handleForgotPassword(e);
+
+    // Focus email input
+    setTimeout(() => emailInput.focus(), 100);
+  }
+
+  async handleForgotPassword(e) {
+    e.preventDefault();
+    
+    const emailInput = document.getElementById('forgot-email');
+    const alert = document.getElementById('forgot-password-alert');
+    const loading = document.getElementById('forgot-password-loading');
+    const form = document.getElementById('forgot-password-form');
+    const submitBtn = document.getElementById('forgot-password-submit');
+
+    const email = emailInput.value.trim();
+    
+    if (!email) {
+      this.showForgotPasswordAlert('error', 'Введіть електронну пошту');
+      return;
+    }
+
+    // Show loading
+    form.style.display = 'none';
+    loading.classList.remove('hidden');
+    alert.style.display = 'none';
+
+    try {
+      const response = await fetch('/api/auth/forgot-password', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ email })
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        this.showForgotPasswordAlert('success', 
+          `Новий пароль згенеровано та надіслано на ${email}. Перевірте вашу пошту.`
+        );
+        
+        // Hide loading, show success
+        loading.classList.add('hidden');
+        
+        // Close modal after 3 seconds
+        setTimeout(() => {
+          const modal = document.getElementById('forgot-password-modal');
+          modal.classList.add('hidden');
+          modal.classList.remove('show');
+        }, 3000);
+      } else {
+        throw new Error(data.error || 'Помилка відновлення паролю');
+      }
+    } catch (error) {
+      console.error('Forgot password error:', error);
+      this.showForgotPasswordAlert('error', error.message);
+      
+      // Show form again
+      loading.classList.add('hidden');
+      form.style.display = 'block';
+    }
+  }
+
+  showForgotPasswordAlert(type, message) {
+    const alert = document.getElementById('forgot-password-alert');
+    alert.className = `alert alert-${type}`;
+    alert.textContent = message;
+    alert.style.display = 'block';
   }
 }
 

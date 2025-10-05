@@ -302,9 +302,20 @@ const translations = {
       noAccount: "Немає акаунту?",
       hasAccount: "Вже є акаунт?",
       forgotPassword: "Забули пароль?",
+      resetPassword: "Відновлення паролю",
+      resetPasswordText: "Введіть вашу електронну пошту і ми згенеруємо новий пароль та надішлемо його вам.",
+      generatePassword: "Згенерувати пароль",
+      generatingPassword: "Генеруємо новий пароль...",
       termsAccept: "Я приймаю <a href=\"/terms\" target=\"_blank\">Умови використання</a> та <a href=\"/privacy\" target=\"_blank\">Політику конфіденційності</a>"
     },
-    
+
+    // Common
+    common: {
+      cancel: "Скасувати",
+      ok: "OK",
+      save: "Зберегти"
+    },
+
     // Two-Factor Authentication
     twofa: {
       title: "Підтвердження входу",
@@ -753,9 +764,20 @@ const translations = {
       noAccount: "Don't have an account?",
       hasAccount: "Already have an account?",
       forgotPassword: "Forgot password?",
+      resetPassword: "Password Recovery",
+      resetPasswordText: "Enter your email address and we will generate a new password and send it to you.",
+      generatePassword: "Generate Password",
+      generatingPassword: "Generating new password...",
       termsAccept: "I accept the <a href=\"/terms\" target=\"_blank\">Terms of Service</a> and <a href=\"/privacy\" target=\"_blank\">Privacy Policy</a>"
     },
-    
+
+    // Common
+    common: {
+      cancel: "Cancel",
+      ok: "OK",
+      save: "Save"
+    },
+
     // Two-Factor Authentication
     twofa: {
       title: "Verify Sign In",

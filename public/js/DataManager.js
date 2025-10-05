@@ -207,6 +207,10 @@ class DataManager {
         return await window.api.changePassword(JSON.parse(options.body));
       } else if (endpoint === '/auth/profile' && options.method === 'PUT') {
         return await window.api.updateProfile(JSON.parse(options.body));
+      } else if (endpoint === '/auth/verify-code' && options.method === 'POST') {
+        return await window.api.request('/auth/verify-code', options);
+      } else if (endpoint === '/auth/resend-code' && options.method === 'POST') {
+        return await window.api.request('/auth/resend-code', options);
       } else if (endpoint === '/cards' && options.method === 'POST') {
         const cardData = JSON.parse(options.body);
         
