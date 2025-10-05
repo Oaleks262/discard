@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Редактор - disCard Admin</title>
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    <link rel="stylesheet" href="/admin/css/admin.css">
+</head>
+<body data-theme="light">
+    <div class="admin-layout">
+        <!-- Sidebar -->
+        <aside class="admin-sidebar">
+            <a href="/admin/dashboard.html" class="admin-logo">disCard Admin</a>
+            <nav>
+                <ul class="admin-nav">
+                    <li><a href="/admin/dashboard.html">📊 Dashboard</a></li>
+                    <li><a href="/admin/users.html">👥 Користувачі</a></li>
+                    <li><a href="/admin/blog.html" class="active">📝 Блог</a></li>
+                    <li><a href="/admin/faq.html">❓ FAQ</a></li>
+                    <li><a href="/admin/messages.html">✉️ Повідомлення</a></li>
+                    <li><a href="/admin/backup.html">💾 Резервні копії</a></li>
+                    <li><a href="/admin/settings.html">⚙️ Налаштування</a></li>
+                    <li><a href="/" target="_blank">🌐 Відкрити сайт</a></li>
+                    <li><a href="#" id="logout-btn">🚪 Вийти</a></li>
+                </ul>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="admin-main">
+            <header class="admin-header">
+                <h1 id="pageTitle">Нова стаття</h1>
+                <div class="admin-header-actions">
+                    <button class="theme-toggle" id="theme-toggle">🌙</button>
+                    <button class="btn-secondary" onclick="window.location.href='/admin/blog.html'">← Назад</button>
+                    <button class="btn-primary" onclick="savePost()">💾 Зберегти</button>
+                </div>
+            </header>
+
+            <form id="postForm">
+                <input type="hidden" id="postId">
+
+                <div class="table-container" style="padding: var(--spacing-xl); margin-bottom: var(--spacing-lg);">
+                    <div class="form-group">
+                        <label for="title">Заголовок *</label>
+                        <input type="text" id="title" required placeholder="Введіть заголовок статті">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="slug">Slug (URL) *</label>
+                        <input type="text" id="slug" required placeholder="nazvanie-stati">
+                        <small style="color: var(--text-muted);">Автоматично генерується з заголовка</small>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="description">Короткий опис *</label>
+                        <textarea id="description" rows="3" required placeholder="Короткий опис статті для превью"></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="content">Контент *</label>
+                        <textarea id="content" rows="15" required placeholder="Основний текст статті (підтримується Markdown)"></textarea>
+                        <small style="color: var(--text-muted);">Підказка: Використовуйте **жирний**, *курсив*, # Заголовок</small>
+                    </div>
+
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: var(--spacing-lg);">
+                        <div class="form-group">
+                            <label for="category">Категорія</label>
+                            <select id="category">
+                                <option value="tips">Поради</option>
+                                <option value="news">Новини</option>
+                                <option value="guides">Гайди</option>
+                                <option value="other">Інше</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="tags">Теги (через кому)</label>
+                            <input type="text" id="tags" placeholder="карти, лояльність, поради">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="status">Статус</label>
+                        <select id="status">
+                            <option value="draft">Чернетка</option>
+                            <option value="published">Опубліковано</option>
+                        </select>
+                    </div>
+                </div>
+            </form>
+
+            <div id="success-message" class="success hidden"></div>
+            <div id="error-message" class="error hidden"></div>
+            <div id="loader" class="loader hidden"></div>
+        </main>
+    </div>
+
+    <script src="/admin/js/auth.js"></script>
+    <script src="/admin/js/blog-editor.js"></script>
+</body>
+</html>

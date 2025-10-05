@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <!-- Google Tag Manager -->
+    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','GTM-P8SN5J4N');</script>
+    <!-- End Google Tag Manager -->
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title data-i18n="contact.title">Контакти - disCard</title>
+    <meta name="google-adsense-account" content="ca-pub-8972937738510733">
+    <meta name="description" content="Зв'яжіться з командою disCard">
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    <link rel="stylesheet" href="/css/landing.css">
+    <style>
+        .contact-page {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: var(--spacing-3xl) var(--spacing-xl);
+        }
+
+        .contact-page h1 {
+            font-size: 3rem;
+            font-weight: var(--font-weight-bold);
+            color: var(--text-primary);
+            margin-bottom: var(--spacing-lg);
+            text-align: center;
+        }
+
+        .contact-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: var(--spacing-2xl);
+            margin-top: var(--spacing-2xl);
+        }
+
+        @media (max-width: 768px) {
+            .contact-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .contact-form-section,
+        .contact-info-section {
+            background-color: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            padding: var(--spacing-xl);
+        }
+
+        .contact-form-section h2,
+        .contact-info-section h2 {
+            font-size: 1.5rem;
+            font-weight: var(--font-weight-bold);
+            color: var(--text-primary);
+            margin-bottom: var(--spacing-lg);
+        }
+
+        .form-group {
+            margin-bottom: var(--spacing-lg);
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: var(--spacing-sm);
+            font-weight: var(--font-weight-medium);
+            color: var(--text-secondary);
+            font-size: 0.875rem;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: var(--spacing-md);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-sm);
+            font-family: var(--font-family);
+            font-size: 1rem;
+            color: var(--text-primary);
+            background-color: var(--bg-primary);
+            transition: var(--transition);
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(0, 102, 255, 0.1);
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 150px;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: flex-start;
+            gap: var(--spacing-md);
+            margin-bottom: var(--spacing-lg);
+        }
+
+        .contact-item i {
+            font-size: 1.5rem;
+        }
+
+        .contact-item h3 {
+            font-size: 1rem;
+            font-weight: var(--font-weight-semibold);
+            color: var(--text-primary);
+            margin-bottom: var(--spacing-xs);
+        }
+
+        .contact-item p,
+        .contact-item a {
+            color: var(--text-secondary);
+            text-decoration: none;
+        }
+
+        .contact-item a:hover {
+            color: var(--primary);
+        }
+
+        .form-message {
+            padding: var(--spacing-md);
+            border-radius: var(--radius-sm);
+            margin-top: var(--spacing-lg);
+            font-weight: var(--font-weight-medium);
+        }
+
+        .form-message.success {
+            background-color: rgba(16, 185, 129, 0.1);
+            color: #10B981;
+            border: 1px solid #10B981;
+        }
+
+        .form-message.error {
+            background-color: rgba(239, 68, 68, 0.1);
+            color: #EF4444;
+            border: 1px solid #EF4444;
+        }
+
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <!-- Google Tag Manager (noscript) -->
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-P8SN5J4N"
+    height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+    <!-- End Google Tag Manager (noscript) -->
+
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <a href="/" class="logo" id="logo-link">
+                    <img src="/icons/logo.png" alt="disCard" width="48" height="48" class="logo-icon">
+                    <span class="logo-text">disCard</span>
+                </a>
+
+                <!-- Desktop Navigation -->
+                <nav class="nav-menu">
+                    <a href="/" class="nav-link" data-i18n="nav.home">Головна</a>
+                    <a href="/blog" class="nav-link" data-i18n="nav.blog">Блог</a>
+                    <a href="/faq" class="nav-link" data-i18n="nav.faq">FAQ</a>
+                    <a href="/contact" class="nav-link active" data-i18n="nav.contact">Контакти</a>
+                </nav>
+
+                <div class="header-actions">
+                    <button class="theme-toggle" id="theme-toggle" aria-label="Toggle theme">
+                        <svg class="theme-icon" viewBox="0 0 24 24" width="20" height="20">
+                            <path d="M12 2.25a.75.75 0 01.75.75v2.25a.75.75 0 01-1.5 0V3a.75.75 0 01.75-.75zM7.5 12a4.5 4.5 0 119 0 4.5 4.5 0 01-9 0zM18.894 6.166a.75.75 0 00-1.06-1.06l-1.591 1.59a.75.75 0 101.06 1.061l1.591-1.59zM21.75 12a.75.75 0 01-.75.75h-2.25a.75.75 0 010-1.5H21a.75.75 0 01.75.75zM17.834 18.894a.75.75 0 001.06-1.06l-1.59-1.591a.75.75 0 10-1.061 1.06l1.59 1.591zM12 18a.75.75 0 01.75.75V21a.75.75 0 01-1.5 0v-2.25A.75.75 0 0112 18zM7.758 17.303a.75.75 0 00-1.061-1.06l-1.591 1.59a.75.75 0 001.06 1.061l1.591-1.59zM6 12a.75.75 0 01-.75.75H3a.75.75 0 010-1.5h2.25A.75.75 0 016 12zM6.697 7.757a.75.75 0 001.06-1.06l-1.59-1.591a.75.75 0 00-1.061 1.06l1.59 1.591z" fill="currentColor"/>
+                        </svg>
+                    </button>
+                    <div class="language-switcher">
+                        <button class="lang-btn active" data-lang="uk">УК</button>
+                        <button class="lang-btn" data-lang="en">EN</button>
+                    </div>
+
+                    <!-- Mobile Menu Toggle -->
+                    <button class="mobile-menu-toggle" id="mobile-menu-toggle" aria-label="Toggle menu">
+                        <span class="hamburger-line"></span>
+                        <span class="hamburger-line"></span>
+                        <span class="hamburger-line"></span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Mobile Navigation -->
+            <nav class="mobile-menu" id="mobile-menu">
+                <a href="/" class="mobile-nav-link" data-i18n="nav.home">Головна</a>
+                <a href="/blog" class="mobile-nav-link" data-i18n="nav.blog">Блог</a>
+                <a href="/faq" class="mobile-nav-link" data-i18n="nav.faq">FAQ</a>
+                <a href="/contact" class="mobile-nav-link active" data-i18n="nav.contact">Контакти</a>
+                <a href="/app" class="mobile-nav-link mobile-nav-cta" data-i18n="nav.app">Відкрити додаток</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Contact Content -->
+    <main class="contact-page">
+        <h1 data-i18n="contact.heading">Зв'яжіться з нами</h1>
+        <p style="text-align: center; color: var(--text-secondary); margin-bottom: var(--spacing-xl);" data-i18n="contact.subtitle">
+            Маєте питання чи пропозиції? Ми завжди раді вам допомогти!
+        </p>
+
+        <div class="contact-grid">
+            <!-- Contact Form -->
+            <div class="contact-form-section">
+                <h2 data-i18n="contact.form.heading">Форма зворотного зв'язку</h2>
+                <form id="contactForm">
+                    <div class="form-group">
+                        <label for="name" data-i18n="auth.name">Ім'я</label>
+                        <input type="text" id="name" name="name" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="email" data-i18n="contact.form.email">Email</label>
+                        <input type="email" id="email" name="email" data-i18n-placeholder="contact.form.emailPlaceholder" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="subject" data-i18n="contact.form.subject">Тема</label>
+                        <input type="text" id="subject" name="subject" data-i18n-placeholder="contact.form.subjectPlaceholder" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="message" data-i18n="contact.form.message">Повідомлення</label>
+                        <textarea id="message" name="message" data-i18n-placeholder="contact.form.messagePlaceholder" required></textarea>
+                    </div>
+
+                    <button type="submit" class="cta-button" style="width: 100%;" data-i18n="contact.form.submit">Відправити</button>
+                    <div id="formMessage" class="form-message hidden"></div>
+                </form>
+            </div>
+
+            <!-- Contact Info -->
+            <div class="contact-info-section">
+                <h2 data-i18n="contact.info.heading">Контактна інформація</h2>
+
+                <div class="contact-item">
+                    <span>📧</span>
+                    <div>
+                        <h3 data-i18n="contact.info.email">Email</h3>
+                        <a href="mailto:discardmessage@gmail.com" data-i18n="contact.info.emailAddress">discardmessage@gmail.com</a>
+                    </div>
+                </div>
+
+                <div class="contact-item">
+                    <span>⏱️</span>
+                    <div>
+                        <h3 data-i18n="contact.info.responseTime">Час відповіді</h3>
+                        <p data-i18n="contact.info.responseTimeValue">Протягом 24 годин</p>
+                    </div>
+                </div>
+
+                <div class="contact-item">
+                    <span>🌐</span>
+                    <div>
+                        <h3 data-i18n="contact.info.social">Соціальні мережі</h3>
+                        <p>Слідкуйте за нами та залишайтеся в курсі новин</p>
+                    </div>
+                </div>
+
+                <div style="margin-top: var(--spacing-xl); padding-top: var(--spacing-xl); border-top: 1px solid var(--border);">
+                    <h3 style="font-size: 1rem; margin-bottom: var(--spacing-md); color: var(--text-primary);">Або перегляньте</h3>
+                    <div style="display: flex; gap: var(--spacing-md);">
+                        <a href="/faq" class="cta-button" style="flex: 1; text-align: center;" data-i18n="nav.faq">FAQ</a>
+                        <a href="/blog" class="cta-button" style="flex: 1; text-align: center; background-color: transparent; border: 1px solid var(--border);" data-i18n="nav.blog">Блог</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer id="footer-placeholder"></footer>
+
+    <script src="/js/i18n.js"></script>
+    <script src="/js/landing.js"></script>
+    <script src="/js/analytics.js"></script>
+    <script src="/js/adsense.js"></script>
+    <script src="/js/cookie-banner.js"></script>
+    <script>
+        // Mobile menu toggle
+        const mobileMenuToggle = document.getElementById('mobile-menu-toggle');
+        const mobileMenu = document.getElementById('mobile-menu');
+
+        if (mobileMenuToggle && mobileMenu) {
+            mobileMenuToggle.addEventListener('click', function() {
+                mobileMenuToggle.classList.toggle('active');
+                mobileMenu.classList.toggle('active');
+                document.body.style.overflow = mobileMenu.classList.contains('active') ? 'hidden' : '';
+            });
+
+            const mobileNavLinks = document.querySelectorAll('.mobile-nav-link');
+            mobileNavLinks.forEach(link => {
+                link.addEventListener('click', function() {
+                    mobileMenuToggle.classList.remove('active');
+                    mobileMenu.classList.remove('active');
+                    document.body.style.overflow = '';
+                });
+            });
+
+            window.addEventListener('resize', function() {
+                if (window.innerWidth > 768) {
+                    mobileMenuToggle.classList.remove('active');
+                    mobileMenu.classList.remove('active');
+                    document.body.style.overflow = '';
+                }
+            });
+        }
+
+        // Theme toggle
+        const themeToggle = document.getElementById('theme-toggle');
+        const savedTheme = localStorage.getItem('theme');
+        const systemTheme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+        const currentTheme = savedTheme || systemTheme;
+
+        document.documentElement.setAttribute('data-theme', currentTheme);
+        updateThemeIcon(currentTheme);
+
+        function updateThemeIcon(theme) {
+            const icon = themeToggle?.querySelector('.theme-icon');
+            if (icon) {
+                if (theme === 'dark') {
+                    icon.innerHTML = '<path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z" fill="currentColor"/>';
+                } else {
+                    icon.innerHTML = '<path d="M12 2.25a.75.75 0 01.75.75v2.25a.75.75 0 01-1.5 0V3a.75.75 0 01.75-.75zM7.5 12a4.5 4.5 0 119 0 4.5 4.5 0 01-9 0zM18.894 6.166a.75.75 0 00-1.06-1.06l-1.591 1.59a.75.75 0 101.06 1.061l1.591-1.59zM21.75 12a.75.75 0 01-.75.75h-2.25a.75.75 0 010-1.5H21a.75.75 0 01.75.75zM17.834 18.894a.75.75 0 001.06-1.06l-1.59-1.591a.75.75 0 10-1.061 1.06l1.59 1.591zM12 18a.75.75 0 01.75.75V21a.75.75 0 01-1.5 0v-2.25A.75.75 0 0112 18zM7.758 17.303a.75.75 0 00-1.061-1.06l-1.591 1.59a.75.75 0 001.06 1.061l1.591-1.59zM6 12a.75.75 0 01-.75.75H3a.75.75 0 010-1.5h2.25A.75.75 0 016 12zM6.697 7.757a.75.75 0 001.06-1.06l-1.59-1.591a.75.75 0 00-1.061 1.06l1.59 1.591z" fill="currentColor"/>';
+                }
+            }
+        }
+
+        if (themeToggle) {
+            themeToggle.addEventListener('click', function() {
+                const current = document.documentElement.getAttribute('data-theme');
+                const newTheme = current === 'light' ? 'dark' : 'light';
+                document.documentElement.setAttribute('data-theme', newTheme);
+                localStorage.setItem('theme', newTheme);
+                updateThemeIcon(newTheme);
+            });
+        }
+
+        // Language switcher
+        const langBtns = document.querySelectorAll('.lang-btn');
+        langBtns.forEach(btn => {
+            btn.addEventListener('click', function() {
+                const lang = this.dataset.lang;
+                langBtns.forEach(b => b.classList.remove('active'));
+                this.classList.add('active');
+                if (window.i18n) {
+                    window.i18n.setLanguage(lang);
+                }
+            });
+        });
+    </script>
+    <script>
+        document.getElementById('contactForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const formData = {
+                name: document.getElementById('name').value,
+                email: document.getElementById('email').value,
+                subject: document.getElementById('subject').value,
+                message: document.getElementById('message').value
+            };
+
+            const messageDiv = document.getElementById('formMessage');
+            messageDiv.classList.add('hidden');
+
+            try {
+                const response = await fetch('/api/contact', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(formData)
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    messageDiv.className = 'form-message success';
+                    messageDiv.textContent = window.i18n ? window.i18n.t('contact.form.success') : 'Повідомлення успішно відправлено!';
+                    messageDiv.classList.remove('hidden');
+                    document.getElementById('contactForm').reset();
+                } else {
+                    throw new Error(data.message || 'Помилка відправки');
+                }
+            } catch (error) {
+                messageDiv.className = 'form-message error';
+                messageDiv.textContent = window.i18n ? window.i18n.t('contact.form.error') : 'Помилка відправлення. Спробуйте пізніше.';
+                messageDiv.classList.remove('hidden');
+            }
+        });
+    </script>
+</body>
+</html>

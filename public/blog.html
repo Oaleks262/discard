@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <!-- Google Tag Manager -->
+    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','GTM-P8SN5J4N');</script>
+    <!-- End Google Tag Manager -->
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title data-i18n="blog.title">Блог - disCard</title>
+    <meta name="google-adsense-account" content="ca-pub-8972937738510733">
+    <meta name="description" content="Поради, новини та гайди про карти лояльності">
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    <link rel="stylesheet" href="/css/landing.css">
+    <style>
+        .blog-page {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: var(--spacing-3xl) var(--spacing-xl);
+        }
+
+        .blog-page h1 {
+            font-size: 3rem;
+            font-weight: var(--font-weight-bold);
+            color: var(--text-primary);
+            margin-bottom: var(--spacing-lg);
+            text-align: center;
+        }
+
+        .blog-filters {
+            display: flex;
+            gap: var(--spacing-md);
+            justify-content: center;
+            margin-bottom: var(--spacing-2xl);
+            flex-wrap: wrap;
+        }
+
+        .filter-btn {
+            padding: var(--spacing-sm) var(--spacing-lg);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-sm);
+            background-color: transparent;
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: var(--transition);
+            font-family: var(--font-family);
+            font-size: 1rem;
+        }
+
+        .filter-btn:hover,
+        .filter-btn.active {
+            background-color: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+
+        .blog-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: var(--spacing-xl);
+            margin-bottom: var(--spacing-2xl);
+        }
+
+        .blog-card {
+            background-color: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            transition: var(--transition);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .blog-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 20px var(--shadow-lg);
+        }
+
+        .blog-card-image {
+            width: 100%;
+            height: 200px;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+        }
+
+        .blog-card-content {
+            padding: var(--spacing-lg);
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .blog-category {
+            display: inline-block;
+            padding: 4px 12px;
+            background-color: rgba(0, 102, 255, 0.1);
+            color: var(--primary);
+            border-radius: var(--radius-sm);
+            font-size: 0.75rem;
+            font-weight: var(--font-weight-semibold);
+            text-transform: uppercase;
+            margin-bottom: var(--spacing-sm);
+        }
+
+        .blog-card h2 {
+            font-size: 1.25rem;
+            font-weight: var(--font-weight-bold);
+            color: var(--text-primary);
+            margin-bottom: var(--spacing-sm);
+            line-height: 1.4;
+        }
+
+        .blog-card h2 a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        .blog-card h2 a:hover {
+            color: var(--primary);
+        }
+
+        .blog-card p {
+            color: var(--text-secondary);
+            margin-bottom: var(--spacing-md);
+            flex: 1;
+            line-height: 1.6;
+        }
+
+        .blog-meta {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.875rem;
+            color: var(--text-muted);
+            padding-top: var(--spacing-md);
+            border-top: 1px solid var(--border-light);
+        }
+
+        .no-posts {
+            text-align: center;
+            padding: var(--spacing-3xl);
+            color: var(--text-muted);
+        }
+
+        @media (max-width: 768px) {
+            .blog-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Google Tag Manager (noscript) -->
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-P8SN5J4N"
+    height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+    <!-- End Google Tag Manager (noscript) -->
+
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <a href="/" class="logo" id="logo-link">
+                    <img src="/icons/logo.png" alt="disCard" width="48" height="48" class="logo-icon">
+                    <span class="logo-text">disCard</span>
+                </a>
+
+                <!-- Desktop Navigation -->
+                <nav class="nav-menu">
+                    <a href="/" class="nav-link" data-i18n="nav.home">Головна</a>
+                    <a href="/blog" class="nav-link active" data-i18n="nav.blog">Блог</a>
+                    <a href="/faq" class="nav-link" data-i18n="nav.faq">FAQ</a>
+                    <a href="/contact" class="nav-link" data-i18n="nav.contact">Контакти</a>
+                </nav>
+
+                <div class="header-actions">
+                    <button class="theme-toggle" id="theme-toggle" aria-label="Toggle theme">
+                        <svg class="theme-icon" viewBox="0 0 24 24" width="20" height="20">
+                            <path d="M12 2.25a.75.75 0 01.75.75v2.25a.75.75 0 01-1.5 0V3a.75.75 0 01.75-.75zM7.5 12a4.5 4.5 0 119 0 4.5 4.5 0 01-9 0zM18.894 6.166a.75.75 0 00-1.06-1.06l-1.591 1.59a.75.75 0 101.06 1.061l1.591-1.59zM21.75 12a.75.75 0 01-.75.75h-2.25a.75.75 0 010-1.5H21a.75.75 0 01.75.75zM17.834 18.894a.75.75 0 001.06-1.06l-1.59-1.591a.75.75 0 10-1.061 1.06l1.59 1.591zM12 18a.75.75 0 01.75.75V21a.75.75 0 01-1.5 0v-2.25A.75.75 0 0112 18zM7.758 17.303a.75.75 0 00-1.061-1.06l-1.591 1.59a.75.75 0 001.06 1.061l1.591-1.59zM6 12a.75.75 0 01-.75.75H3a.75.75 0 010-1.5h2.25A.75.75 0 016 12zM6.697 7.757a.75.75 0 001.06-1.06l-1.59-1.591a.75.75 0 00-1.061 1.06l1.59 1.591z" fill="currentColor"/>
+                        </svg>
+                    </button>
+                    <div class="language-switcher">
+                        <button class="lang-btn active" data-lang="uk">УК</button>
+                        <button class="lang-btn" data-lang="en">EN</button>
+                    </div>
+
+                    <!-- Mobile Menu Toggle -->
+                    <button class="mobile-menu-toggle" id="mobile-menu-toggle" aria-label="Toggle menu">
+                        <span class="hamburger-line"></span>
+                        <span class="hamburger-line"></span>
+                        <span class="hamburger-line"></span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Mobile Navigation -->
+            <nav class="mobile-menu" id="mobile-menu">
+                <a href="/" class="mobile-nav-link" data-i18n="nav.home">Головна</a>
+                <a href="/blog" class="mobile-nav-link active" data-i18n="nav.blog">Блог</a>
+                <a href="/faq" class="mobile-nav-link" data-i18n="nav.faq">FAQ</a>
+                <a href="/contact" class="mobile-nav-link" data-i18n="nav.contact">Контакти</a>
+                <a href="/app" class="mobile-nav-link mobile-nav-cta" data-i18n="nav.app">Відкрити додаток</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Blog Content -->
+    <main class="blog-page">
+        <h1 data-i18n="blog.pageTitle">Блог</h1>
+        <p style="text-align: center; color: var(--text-secondary); margin-bottom: var(--spacing-xl);" data-i18n="blog.subtitle">
+            Поради, новини та гайди про карти лояльності
+        </p>
+
+        <!-- Filters -->
+        <div class="blog-filters">
+            <button class="filter-btn active" onclick="filterByCategory('')" data-i18n="blog.filters.all">Всі</button>
+            <button class="filter-btn" onclick="filterByCategory('tips')" data-i18n="blog.filters.tips">Поради</button>
+            <button class="filter-btn" onclick="filterByCategory('news')" data-i18n="blog.filters.news">Новини</button>
+            <button class="filter-btn" onclick="filterByCategory('guides')" data-i18n="blog.filters.guides">Гайди</button>
+        </div>
+
+        <!-- Blog Grid -->
+        <div id="blogPosts" class="blog-grid">
+            <div style="text-align: center; padding: var(--spacing-2xl); grid-column: 1 / -1;">
+                <div class="loader" style="margin: 0 auto;"></div>
+            </div>
+        </div>
+
+        <div id="noPosts" class="no-posts" style="display: none;" data-i18n="blog.noResults">
+            Нічого не знайдено
+        </div>
+
+        <!-- Pagination -->
+        <div class="pagination" id="pagination"></div>
+    </main>
+
+    <!-- Footer -->
+    <footer id="footer-placeholder"></footer>
+
+    <script src="/js/i18n.js"></script>
+    <script src="/js/landing.js"></script>
+    <script src="/js/analytics.js"></script>
+    <script src="/js/adsense.js"></script>
+    <script src="/js/cookie-banner.js"></script>
+    <script>
+        // Mobile menu toggle
+        const mobileMenuToggle = document.getElementById('mobile-menu-toggle');
+        const mobileMenu = document.getElementById('mobile-menu');
+
+        if (mobileMenuToggle && mobileMenu) {
+            mobileMenuToggle.addEventListener('click', function() {
+                mobileMenuToggle.classList.toggle('active');
+                mobileMenu.classList.toggle('active');
+                document.body.style.overflow = mobileMenu.classList.contains('active') ? 'hidden' : '';
+            });
+
+            const mobileNavLinks = document.querySelectorAll('.mobile-nav-link');
+            mobileNavLinks.forEach(link => {
+                link.addEventListener('click', function() {
+                    mobileMenuToggle.classList.remove('active');
+                    mobileMenu.classList.remove('active');
+                    document.body.style.overflow = '';
+                });
+            });
+
+            window.addEventListener('resize', function() {
+                if (window.innerWidth > 768) {
+                    mobileMenuToggle.classList.remove('active');
+                    mobileMenu.classList.remove('active');
+                    document.body.style.overflow = '';
+                }
+            });
+        }
+
+        // Theme toggle
+        const themeToggle = document.getElementById('theme-toggle');
+        const savedTheme = localStorage.getItem('theme');
+        const systemTheme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+        const currentTheme = savedTheme || systemTheme;
+
+        document.documentElement.setAttribute('data-theme', currentTheme);
+        updateThemeIcon(currentTheme);
+
+        function updateThemeIcon(theme) {
+            const icon = themeToggle?.querySelector('.theme-icon');
+            if (icon) {
+                if (theme === 'dark') {
+                    icon.innerHTML = '<path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z" fill="currentColor"/>';
+                } else {
+                    icon.innerHTML = '<path d="M12 2.25a.75.75 0 01.75.75v2.25a.75.75 0 01-1.5 0V3a.75.75 0 01.75-.75zM7.5 12a4.5 4.5 0 119 0 4.5 4.5 0 01-9 0zM18.894 6.166a.75.75 0 00-1.06-1.06l-1.591 1.59a.75.75 0 101.06 1.061l1.591-1.59zM21.75 12a.75.75 0 01-.75.75h-2.25a.75.75 0 010-1.5H21a.75.75 0 01.75.75zM17.834 18.894a.75.75 0 001.06-1.06l-1.59-1.591a.75.75 0 10-1.061 1.06l1.59 1.591zM12 18a.75.75 0 01.75.75V21a.75.75 0 01-1.5 0v-2.25A.75.75 0 0112 18zM7.758 17.303a.75.75 0 00-1.061-1.06l-1.591 1.59a.75.75 0 001.06 1.061l1.591-1.59zM6 12a.75.75 0 01-.75.75H3a.75.75 0 010-1.5h2.25A.75.75 0 016 12zM6.697 7.757a.75.75 0 001.06-1.06l-1.59-1.591a.75.75 0 00-1.061 1.06l1.59 1.591z" fill="currentColor"/>';
+                }
+            }
+        }
+
+        if (themeToggle) {
+            themeToggle.addEventListener('click', function() {
+                const current = document.documentElement.getAttribute('data-theme');
+                const newTheme = current === 'light' ? 'dark' : 'light';
+                document.documentElement.setAttribute('data-theme', newTheme);
+                localStorage.setItem('theme', newTheme);
+                updateThemeIcon(newTheme);
+            });
+        }
+
+        // Language switcher
+        const langBtns = document.querySelectorAll('.lang-btn');
+        langBtns.forEach(btn => {
+            btn.addEventListener('click', function() {
+                const lang = this.dataset.lang;
+                langBtns.forEach(b => b.classList.remove('active'));
+                this.classList.add('active');
+                if (window.i18n) {
+                    window.i18n.setLanguage(lang);
+                }
+            });
+        });
+    </script>
+    <script>
+        let currentPage = 1;
+        let currentCategory = '';
+
+        // Завантаження статей
+        async function loadBlogPosts(page = 1, category = '') {
+            const container = document.getElementById('blogPosts');
+            const noPosts = document.getElementById('noPosts');
+
+            try {
+                const url = `/api/blog?page=${page}&limit=9&category=${category}`;
+                const response = await fetch(url);
+
+                if (!response.ok) {
+                    throw new Error('Помилка завантаження статей');
+                }
+
+                const data = await response.json();
+
+                currentPage = data.currentPage;
+
+                if (!data.posts || data.posts.length === 0) {
+                    container.innerHTML = '';
+                    noPosts.style.display = 'block';
+                    document.getElementById('pagination').innerHTML = '';
+                    return;
+                }
+
+                noPosts.style.display = 'none';
+
+                container.innerHTML = data.posts.map(post => `
+                    <article class="blog-card">
+                        <div class="blog-card-image">
+                            📝
+                        </div>
+                        <div class="blog-card-content">
+                            <span class="blog-category">${getCategoryName(post.category)}</span>
+                            <h2><a href="/blog-post.html?slug=${post.slug}">${escapeHtml(post.title)}</a></h2>
+                            <p>${escapeHtml(post.description)}</p>
+                            <div class="blog-meta">
+                                <span>${formatDate(post.publishedAt || post.createdAt)}</span>
+                                <span>${post.readTime || 5} ${window.i18n ? window.i18n.t('blog.readTime') : 'хв читання'}</span>
+                            </div>
+                        </div>
+                    </article>
+                `).join('');
+
+                renderPagination(data.totalPages, data.currentPage);
+
+            } catch (error) {
+                console.error('Load posts error:', error);
+                container.innerHTML = '<div style="text-align: center; padding: var(--spacing-2xl); grid-column: 1 / -1; color: var(--error);">Помилка завантаження статей</div>';
+            }
+        }
+
+        // Пагінація
+        function renderPagination(total, current) {
+            const pagination = document.getElementById('pagination');
+
+            if (total <= 1) {
+                pagination.innerHTML = '';
+                return;
+            }
+
+            let html = '';
+
+            html += `<button ${current === 1 ? 'disabled' : ''} onclick="loadBlogPosts(${current - 1}, '${currentCategory}')">‹ Попередня</button>`;
+
+            for (let i = 1; i <= total; i++) {
+                if (i === 1 || i === total || (i >= current - 1 && i <= current + 1)) {
+                    html += `<button class="${i === current ? 'active' : ''}" onclick="loadBlogPosts(${i}, '${currentCategory}')">${i}</button>`;
+                } else if (i === current - 2 || i === current + 2) {
+                    html += `<span style="padding: 0 0.5rem;">...</span>`;
+                }
+            }
+
+            html += `<button ${current === total ? 'disabled' : ''} onclick="loadBlogPosts(${current + 1}, '${currentCategory}')">Наступна ›</button>`;
+
+            pagination.innerHTML = html;
+        }
+
+        // Фільтр по категорії
+        function filterByCategory(category) {
+            currentCategory = category;
+            currentPage = 1;
+
+            // Оновити активну кнопку
+            document.querySelectorAll('.filter-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+
+            loadBlogPosts(1, category);
+        }
+
+        // Форматування дати
+        function formatDate(dateString) {
+            const date = new Date(dateString);
+            return date.toLocaleDateString('uk-UA', {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric'
+            });
+        }
+
+        // Назва категорії
+        function getCategoryName(category) {
+            const lang = window.i18n ? window.i18n.getCurrentLanguage() : 'uk';
+            const categories = window.i18n?.translations?.[lang]?.blog?.categories || {
+                'tips': 'Поради',
+                'news': 'Новини',
+                'guides': 'Гайди',
+                'other': 'Інше'
+            };
+            return categories[category] || category;
+        }
+
+        // Escape HTML
+        function escapeHtml(text) {
+            if (!text) return '';
+            const map = {
+                '&': '&amp;',
+                '<': '&lt;',
+                '>': '&gt;',
+                '"': '&quot;',
+                "'": '&#039;'
+            };
+            return text.replace(/[&<>"']/g, m => map[m]);
+        }
+
+        // Ініціалізація
+        document.addEventListener('DOMContentLoaded', () => {
+            loadBlogPosts(1, '');
+        });
+    </script>
+</body>
+</html>

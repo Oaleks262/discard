@@ -160,13 +160,19 @@ class AuthManager {
 
   async handleRegister(e) {
     e.preventDefault();
-    
+
     const name = document.getElementById('register-name').value;
     const email = document.getElementById('register-email').value;
     const password = document.getElementById('register-password').value;
-    
+    const termsAccepted = document.getElementById('register-terms').checked;
+
     if (!name || !email || !password) {
       UIUtils.showToast('error', UIUtils.safeT('messages.fillAllFields', 'Заповніть всі поля'));
+      return;
+    }
+
+    if (!termsAccepted) {
+      UIUtils.showToast('error', UIUtils.safeT('messages.acceptTerms', 'Ви повинні прийняти умови використання'));
       return;
     }
 

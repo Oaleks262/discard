@@ -129,12 +129,27 @@ jest.config.js
 jest.setup.js
 test-*.js
 *test*.js
+test-*.html
 security-test.js
 
 # Migration files (no longer needed)
 migrate-*.js
 API_MIGRATION_GUIDE.md
 info.txt
+
+# Debug and temporary scripts
+debug-*.js
+fix-*.js
+check-*.js
+reset-*.js
+restore-*.js
+rollback-*.js
+clear-*.js
+
+# Documentation (keep only essential)
+promt.md
+google.md
+*.backup.md
 
 # Temporary files
 tmp/

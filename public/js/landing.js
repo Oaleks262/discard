@@ -14,13 +14,32 @@ class LandingPage {
     this.setupCTAButton();
     this.setupScrollAnimations();
     this.setupThemeDetection();
-    
+    this.loadFooter();
+
     // Update texts after language is loaded
     setTimeout(() => {
       if (window.i18n) {
         window.i18n.updatePageTexts();
       }
     }, 100);
+  }
+
+  async loadFooter() {
+    const footerPlaceholder = document.getElementById('footer-placeholder');
+    if (!footerPlaceholder) return;
+
+    try {
+      const response = await fetch('/footer.html');
+      const footerHTML = await response.text();
+      footerPlaceholder.innerHTML = footerHTML;
+
+      // Update i18n after footer is loaded
+      if (window.i18n) {
+        setTimeout(() => window.i18n.updatePageTexts(), 100);
+      }
+    } catch (error) {
+      console.error('Failed to load footer:', error);
+    }
   }
 
   setupLanguageSwitcher() {

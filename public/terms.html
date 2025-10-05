@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Умови використання - disCard</title>
+    <meta name="description" content="Умови використання сервісу disCard">
+    <link rel="icon" type="image/png" href="/logo.png">
+    <link rel="stylesheet" href="/css/landing.css">
+    <style>
+        .terms-page {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: calc(70px + var(--spacing-3xl)) var(--spacing-xl) var(--spacing-3xl);
+        }
+
+        .terms-header {
+            text-align: center;
+            margin-bottom: var(--spacing-3xl);
+        }
+
+        .terms-header h1 {
+            font-size: 2.5rem;
+            font-weight: var(--font-weight-bold);
+            color: var(--text-primary);
+            margin-bottom: var(--spacing-md);
+        }
+
+        .terms-updated {
+            color: var(--text-secondary);
+            font-size: 0.9375rem;
+        }
+
+        .terms-content h2 {
+            font-size: 1.75rem;
+            font-weight: var(--font-weight-semibold);
+            color: var(--text-primary);
+            margin-top: var(--spacing-2xl);
+            margin-bottom: var(--spacing-lg);
+        }
+
+        .terms-content h3 {
+            font-size: 1.25rem;
+            font-weight: var(--font-weight-semibold);
+            color: var(--text-primary);
+            margin-top: var(--spacing-xl);
+            margin-bottom: var(--spacing-md);
+        }
+
+        .terms-content p {
+            color: var(--text-secondary);
+            line-height: 1.8;
+            margin-bottom: var(--spacing-lg);
+        }
+
+        .terms-content ul, .terms-content ol {
+            color: var(--text-secondary);
+            line-height: 1.8;
+            margin-bottom: var(--spacing-lg);
+            padding-left: var(--spacing-xl);
+        }
+
+        .terms-content li {
+            margin-bottom: var(--spacing-sm);
+        }
+
+        .terms-content strong {
+            color: var(--text-primary);
+            font-weight: var(--font-weight-semibold);
+        }
+
+        .disclaimer-box {
+            background: var(--bg-secondary);
+            border-left: 4px solid var(--primary);
+            padding: var(--spacing-lg);
+            border-radius: var(--radius-md);
+            margin: var(--spacing-xl) 0;
+        }
+
+        .disclaimer-box strong {
+            color: var(--primary);
+        }
+
+        @media (max-width: 768px) {
+            .terms-page {
+                padding: calc(70px + var(--spacing-xl)) var(--spacing-md) var(--spacing-xl);
+            }
+
+            .terms-header h1 {
+                font-size: 2rem;
+            }
+
+            .terms-content h2 {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <a href="/" class="logo" id="logo-link">
+                    <img src="/icons/logo.png" alt="disCard" width="48" height="48" class="logo-icon">
+                    <span class="logo-text">disCard</span>
+                </a>
+
+                <!-- Desktop Navigation -->
+                <nav class="nav-menu">
+                    <a href="/" class="nav-link" data-i18n="nav.home">Головна</a>
+                    <a href="/blog" class="nav-link" data-i18n="nav.blog">Блог</a>
+                    <a href="/faq" class="nav-link" data-i18n="nav.faq">FAQ</a>
+                    <a href="/contact" class="nav-link" data-i18n="nav.contact">Контакти</a>
+                </nav>
+
+                <div class="header-actions">
+                    <button class="theme-toggle" id="theme-toggle" aria-label="Toggle theme">
+                        <svg class="theme-icon" viewBox="0 0 24 24" width="20" height="20">
+                            <path d="M12 2.25a.75.75 0 01.75.75v2.25a.75.75 0 01-1.5 0V3a.75.75 0 01.75-.75zM7.5 12a4.5 4.5 0 119 0 4.5 4.5 0 01-9 0zM18.894 6.166a.75.75 0 00-1.06-1.06l-1.591 1.59a.75.75 0 101.06 1.061l1.591-1.59zM21.75 12a.75.75 0 01-.75.75h-2.25a.75.75 0 010-1.5H21a.75.75 0 01.75.75zM17.834 18.894a.75.75 0 001.06-1.06l-1.59-1.591a.75.75 0 10-1.061 1.06l1.59 1.591zM12 18a.75.75 0 01.75.75V21a.75.75 0 01-1.5 0v-2.25A.75.75 0 0112 18zM7.758 17.303a.75.75 0 00-1.061-1.06l-1.591 1.59a.75.75 0 001.06 1.061l1.591-1.59zM6 12a.75.75 0 01-.75.75H3a.75.75 0 010-1.5h2.25A.75.75 0 016 12zM6.697 7.757a.75.75 0 001.06-1.06l-1.59-1.591a.75.75 0 00-1.061 1.06l1.59 1.591z" fill="currentColor"/>
+                        </svg>
+                    </button>
+                    <div class="language-switcher">
+                        <button class="lang-btn active" data-lang="uk">УК</button>
+                        <button class="lang-btn" data-lang="en">EN</button>
+                    </div>
+
+                    <!-- Mobile Menu Toggle -->
+                    <button class="mobile-menu-toggle" id="mobile-menu-toggle" aria-label="Toggle menu">
+                        <span class="hamburger-line"></span>
+                        <span class="hamburger-line"></span>
+                        <span class="hamburger-line"></span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Mobile Navigation -->
+            <nav class="mobile-menu" id="mobile-menu">
+                <a href="/" class="mobile-nav-link" data-i18n="nav.home">Головна</a>
+                <a href="/blog" class="mobile-nav-link" data-i18n="nav.blog">Блог</a>
+                <a href="/faq" class="mobile-nav-link" data-i18n="nav.faq">FAQ</a>
+                <a href="/contact" class="mobile-nav-link" data-i18n="nav.contact">Контакти</a>
+                <a href="/app" class="mobile-nav-link mobile-nav-cta" data-i18n="nav.app">Відкрити додаток</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Terms Content -->
+    <main class="terms-page">
+        <div class="terms-header">
+            <h1>Умови використання</h1>
+            <p class="terms-updated">Останнє оновлення: 4 жовтня 2025 року</p>
+        </div>
+
+        <div class="terms-content">
+            <div class="disclaimer-box">
+                <p><strong>ВАЖЛИВО:</strong> Використовуючи сервіс disCard, ви приймаєте ці умови в повному обсязі. Якщо ви не згодні з будь-яким пунктом, припиніть використання сервісу.</p>
+            </div>
+
+            <h2>1. Загальні положення</h2>
+            <p>1.1. Ці Умови використання регулюють відносини між вами (далі — "Користувач") та сервісом disCard (далі — "Сервіс", "ми").</p>
+            <p>1.2. Сервіс надається "як є" без будь-яких гарантій.</p>
+            <p>1.3. Ми залишаємо за собою право змінювати ці умови в будь-який час без попереднього повідомлення.</p>
+
+            <h2>2. Опис сервісу</h2>
+            <p>2.1. disCard — це веб-додаток для зберігання та управління картками лояльності магазинів.</p>
+            <p>2.2. Сервіс дозволяє:</p>
+            <ul>
+                <li>Зберігати інформацію про карти лояльності</li>
+                <li>Сканувати штрих-коди та QR-коди</li>
+                <li>Отримувати швидкий доступ до карток</li>
+                <li>Працювати в офлайн-режимі (PWA)</li>
+            </ul>
+
+            <h2>3. Відмова від відповідальності</h2>
+
+            <div class="disclaimer-box">
+                <p><strong>3.1. ВІДСУТНІСТЬ ГАРАНТІЙ</strong></p>
+                <p>Сервіс надається "як є" та "як доступний". Ми НЕ надаємо жодних гарантій щодо:</p>
+                <ul>
+                    <li>Безперебійної роботи сервісу</li>
+                    <li>Відсутності помилок або збоїв</li>
+                    <li>Точності, надійності або повноти інформації</li>
+                    <li>Відповідності вашим очікуванням</li>
+                    <li>Сумісності з вашими пристроями</li>
+                </ul>
+            </div>
+
+            <p>3.2. <strong>Обмеження відповідальності:</strong></p>
+            <ul>
+                <li>Ми НЕ несемо відповідальності за будь-які прямі, непрямі, випадкові, спеціальні або наслідкові збитки</li>
+                <li>Ми НЕ несемо відповідальності за втрату даних, прибутку, репутації або інших нематеріальних втрат</li>
+                <li>Ми НЕ несемо відповідальності за збої в роботі магазинів при використанні карток з додатку</li>
+                <li>Ви використовуєте сервіс на власний ризик</li>
+            </ul>
+
+            <p>3.3. <strong>Максимальна відповідальність:</strong> У будь-якому випадку наша відповідальність обмежена сумою, яку ви сплатили за використання сервісу (якщо сервіс безкоштовний — 0 грн).</p>
+
+            <h2>4. Відповідальність користувача</h2>
+            <p>4.1. Ви несете повну відповідальність за:</p>
+            <ul>
+                <li>Точність внесеної інформації</li>
+                <li>Збереження власних даних і резервних копій</li>
+                <li>Використання сервісу відповідно до законодавства</li>
+                <li>Безпеку свого облікового запису та паролів</li>
+            </ul>
+
+            <p>4.2. Ви зобов'язуєтесь НЕ використовувати сервіс для:</p>
+            <ul>
+                <li>Незаконних дій</li>
+                <li>Порушення прав третіх осіб</li>
+                <li>Розповсюдження шкідливого програмного забезпечення</li>
+                <li>Спроб зламати або порушити роботу сервісу</li>
+            </ul>
+
+            <h2>5. Конфіденційність даних</h2>
+            <p>5.1. Ми зберігаємо ваші дані відповідно до <a href="/privacy" style="color: var(--primary);">Політики конфіденційності</a>.</p>
+            <p>5.2. Ви надаєте дані на власний розсуд і ризик.</p>
+            <p>5.3. Ми НЕ гарантуємо абсолютну безпеку даних, хоча докладаємо розумних зусиль для їх захисту.</p>
+
+            <h2>6. Права інтелектуальної власності</h2>
+            <p>6.1. Всі права на сервіс, включаючи дизайн, код, логотипи та контент, належать власникам disCard.</p>
+            <p>6.2. Забороняється копіювання, модифікація або комерційне використання без письмового дозволу.</p>
+
+            <h2>7. Припинення надання послуг</h2>
+            <p>7.1. Ми маємо право в будь-який момент:</p>
+            <ul>
+                <li>Припинити роботу сервісу без попередження</li>
+                <li>Видалити ваш обліковий запис</li>
+                <li>Обмежити доступ до функціоналу</li>
+                <li>Змінити умови використання</li>
+            </ul>
+
+            <p>7.2. При припиненні роботи сервісу ми НЕ зобов'язані відшкодовувати будь-які збитки.</p>
+
+            <h2>8. Форс-мажор</h2>
+            <p>8.1. Ми НЕ несемо відповідальності за невиконання зобов'язань через обставини непереборної сили, включаючи:</p>
+            <ul>
+                <li>Стихійні лиха</li>
+                <li>Війни, терористичні акти</li>
+                <li>Збої в роботі інтернет-провайдерів</li>
+                <li>Кібератаки</li>
+                <li>Зміни законодавства</li>
+                <li>Дії третіх осіб</li>
+            </ul>
+
+            <h2>9. Зворотній зв'язок та скарги</h2>
+            <p>9.1. Всі скарги та пропозиції приймаються через <a href="/contact" style="color: var(--primary);">форму зворотного зв'язку</a>.</p>
+            <p>9.2. Ми розглянемо вашу скаргу, але НЕ гарантуємо її задоволення.</p>
+
+            <h2>10. Застосовне право</h2>
+            <p>10.1. Ці умови регулюються законодавством України.</p>
+            <p>10.2. Всі спори вирішуються шляхом переговорів, а при неможливості — в судовому порядку за місцем знаходження власника сервісу.</p>
+
+            <h2>11. Прикінцеві положення</h2>
+            <p>11.1. Недійсність окремих положень цих умов не тягне недійсність інших положень.</p>
+            <p>11.2. Невикористання нами наших прав не означає відмови від цих прав.</p>
+            <p>11.3. Продовжуючи використання сервісу після змін в умовах, ви автоматично приймаєте нові умови.</p>
+
+            <div class="disclaimer-box" style="margin-top: var(--spacing-3xl);">
+                <p><strong>ПІДСУМОК:</strong></p>
+                <p>Використовуючи disCard, ви приймаєте всі ризики та відповідальність. Сервіс надається безкоштовно без будь-яких гарантій. Власники сервісу НЕ несуть відповідальності за будь-які збитки.</p>
+            </div>
+
+            <p style="margin-top: var(--spacing-2xl); text-align: center;">
+                <a href="/" class="btn btn-primary" style="display: inline-block; text-decoration: none;">Повернутися на головну</a>
+            </p>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer id="footer-placeholder"></footer>
+
+    <script src="/js/i18n.js"></script>
+    <script src="/js/landing.js"></script>
+    <script src="/js/analytics.js"></script>
+    <script src="/js/adsense.js"></script>
+    <script src="/js/cookie-banner.js"></script>
+    <script>
+        // Mobile menu toggle
+        const mobileMenuToggle = document.getElementById('mobile-menu-toggle');
+        const mobileMenu = document.getElementById('mobile-menu');
+
+        if (mobileMenuToggle && mobileMenu) {
+            mobileMenuToggle.addEventListener('click', function() {
+                mobileMenuToggle.classList.toggle('active');
+                mobileMenu.classList.toggle('active');
+                document.body.style.overflow = mobileMenu.classList.contains('active') ? 'hidden' : '';
+            });
+
+            const mobileNavLinks = document.querySelectorAll('.mobile-nav-link');
+            mobileNavLinks.forEach(link => {
+                link.addEventListener('click', function() {
+                    mobileMenuToggle.classList.remove('active');
+                    mobileMenu.classList.remove('active');
+                    document.body.style.overflow = '';
+                });
+            });
+
+            window.addEventListener('resize', function() {
+                if (window.innerWidth > 768) {
+                    mobileMenuToggle.classList.remove('active');
+                    mobileMenu.classList.remove('active');
+                    document.body.style.overflow = '';
+                }
+            });
+        }
+
+        // Theme toggle
+        const themeToggle = document.getElementById('theme-toggle');
+        const savedTheme = localStorage.getItem('theme');
+        const systemTheme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+        const currentTheme = savedTheme || systemTheme;
+
+        document.documentElement.setAttribute('data-theme', currentTheme);
+        updateThemeIcon(currentTheme);
+
+        function updateThemeIcon(theme) {
+            const icon = themeToggle?.querySelector('.theme-icon');
+            if (icon) {
+                if (theme === 'dark') {
+                    icon.innerHTML = '<path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z" fill="currentColor"/>';
+                } else {
+                    icon.innerHTML = '<path d="M12 2.25a.75.75 0 01.75.75v2.25a.75.75 0 01-1.5 0V3a.75.75 0 01.75-.75zM7.5 12a4.5 4.5 0 119 0 4.5 4.5 0 01-9 0zM18.894 6.166a.75.75 0 00-1.06-1.06l-1.591 1.59a.75.75 0 101.06 1.061l1.591-1.59zM21.75 12a.75.75 0 01-.75.75h-2.25a.75.75 0 010-1.5H21a.75.75 0 01.75.75zM17.834 18.894a.75.75 0 001.06-1.06l-1.59-1.591a.75.75 0 10-1.061 1.06l1.59 1.591zM12 18a.75.75 0 01.75.75V21a.75.75 0 01-1.5 0v-2.25A.75.75 0 0112 18zM7.758 17.303a.75.75 0 00-1.061-1.06l-1.591 1.59a.75.75 0 001.06 1.061l1.591-1.59zM6 12a.75.75 0 01-.75.75H3a.75.75 0 010-1.5h2.25A.75.75 0 016 12zM6.697 7.757a.75.75 0 001.06-1.06l-1.59-1.591a.75.75 0 00-1.061 1.06l1.59 1.591z" fill="currentColor"/>';
+                }
+            }
+        }
+
+        if (themeToggle) {
+            themeToggle.addEventListener('click', function() {
+                const current = document.documentElement.getAttribute('data-theme');
+                const newTheme = current === 'light' ? 'dark' : 'light';
+                document.documentElement.setAttribute('data-theme', newTheme);
+                localStorage.setItem('theme', newTheme);
+                updateThemeIcon(newTheme);
+            });
+        }
+
+        // Language switcher
+        const langBtns = document.querySelectorAll('.lang-btn');
+        langBtns.forEach(btn => {
+            btn.addEventListener('click', function() {
+                const lang = this.dataset.lang;
+                langBtns.forEach(b => b.classList.remove('active'));
+                this.classList.add('active');
+                if (window.i18n) {
+                    window.i18n.setLanguage(lang);
+                }
+            });
+        });
+    </script>
+</body>
+</html>

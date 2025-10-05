@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Блог - disCard Admin</title>
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    <link rel="stylesheet" href="/admin/css/admin.css">
+</head>
+<body data-theme="light">
+    <div class="admin-layout">
+        <!-- Sidebar -->
+        <aside class="admin-sidebar">
+            <a href="/admin/dashboard.html" class="admin-logo">disCard Admin</a>
+            <nav>
+                <ul class="admin-nav">
+                    <li><a href="/admin/dashboard.html">📊 Dashboard</a></li>
+                    <li><a href="/admin/users.html">👥 Користувачі</a></li>
+                    <li><a href="/admin/blog.html" class="active">📝 Блог</a></li>
+                    <li><a href="/admin/faq.html">❓ FAQ</a></li>
+                    <li><a href="/admin/messages.html">✉️ Повідомлення</a></li>
+                    <li><a href="/admin/backup.html">💾 Резервні копії</a></li>
+                    <li><a href="/admin/settings.html">⚙️ Налаштування</a></li>
+                    <li><a href="/" target="_blank">🌐 Відкрити сайт</a></li>
+                    <li><a href="#" id="logout-btn">🚪 Вийти</a></li>
+                </ul>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="admin-main">
+            <header class="admin-header">
+                <h1>Блог</h1>
+                <div class="admin-header-actions">
+                    <button class="theme-toggle" id="theme-toggle">🌙</button>
+                    <button class="btn-primary" onclick="window.location.href='/admin/blog-editor.html'">➕ Додати статтю</button>
+                </div>
+            </header>
+
+            <!-- Blog Posts List -->
+            <div class="table-container">
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>Заголовок</th>
+                            <th>Категорія</th>
+                            <th>Статус</th>
+                            <th>Перегляди</th>
+                            <th>Дата</th>
+                            <th style="width: 250px;">Дії</th>
+                        </tr>
+                    </thead>
+                    <tbody id="blogTableBody">
+                        <tr>
+                            <td colspan="6" style="text-align: center; padding: var(--spacing-xl);">
+                                <div class="loader"></div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Pagination -->
+            <div class="pagination" id="pagination"></div>
+
+            <div id="success-message" class="success hidden"></div>
+            <div id="error-message" class="error hidden"></div>
+        </main>
+    </div>
+
+    <script src="/admin/js/auth.js"></script>
+    <script src="/admin/js/blog-admin.js"></script>
+</body>
+</html>

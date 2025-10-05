@@ -1,6 +1,14 @@
 <!DOCTYPE html>
 <html lang="uk">
 <head>
+    <!-- Google Tag Manager -->
+    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','GTM-P8SN5J4N');</script>
+    <!-- End Google Tag Manager -->
+
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title data-i18n="heroTitle">Всі карти лояльності в одному місці</title>
@@ -198,17 +206,30 @@
     </script>
 </head>
 <body>
+    <!-- Google Tag Manager (noscript) -->
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-P8SN5J4N"
+    height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+    <!-- End Google Tag Manager (noscript) -->
+
     <!-- Header -->
     <header class="header">
         <div class="container">
             <div class="header-content">
-                <a href="#" class="logo" id="logo-link">
+                <a href="/" class="logo" id="logo-link">
                     <img src="/icons/logo.png" alt="disCard" width="48" height="48" class="logo-icon">
                     <span class="logo-text">disCard</span>
                 </a>
-                
+
+                <!-- Desktop Navigation -->
+                <nav class="nav-menu">
+                    <a href="/" class="nav-link active" data-i18n="nav.home">Головна</a>
+                    <a href="/blog" class="nav-link" data-i18n="nav.blog">Блог</a>
+                    <a href="/faq" class="nav-link" data-i18n="nav.faq">FAQ</a>
+                    <a href="/contact" class="nav-link" data-i18n="nav.contact">Контакти</a>
+                </nav>
+
                 <div class="header-actions">
-                    <button class="theme-toggle" id="theme-toggle">
+                    <button class="theme-toggle" id="theme-toggle" aria-label="Toggle theme">
                         <svg class="theme-icon" viewBox="0 0 24 24" width="20" height="20">
                             <path d="M12 2.25a.75.75 0 01.75.75v2.25a.75.75 0 01-1.5 0V3a.75.75 0 01.75-.75zM7.5 12a4.5 4.5 0 119 0 4.5 4.5 0 01-9 0zM18.894 6.166a.75.75 0 00-1.06-1.06l-1.591 1.59a.75.75 0 101.06 1.061l1.591-1.59zM21.75 12a.75.75 0 01-.75.75h-2.25a.75.75 0 010-1.5H21a.75.75 0 01.75.75zM17.834 18.894a.75.75 0 001.06-1.06l-1.59-1.591a.75.75 0 10-1.061 1.06l1.59 1.591zM12 18a.75.75 0 01.75.75V21a.75.75 0 01-1.5 0v-2.25A.75.75 0 0112 18zM7.758 17.303a.75.75 0 00-1.061-1.06l-1.591 1.59a.75.75 0 001.06 1.061l1.591-1.59zM6 12a.75.75 0 01-.75.75H3a.75.75 0 010-1.5h2.25A.75.75 0 016 12zM6.697 7.757a.75.75 0 001.06-1.06l-1.59-1.591a.75.75 0 00-1.061 1.06l1.59 1.591z" fill="currentColor"/>
                         </svg>
@@ -217,8 +238,24 @@
                         <button class="lang-btn active" data-lang="uk">УК</button>
                         <button class="lang-btn" data-lang="en">EN</button>
                     </div>
+
+                    <!-- Mobile Menu Toggle -->
+                    <button class="mobile-menu-toggle" id="mobile-menu-toggle" aria-label="Toggle menu">
+                        <span class="hamburger-line"></span>
+                        <span class="hamburger-line"></span>
+                        <span class="hamburger-line"></span>
+                    </button>
                 </div>
             </div>
+
+            <!-- Mobile Navigation -->
+            <nav class="mobile-menu" id="mobile-menu">
+                <a href="/" class="mobile-nav-link active" data-i18n="nav.home">Головна</a>
+                <a href="/blog" class="mobile-nav-link" data-i18n="nav.blog">Блог</a>
+                <a href="/faq" class="mobile-nav-link" data-i18n="nav.faq">FAQ</a>
+                <a href="/contact" class="mobile-nav-link" data-i18n="nav.contact">Контакти</a>
+                <a href="/app" class="mobile-nav-link mobile-nav-cta" data-i18n="nav.app">Відкрити додаток</a>
+            </nav>
         </div>
     </header>
 
@@ -554,11 +591,24 @@
                             <li><a href="#screenshots" class="footer-link" data-i18n="footer.support.guide">Інструкція</a></li>
                         </ul>
                     </div>
+
+                    <div class="footer-legal">
+                        <h4 class="footer-title">Юридична інформація</h4>
+                        <ul class="footer-list">
+                            <li><a href="/terms" class="footer-link">Умови використання</a></li>
+                            <li><a href="/privacy" class="footer-link">Політика конфіденційності</a></li>
+                            <li><a href="/contact" class="footer-link">Зворотній зв'язок</a></li>
+                        </ul>
+                    </div>
                 </div>
-                
+
                 <div class="footer-bottom">
                     <div class="footer-info">
                         <p>&copy; 2025 disCard. <span data-i18n="footer.rights">Всі права захищені.</span></p>
+                        <p style="font-size: 0.8125rem; margin-top: 0.25rem; text-align: center;">
+                            <a href="/terms" style="color: var(--text-secondary); text-decoration: none;">Умови</a> •
+                            <a href="/privacy" style="color: var(--text-secondary); text-decoration: none;">Конфіденційність</a>
+                        </p>
                     </div>
                     <div class="footer-tech">
                         <span class="tech-badge">PWA</span>
@@ -858,6 +908,37 @@
                 });
             });
             
+            // Mobile menu toggle
+            const mobileMenuToggle = document.getElementById('mobile-menu-toggle');
+            const mobileMenu = document.getElementById('mobile-menu');
+
+            if (mobileMenuToggle && mobileMenu) {
+                mobileMenuToggle.addEventListener('click', function() {
+                    mobileMenuToggle.classList.toggle('active');
+                    mobileMenu.classList.toggle('active');
+                    document.body.style.overflow = mobileMenu.classList.contains('active') ? 'hidden' : '';
+                });
+
+                // Close mobile menu when clicking on a link
+                const mobileNavLinks = document.querySelectorAll('.mobile-nav-link');
+                mobileNavLinks.forEach(link => {
+                    link.addEventListener('click', function() {
+                        mobileMenuToggle.classList.remove('active');
+                        mobileMenu.classList.remove('active');
+                        document.body.style.overflow = '';
+                    });
+                });
+
+                // Close mobile menu on window resize
+                window.addEventListener('resize', function() {
+                    if (window.innerWidth > 768) {
+                        mobileMenuToggle.classList.remove('active');
+                        mobileMenu.classList.remove('active');
+                        document.body.style.overflow = '';
+                    }
+                });
+            }
+
             // Logo scroll to top functionality
             const logoLinks = document.querySelectorAll('#logo-link, #footer-logo-link');
             logoLinks.forEach(logoLink => {
@@ -893,5 +974,10 @@
             });
         });
     </script>
+
+    <!-- Google Analytics & AdSense -->
+    <script src="/js/analytics.js"></script>
+    <script src="/js/adsense.js"></script>
+    <script src="/js/cookie-banner.js"></script>
 </body>
 </html>

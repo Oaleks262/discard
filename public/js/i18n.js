@@ -2,6 +2,14 @@
 
 const translations = {
   uk: {
+    // Navigation
+    nav: {
+      home: "Головна",
+      blog: "Блог",
+      faq: "FAQ",
+      contact: "Контакти",
+      app: "Відкрити додаток"
+    },
     // Landing Page
     heroTitle: "Всі карти лояльності в одному місці",
     heroSubtitle: "Скануй, зберігай та використовуй картки магазинів у зручному PWA додатку",
@@ -103,7 +111,144 @@ const translations = {
         guide: "Інструкція"
       }
     },
-    
+
+    blog: {
+      title: "Блог - disCard",
+      pageTitle: "Блог",
+      description: "Поради, новини та гайди про карти лояльності",
+      subtitle: "Поради, новини та гайди про карти лояльності",
+      filters: {
+        all: "Всі",
+        tips: "Поради",
+        news: "Новини",
+        guides: "Гайди"
+      },
+      categories: {
+        tips: "Поради",
+        news: "Новини",
+        guides: "Гайди"
+      },
+      readTime: "хв читання",
+      noResults: "Нічого не знайдено",
+      loading: "Завантаження..."
+    },
+
+    contact: {
+      title: "Контакти - disCard",
+      heading: "Зв'яжіться з нами",
+      subtitle: "Маєте питання чи пропозиції? Ми завжди раді вам допомогти!",
+      form: {
+        heading: "Форма зворотного зв'язку",
+        email: "Email",
+        emailPlaceholder: "ваша-пошта@example.com",
+        subject: "Тема",
+        subjectPlaceholder: "Тема повідомлення",
+        message: "Повідомлення",
+        messagePlaceholder: "Ваше повідомлення...",
+        submit: "Відправити",
+        sending: "Відправлення...",
+        success: "Повідомлення успішно відправлено!",
+        error: "Помилка відправлення. Спробуйте пізніше."
+      },
+      info: {
+        heading: "Контактна інформація",
+        email: "Email",
+        emailAddress: "discardmessage@gmail.com",
+        responseTime: "Час відповіді",
+        responseTimeValue: "Протягом 24 годин",
+        social: "Соціальні мережі"
+      }
+    },
+
+    faq: {
+      items: {
+        what_is_discard: {
+          question: "Що таке disCard?",
+          answer: "disCard - це безкоштовний PWA (Progressive Web App) додаток для зберігання всіх ваших карт лояльності в одному місці. Більше не потрібно носити з собою десятки пластикових карток - всі ваші бонусні карти магазинів, аптек, кав'ярень тепер завжди з вами у смартфоні."
+        },
+        is_free: {
+          question: "Чи безкоштовний цей додаток?",
+          answer: "Так, disCard повністю безкоштовний. Немає прихованих платежів, підписок чи обмежень функціоналу. Всі можливості доступні безкоштовно назавжди."
+        },
+        how_to_install: {
+          question: "Як встановити додаток?",
+          answer: "disCard працює як PWA, тому встановлення дуже просте:\n\nДля Android:\n1. Відкрийте сайт у Chrome\n2. Натисніть на три крапки (⋮) у правому верхньому куті\n3. Виберіть 'Додати на головний екран'\n4. Підтвердіть встановлення\n\nДля iOS:\n1. Відкрийте Safari\n2. Натисніть кнопку 'Поділитися' (□↗)\n3. Виберіть 'На екран «Домой»'\n4. Натисніть 'Додати'"
+        },
+        works_offline: {
+          question: "Чи працює додаток без інтернету?",
+          answer: "Так! Завдяки PWA технології всі ваші карти доступні офлайн. Після першого завантаження додатку ви можете використовувати його без підключення до інтернету. Це зручно в магазинах, метро чи в будь-якому місці з поганим зв'язком."
+        },
+        supported_codes: {
+          question: "Які типи кодів підтримуються?",
+          answer: "disCard підтримує всі популярні типи кодів:\n• QR-коди\n• Штрих-коди (EAN-13, EAN-8, Code 128, UPC тощо)\n• Коди-39\n• ITF-14\nта інші стандартні формати, які використовуються в українських магазинах."
+        },
+        how_to_add_card: {
+          question: "Як додати нову картку?",
+          answer: "Є два способи додати картку:\n\n1. Сканування камерою:\n   • Натисніть 'Додати' у нижньому меню\n   • Натисніть кнопку 'Сканувати'\n   • Наведіть камеру на штрих-код або QR-код картки\n   • Код розпізнається автоматично\n\n2. Ручне введення:\n   • Натисніть 'Додати'\n   • Введіть назву картки\n   • Оберіть тип коду (штрих-код або QR)\n   • Введіть номер картки вручну\n   • Натисніть 'Зберегти'"
+        },
+        is_safe: {
+          question: "Чи безпечно зберігати картки у додатку?",
+          answer: "Абсолютно безпечно! Ваші дані захищені на кількох рівнях:\n• Шифрування даних на вашому пристрої\n• Безпечне зберігання на сервері з використанням bcrypt\n• Аутентифікація через JWT токени\n• HTTPS з'єднання\n• Доступ лише за паролем\n\nМи не передаємо ваші дані третім особам і не використовуємо їх в комерційних цілях."
+        },
+        sync_devices: {
+          question: "Чи можна синхронізувати картки між пристроями?",
+          answer: "Так! Після реєстрації всі ваші картки автоматично синхронізуються між усіма вашими пристроями. Просто увійдіть в обліковий запис на новому пристрої, і всі ваші картки будуть доступні."
+        },
+        code_wont_scan: {
+          question: "Що робити, якщо код не сканується?",
+          answer: "Якщо камера не може зчитати код, спробуйте:\n• Очистити камеру від бруду\n• Покращити освітлення\n• Тримати телефон стабільно на відстані 10-15 см від картки\n• Переконатися, що картка не пошкоджена\n\nЯкщо сканування все одно не працює, ви завжди можете ввести номер картки вручну."
+        },
+        how_many_cards: {
+          question: "Скільки карток можна зберігати?",
+          answer: "Немає ніяких обмежень! Ви можете зберігати необмежену кількість карт лояльності. Додаток підтримує всі популярні магазини України: АТБ, Сільпо, EVA, Brocard, Аптека низьких цін та багато інших."
+        },
+        how_to_use_in_store: {
+          question: "Як використовувати картку в магазині?",
+          answer: "Дуже просто:\n1. Відкрийте додаток\n2. Знайдіть потрібну картку (можна використати пошук)\n3. Натисніть на картку\n4. Покажіть код касиру для сканування\n\nКод відображається у великому розмірі з максимальною яскравістю екрану для легкого сканування."
+        },
+        registration_required: {
+          question: "Чи потрібна реєстрація?",
+          answer: "Реєстрація не обов'язкова для базового використання, але ми рекомендуємо зареєструватися, щоб:\n• Синхронізувати картки між пристроями\n• Зберігати резервні копії ваших карт\n• Відновити доступ при втраті телефону\n• Користуватися додатком на кількох пристроях"
+        },
+        forgot_password: {
+          question: "Що робити, якщо я забув пароль?",
+          answer: "Якщо ви забули пароль:\n1. Натисніть 'Забули пароль?' на сторінці входу\n2. Введіть вашу електронну пошту\n3. Перевірте пошту - ми надішлемо вам посилання для відновлення\n4. Перейдіть за посиланням і створіть новий пароль\n\nЯкщо лист не прийшов, перевірте папку 'Спам'."
+        },
+        can_delete_card: {
+          question: "Чи можна видалити картку?",
+          answer: "Так, ви можете видалити будь-яку картку в будь-який час:\n1. Відкрийте картку\n2. Натисніть кнопку 'Видалити картку' внизу\n3. Підтвердіть видалення\n\nУвага: видалення незворотне, картку потрібно буде додати знову якщо передумаєте."
+        },
+        dark_theme_support: {
+          question: "Чи підтримується темна тема?",
+          answer: "Так! disCard підтримує як світлу, так і темну теми. Тему можна змінити в налаштуваннях додатку. За замовчуванням додаток використовує тему згідно системних налаштувань вашого телефону."
+        },
+        pwa_vs_regular: {
+          question: "Яка різниця між PWA та звичайним додатком?",
+          answer: "PWA (Progressive Web App) - це сучасна веб-технологія, що поєднує переваги веб-сайтів та мобільних додатків:\n\nПереваги PWA:\n• Не потребує Google Play або App Store\n• Швидке встановлення (10 секунд)\n• Займає менше місця на телефоні\n• Автоматичні оновлення\n• Працює на Android, iOS, Windows, Mac\n• Працює офлайн\n\nПри цьому працює так само швидко як нативний додаток!"
+        },
+        data_collection: {
+          question: "Чи збирає додаток мої особисті дані?",
+          answer: "Ми дбаємо про вашу приватність. disCard збирає мінімум даних:\n• Email (для реєстрації та входу)\n• Ім'я (для персоналізації)\n• Дані карток (зберігаються в зашифрованому вигляді)\n\nМи НЕ збираємо:\n• Вашу геолокацію\n• Контакти\n• Фото (крім сканованих карток)\n• Історію покупок\n\nДетальніше в нашій Політиці конфіденційності."
+        },
+        change_language: {
+          question: "Чи можна змінити мову додатку?",
+          answer: "Так, disCard підтримує українську та англійську мови. Змінити мову можна в розділі 'Налаштування'. За замовчуванням використовується мова згідно налаштувань вашого телефону."
+        },
+        contact_support: {
+          question: "Як зв'язатися з підтримкою?",
+          answer: "Якщо у вас виникли питання або проблеми:\n\n• Email: discardmessage@gmail.com\n• Форма зворотного зв'язку: на сторінці Контакти\n• Час відповіді: протягом 24 годин\n\nМи завжди раді допомогти!"
+        },
+        export_data: {
+          question: "Чи можна експортувати свої дані?",
+          answer: "Так, відповідно до GDPR ви маєте право отримати копію всіх ваших даних. Зв'яжіться з нами через форму зворотного зв'язку, і ми надішлемо вам архів з усіма вашими даними у форматі JSON протягом 30 днів."
+        },
+        technical_issues: {
+          question: "Що робити при технічних проблемах?",
+          answer: "Якщо додаток працює некоректно:\n\n1. Спробуйте оновити сторінку\n2. Очистіть кеш браузера\n3. Перевірте інтернет-з'єднання\n4. Спробуйте вийти та увійти знову\n5. Переконайтеся, що ви використовуєте останню версію браузера\n\nЯкщо проблема залишається - напишіть нам на discardmessage@gmail.com з описом проблеми та скріншотом (якщо можливо)."
+        }
+      }
+    },
+
     // Key Features Section
     keyFeatures: {
       title: "Переваги disCard",
@@ -156,7 +301,8 @@ const translations = {
       registerTitle: "Створення акаунту",
       noAccount: "Немає акаунту?",
       hasAccount: "Вже є акаунт?",
-      forgotPassword: "Забули пароль?"
+      forgotPassword: "Забули пароль?",
+      termsAccept: "Я приймаю <a href=\"/terms\" target=\"_blank\">Умови використання</a> та <a href=\"/privacy\" target=\"_blank\">Політику конфіденційності</a>"
     },
     
     // Two-Factor Authentication
@@ -281,6 +427,7 @@ const translations = {
       invalidName: "Некоректне ім'я. Використовуйте тільки літери, апостроф, дефіс та пробіли (2-50 символів)",
       passwordsDontMatch: "Паролі не співпадають",
       fillAllFields: "Заповніть всі поля",
+      acceptTerms: "Ви повинні прийняти умови використання",
       networkError: "Помилка мережі",
       serverError: "Помилка сервера",
       cameraNotSupported: "Камера не підтримується",
@@ -306,6 +453,14 @@ const translations = {
   },
   
   en: {
+    // Navigation
+    nav: {
+      home: "Home",
+      blog: "Blog",
+      faq: "FAQ",
+      contact: "Contact",
+      app: "Open App"
+    },
     // Landing Page
     heroTitle: "All loyalty cards in one place",
     heroSubtitle: "Scan, store and use your store cards in a convenient PWA app",
@@ -407,7 +562,144 @@ const translations = {
         guide: "Guide"
       }
     },
-    
+
+    blog: {
+      title: "Blog - disCard",
+      pageTitle: "Blog",
+      description: "Tips, news and guides about loyalty cards",
+      subtitle: "Tips, news and guides about loyalty cards",
+      filters: {
+        all: "All",
+        tips: "Tips",
+        news: "News",
+        guides: "Guides"
+      },
+      categories: {
+        tips: "Tips",
+        news: "News",
+        guides: "Guides"
+      },
+      readTime: "min read",
+      noResults: "No results found",
+      loading: "Loading..."
+    },
+
+    contact: {
+      title: "Contact - disCard",
+      heading: "Get in Touch",
+      subtitle: "Have questions or suggestions? We're always here to help!",
+      form: {
+        heading: "Contact Form",
+        email: "Email",
+        emailPlaceholder: "your-email@example.com",
+        subject: "Subject",
+        subjectPlaceholder: "Message subject",
+        message: "Message",
+        messagePlaceholder: "Your message...",
+        submit: "Send",
+        sending: "Sending...",
+        success: "Message sent successfully!",
+        error: "Send error. Please try again later."
+      },
+      info: {
+        heading: "Contact Information",
+        email: "Email",
+        emailAddress: "discardmessage@gmail.com",
+        responseTime: "Response Time",
+        responseTimeValue: "Within 24 hours",
+        social: "Social Media"
+      }
+    },
+
+    faq: {
+      items: {
+        what_is_discard: {
+          question: "What is disCard?",
+          answer: "disCard is a free PWA (Progressive Web App) for storing all your loyalty cards in one place. No need to carry dozens of plastic cards - all your bonus cards from stores, pharmacies, and cafes are now always with you on your smartphone."
+        },
+        is_free: {
+          question: "Is this app free?",
+          answer: "Yes, disCard is completely free. There are no hidden fees, subscriptions, or feature limitations. All features are available for free forever."
+        },
+        how_to_install: {
+          question: "How to install the app?",
+          answer: "disCard works as a PWA, so installation is very simple:\n\nFor Android:\n1. Open the website in Chrome\n2. Tap the three dots (⋮) in the top right corner\n3. Select 'Add to Home screen'\n4. Confirm installation\n\nFor iOS:\n1. Open Safari\n2. Tap the 'Share' button (□↗)\n3. Select 'Add to Home Screen'\n4. Tap 'Add'"
+        },
+        works_offline: {
+          question: "Does the app work offline?",
+          answer: "Yes! Thanks to PWA technology, all your cards are available offline. After the first load, you can use the app without an internet connection. This is convenient in stores, subway, or anywhere with poor connectivity."
+        },
+        supported_codes: {
+          question: "What types of codes are supported?",
+          answer: "disCard supports all popular code types:\n• QR codes\n• Barcodes (EAN-13, EAN-8, Code 128, UPC, etc.)\n• Code-39\n• ITF-14\nand other standard formats used in retail stores."
+        },
+        how_to_add_card: {
+          question: "How to add a new card?",
+          answer: "There are two ways to add a card:\n\n1. Camera scanning:\n   • Tap 'Add' in the bottom menu\n   • Tap 'Scan' button\n   • Point the camera at the barcode or QR code\n   • Code is recognized automatically\n\n2. Manual entry:\n   • Tap 'Add'\n   • Enter card name\n   • Select code type (barcode or QR)\n   • Enter card number manually\n   • Tap 'Save'"
+        },
+        is_safe: {
+          question: "Is it safe to store cards in the app?",
+          answer: "Absolutely safe! Your data is protected at multiple levels:\n• Data encryption on your device\n• Secure server storage using bcrypt\n• JWT token authentication\n• HTTPS connection\n• Password-only access\n\nWe don't share your data with third parties or use it for commercial purposes."
+        },
+        sync_devices: {
+          question: "Can I sync cards between devices?",
+          answer: "Yes! After registration, all your cards are automatically synced across all your devices. Just sign in to your account on a new device, and all your cards will be available."
+        },
+        code_wont_scan: {
+          question: "What to do if the code won't scan?",
+          answer: "If the camera can't read the code, try:\n• Clean the camera lens\n• Improve lighting\n• Hold the phone steady 10-15 cm from the card\n• Make sure the card isn't damaged\n\nIf scanning still doesn't work, you can always enter the card number manually."
+        },
+        how_many_cards: {
+          question: "How many cards can I store?",
+          answer: "No limits! You can store unlimited loyalty cards. The app supports all popular stores: ATB, Silpo, EVA, Brocard, and many others."
+        },
+        how_to_use_in_store: {
+          question: "How to use a card in store?",
+          answer: "Very simple:\n1. Open the app\n2. Find the card you need (use search if needed)\n3. Tap the card\n4. Show the code to the cashier for scanning\n\nThe code displays in large size with maximum screen brightness for easy scanning."
+        },
+        registration_required: {
+          question: "Is registration required?",
+          answer: "Registration is not required for basic use, but we recommend signing up to:\n• Sync cards between devices\n• Keep backups of your cards\n• Restore access if you lose your phone\n• Use the app on multiple devices"
+        },
+        forgot_password: {
+          question: "What if I forgot my password?",
+          answer: "If you forgot your password:\n1. Click 'Forgot password?' on the login page\n2. Enter your email\n3. Check your email - we'll send you a recovery link\n4. Follow the link and create a new password\n\nIf the email doesn't arrive, check your Spam folder."
+        },
+        can_delete_card: {
+          question: "Can I delete a card?",
+          answer: "Yes, you can delete any card at any time:\n1. Open the card\n2. Tap 'Delete card' button at the bottom\n3. Confirm deletion\n\nWarning: deletion is permanent, you'll need to add the card again if you change your mind."
+        },
+        dark_theme_support: {
+          question: "Is dark theme supported?",
+          answer: "Yes! disCard supports both light and dark themes. You can change the theme in app settings. By default, the app uses your phone's system theme."
+        },
+        pwa_vs_regular: {
+          question: "What's the difference between PWA and regular app?",
+          answer: "PWA (Progressive Web App) is a modern web technology that combines the benefits of websites and mobile apps:\n\nPWA advantages:\n• No Google Play or App Store needed\n• Quick installation (10 seconds)\n• Takes less phone storage\n• Automatic updates\n• Works on Android, iOS, Windows, Mac\n• Works offline\n\nYet performs as fast as a native app!"
+        },
+        data_collection: {
+          question: "Does the app collect my personal data?",
+          answer: "We care about your privacy. disCard collects minimal data:\n• Email (for registration and login)\n• Name (for personalization)\n• Card data (stored encrypted)\n\nWe DON'T collect:\n• Your location\n• Contacts\n• Photos (except scanned cards)\n• Purchase history\n\nSee our Privacy Policy for details."
+        },
+        change_language: {
+          question: "Can I change the app language?",
+          answer: "Yes, disCard supports Ukrainian and English. You can change the language in Settings. By default, it uses your phone's language settings."
+        },
+        contact_support: {
+          question: "How to contact support?",
+          answer: "If you have questions or issues:\n\n• Email: discardmessage@gmail.com\n• Contact form: on the Contacts page\n• Response time: within 24 hours\n\nWe're always happy to help!"
+        },
+        export_data: {
+          question: "Can I export my data?",
+          answer: "Yes, according to GDPR you have the right to receive a copy of all your data. Contact us through the feedback form, and we'll send you an archive with all your data in JSON format within 30 days."
+        },
+        technical_issues: {
+          question: "What to do with technical issues?",
+          answer: "If the app isn't working correctly:\n\n1. Try refreshing the page\n2. Clear browser cache\n3. Check internet connection\n4. Try logging out and back in\n5. Make sure you're using the latest browser version\n\nIf the problem persists - email us at discardmessage@gmail.com with a description and screenshot (if possible)."
+        }
+      }
+    },
+
     // Key Features Section
     keyFeatures: {
       title: "disCard Advantages",
@@ -460,7 +752,8 @@ const translations = {
       registerTitle: "Create your account",
       noAccount: "Don't have an account?",
       hasAccount: "Already have an account?",
-      forgotPassword: "Forgot password?"
+      forgotPassword: "Forgot password?",
+      termsAccept: "I accept the <a href=\"/terms\" target=\"_blank\">Terms of Service</a> and <a href=\"/privacy\" target=\"_blank\">Privacy Policy</a>"
     },
     
     // Two-Factor Authentication
@@ -585,6 +878,7 @@ const translations = {
       invalidName: "Invalid name. Use only letters, apostrophe, hyphen and spaces (2-50 characters)",
       passwordsDontMatch: "Passwords don't match",
       fillAllFields: "Please fill all fields",
+      acceptTerms: "You must accept the terms and conditions",
       networkError: "Network error",
       serverError: "Server error",
       cameraNotSupported: "Camera not supported",

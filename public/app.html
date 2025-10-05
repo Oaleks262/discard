@@ -1,9 +1,18 @@
 <!DOCTYPE html>
 <html lang="uk">
 <head>
+    <!-- Google Tag Manager -->
+    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','GTM-P8SN5J4N');</script>
+    <!-- End Google Tag Manager -->
+
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>disCard - Карти лояльності</title>
+    <meta name="google-adsense-account" content="ca-pub-8972937738510733">
     
     <!-- SEO Meta tags -->
     <meta name="description" content="Увійдіть у свій акаунт disCard та керуйте всіма картами лояльності в одному зручному додатку. Сканування, збереження, використання карток магазинів.">
@@ -445,6 +454,10 @@
     <meta name="google-adsense-account" content="ca-pub-8972937738510733">
 </head>
 <body>
+    <!-- Google Tag Manager (noscript) -->
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-P8SN5J4N"
+    height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+    <!-- End Google Tag Manager (noscript) -->
 
     <!-- Loading Screen -->
     <div class="loading-screen" id="loading-screen">
@@ -501,6 +514,12 @@
                     <div class="form-group">
                         <label for="register-password" data-i18n="auth.password">Пароль</label>
                         <input type="password" id="register-password" required minlength="6">
+                    </div>
+                    <div class="form-group">
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="register-terms" required>
+                            <span data-i18n="auth.termsAccept">Я приймаю <a href="/terms" target="_blank">Умови використання</a> та <a href="/privacy" target="_blank">Політику конфіденційності</a></span>
+                        </label>
                     </div>
                     <button type="submit" class="auth-button" data-i18n="auth.register">Реєстрація</button>
                 </form>

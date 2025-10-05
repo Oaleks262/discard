@@ -581,21 +581,204 @@ app.delete('/api/cards/:id', authenticateToken, async (req, res) => {
   }
 });
 
+// ========== НОВІ ROUTES ДЛЯ АДМІН-ПАНЕЛІ ТА ПУБЛІЧНИХ СТОРІНОК ==========
+
+// Імпорт нових routes
+const adminAuthRoutes = require('./server/routes/authRoutes');
+const adminRoutes = require('./server/routes/adminRoutes');
+const blogRoutes = require('./server/routes/blogRoutes');
+const faqRoutes = require('./server/routes/faqRoutes');
+const settingsRoutes = require('./server/routes/settingsRoutes');
+const contactRoutes = require('./server/routes/contactRoutes');
+const seoRoutes = require('./server/routes/seoRoutes');
+
+// Підключення нових routes
+app.use('/api/admin/auth', adminAuthRoutes);
+app.use('/api/admin', adminRoutes);
+app.use('/api/blog', blogRoutes);
+app.use('/api/faq', faqRoutes);
+app.use('/api/settings', settingsRoutes);
+app.use('/api/contact', contactRoutes);
+app.use('/', seoRoutes);
+
 // Error handling middleware
 app.use((error, req, res, next) => {
   console.error('Unhandled error:', error);
   res.status(500).json({ error: 'Internal server error' });
 });
 
-// 404 handler
+// Serve backup files for download
+app.get('/backups/:filename', authenticateToken, async (req, res) => {
+  try {
+    const Admin = require('./server/models/Admin');
+    const admin = await Admin.findById(req.user._id);
+
+    if (!admin || (admin.role !== 'admin' && admin.role !== 'superadmin')) {
+      return res.status(403).json({ error: 'Access denied' });
+    }
+
+    const { filename } = req.params;
+
+    if (!filename.startsWith('backup-') || !filename.endsWith('.json')) {
+      return res.status(400).json({ error: 'Invalid backup file' });
+    }
+
+    const backupPath = path.join(__dirname, 'backups', filename);
+
+    res.download(backupPath, filename, (err) => {
+      if (err) {
+        console.error('Download error:', err);
+        if (!res.headersSent) {
+          res.status(404).json({ error: 'Backup file not found' });
+        }
+      }
+    });
+  } catch (error) {
+    console.error('Backup download error:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
+// HTML Pages Routes
+app.get('/blog', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'blog.html'));
+});
+
+app.get('/blog-post', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'blog-post.html'));
+});
+
+app.get('/contact', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'contact.html'));
+});
+
+app.get('/faq', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'faq.html'));
+});
+
+app.get('/terms', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'terms.html'));
+});
+
+app.get('/privacy', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'privacy.html'));
+});
+
+// Admin routes - redirect /kogo to admin panel
+app.get('/kogo', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'admin', 'login.html'));
+});
+
+app.get('/kogo/*', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'admin', 'login.html'));
+});
+
+app.get('/admin', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'admin', 'login.html'));
+});
+
+app.get('/admin/*', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'admin', 'login.html'));
+});
+
+// 404 handler - serve custom 404 page
 app.use((req, res) => {
-  res.status(404).json({ error: 'Not found' });
+  res.status(404).sendFile(path.join(__dirname, 'public', '404.html'));
+});
+
+// Automatic backup functionality
+const cron = require('node-cron');
+const fsBackup = require('fs').promises;
+const adminController = require('./server/controllers/adminController');
+
+// Schedule automatic backup every day at 3:00 AM
+cron.schedule('0 3 * * *', async () => {
+  console.log('Running automatic backup...');
+
+  try {
+    const BACKUP_DIR = path.join(__dirname, 'backups');
+
+    // Ensure backup directory exists
+    try {
+      await fsBackup.access(BACKUP_DIR);
+    } catch {
+      await fsBackup.mkdir(BACKUP_DIR, { recursive: true });
+    }
+
+    const User = mongoose.model('User');
+    const Admin = require('./server/models/Admin');
+    const BlogPost = mongoose.model('BlogPost');
+    const FAQ = mongoose.model('FAQ');
+    const Settings = mongoose.model('Settings');
+    const ContactMessage = mongoose.model('ContactMessage');
+
+    // Get all data
+    const users = await User.find().lean();
+    const admins = await Admin.find().lean();
+    const blogPosts = await BlogPost.find().lean();
+    const faqs = await FAQ.find().lean();
+    const settings = await Settings.find().lean();
+    const messages = await ContactMessage.find().lean();
+
+    const backup = {
+      version: '1.0',
+      createdAt: new Date().toISOString(),
+      createdBy: 'automatic',
+      data: {
+        users,
+        admins,
+        blogPosts,
+        faqs,
+        settings,
+        messages
+      },
+      stats: {
+        usersCount: users.length,
+        adminsCount: admins.length,
+        blogPostsCount: blogPosts.length,
+        faqsCount: faqs.length,
+        messagesCount: messages.length
+      }
+    };
+
+    const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
+    const filename = `backup-auto-${timestamp}.json`;
+    const filepath = path.join(BACKUP_DIR, filename);
+
+    await fsBackup.writeFile(filepath, JSON.stringify(backup, null, 2), 'utf8');
+
+    console.log(`✅ Automatic backup created: ${filename}`);
+
+    // Clean up old backups (keep last 30)
+    const files = await fsBackup.readdir(BACKUP_DIR);
+    const backupFiles = files
+      .filter(f => f.startsWith('backup-') && f.endsWith('.json'))
+      .map(async (f) => {
+        const stats = await fsBackup.stat(path.join(BACKUP_DIR, f));
+        return { name: f, mtime: stats.mtime };
+      });
+
+    const backupsWithStats = await Promise.all(backupFiles);
+    backupsWithStats.sort((a, b) => b.mtime - a.mtime);
+
+    // Delete old backups
+    if (backupsWithStats.length > 30) {
+      for (let i = 30; i < backupsWithStats.length; i++) {
+        await fsBackup.unlink(path.join(BACKUP_DIR, backupsWithStats[i].name));
+        console.log(`🗑️ Deleted old backup: ${backupsWithStats[i].name}`);
+      }
+    }
+
+  } catch (error) {
+    console.error('❌ Automatic backup failed:', error);
+  }
 });
 
 // Start server
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
   console.log(`MongoDB connected to: ${process.env.MONGODB_URI || 'mongodb://localhost:27017/loyalty-cards'}`);
+  console.log('🔄 Automatic backup scheduled for 3:00 AM daily');
 });
 
 process.on('unhandledRejection', (reason, promise) => {

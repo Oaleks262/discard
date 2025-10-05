@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <!-- Google Tag Manager -->
+    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','GTM-P8SN5J4N');</script>
+    <!-- End Google Tag Manager -->
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FAQ - disCard</title>
+    <meta name="google-adsense-account" content="ca-pub-8972937738510733">
+    <meta name="description" content="Часті питання про disCard - додаток для зберігання карток лояльності">
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    <link rel="stylesheet" href="/css/landing.css">
+    <style>
+        .faq-page {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: var(--spacing-3xl) var(--spacing-xl);
+        }
+
+        .faq-page h1 {
+            font-size: 3rem;
+            font-weight: var(--font-weight-bold);
+            color: var(--text-primary);
+            margin-bottom: var(--spacing-lg);
+            text-align: center;
+        }
+
+        .faq-search {
+            margin-bottom: var(--spacing-2xl);
+        }
+
+        .faq-search input {
+            width: 100%;
+            padding: var(--spacing-md);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            font-size: 1rem;
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            transition: var(--transition);
+        }
+
+        .faq-search input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(0, 102, 255, 0.1);
+        }
+
+        .faq-accordion {
+            margin-top: var(--spacing-2xl);
+        }
+
+        .faq-item {
+            background-color: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            margin-bottom: var(--spacing-md);
+            overflow: hidden;
+            transition: var(--transition);
+        }
+
+        .faq-question {
+            width: 100%;
+            padding: var(--spacing-lg);
+            background: transparent;
+            border: none;
+            text-align: left;
+            font-size: 1.125rem;
+            font-weight: var(--font-weight-semibold);
+            color: var(--text-primary);
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: var(--transition);
+        }
+
+        .faq-question:hover {
+            color: var(--primary);
+        }
+
+        .faq-icon {
+            font-size: 1.5rem;
+            color: var(--primary);
+            transition: var(--transition);
+        }
+
+        .faq-item.active .faq-icon {
+            transform: rotate(45deg);
+        }
+
+        .faq-answer {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+        }
+
+        .faq-answer-content {
+            padding: 0 var(--spacing-lg) var(--spacing-lg) var(--spacing-lg);
+            color: var(--text-secondary);
+            line-height: 1.8;
+        }
+
+        .faq-item.active .faq-answer {
+            max-height: 500px;
+        }
+
+        .no-results {
+            text-align: center;
+            padding: var(--spacing-2xl);
+            color: var(--text-muted);
+        }
+    </style>
+</head>
+<body>
+    <!-- Google Tag Manager (noscript) -->
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-P8SN5J4N"
+    height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+    <!-- End Google Tag Manager (noscript) -->
+
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <a href="/" class="logo" id="logo-link">
+                    <img src="/icons/logo.png" alt="disCard" width="48" height="48" class="logo-icon">
+                    <span class="logo-text">disCard</span>
+                </a>
+
+                <!-- Desktop Navigation -->
+                <nav class="nav-menu">
+                    <a href="/" class="nav-link" data-i18n="nav.home">Головна</a>
+                    <a href="/blog" class="nav-link" data-i18n="nav.blog">Блог</a>
+                    <a href="/faq" class="nav-link active" data-i18n="nav.faq">FAQ</a>
+                    <a href="/contact" class="nav-link" data-i18n="nav.contact">Контакти</a>
+                </nav>
+
+                <div class="header-actions">
+                    <button class="theme-toggle" id="theme-toggle" aria-label="Toggle theme">
+                        <svg class="theme-icon" viewBox="0 0 24 24" width="20" height="20">
+                            <path d="M12 2.25a.75.75 0 01.75.75v2.25a.75.75 0 01-1.5 0V3a.75.75 0 01.75-.75zM7.5 12a4.5 4.5 0 119 0 4.5 4.5 0 01-9 0zM18.894 6.166a.75.75 0 00-1.06-1.06l-1.591 1.59a.75.75 0 101.06 1.061l1.591-1.59zM21.75 12a.75.75 0 01-.75.75h-2.25a.75.75 0 010-1.5H21a.75.75 0 01.75.75zM17.834 18.894a.75.75 0 001.06-1.06l-1.59-1.591a.75.75 0 10-1.061 1.06l1.59 1.591zM12 18a.75.75 0 01.75.75V21a.75.75 0 01-1.5 0v-2.25A.75.75 0 0112 18zM7.758 17.303a.75.75 0 00-1.061-1.06l-1.591 1.59a.75.75 0 001.06 1.061l1.591-1.59zM6 12a.75.75 0 01-.75.75H3a.75.75 0 010-1.5h2.25A.75.75 0 016 12zM6.697 7.757a.75.75 0 001.06-1.06l-1.59-1.591a.75.75 0 00-1.061 1.06l1.59 1.591z" fill="currentColor"/>
+                        </svg>
+                    </button>
+                    <div class="language-switcher">
+                        <button class="lang-btn active" data-lang="uk">УК</button>
+                        <button class="lang-btn" data-lang="en">EN</button>
+                    </div>
+
+                    <!-- Mobile Menu Toggle -->
+                    <button class="mobile-menu-toggle" id="mobile-menu-toggle" aria-label="Toggle menu">
+                        <span class="hamburger-line"></span>
+                        <span class="hamburger-line"></span>
+                        <span class="hamburger-line"></span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Mobile Navigation -->
+            <nav class="mobile-menu" id="mobile-menu">
+                <a href="/" class="mobile-nav-link" data-i18n="nav.home">Головна</a>
+                <a href="/blog" class="mobile-nav-link" data-i18n="nav.blog">Блог</a>
+                <a href="/faq" class="mobile-nav-link active" data-i18n="nav.faq">FAQ</a>
+                <a href="/contact" class="mobile-nav-link" data-i18n="nav.contact">Контакти</a>
+                <a href="/app" class="mobile-nav-link mobile-nav-cta" data-i18n="nav.app">Відкрити додаток</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- FAQ Content -->
+    <main class="faq-page">
+        <h1>Часті питання</h1>
+        <p style="text-align: center; color: var(--text-secondary); margin-bottom: var(--spacing-xl);">
+            Знайдіть відповіді на найпоширеніші питання про disCard
+        </p>
+
+        <div class="faq-search">
+            <input type="text" id="faqSearch" placeholder="🔍 Шукати питання...">
+        </div>
+
+        <div id="faqList" class="faq-accordion">
+            <div style="text-align: center; padding: var(--spacing-2xl);">
+                <div class="loader" style="margin: 0 auto;"></div>
+            </div>
+        </div>
+
+        <div id="noResults" class="no-results hidden">
+            Нічого не знайдено. Спробуйте інший запит.
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer id="footer-placeholder"></footer>
+
+    <script src="/js/i18n.js"></script>
+    <script src="/js/landing.js"></script>
+    <script src="/js/analytics.js"></script>
+    <script src="/js/adsense.js"></script>
+    <script src="/js/cookie-banner.js"></script>
+    <script>
+        // Mobile menu toggle
+        const mobileMenuToggle = document.getElementById('mobile-menu-toggle');
+        const mobileMenu = document.getElementById('mobile-menu');
+
+        if (mobileMenuToggle && mobileMenu) {
+            mobileMenuToggle.addEventListener('click', function() {
+                mobileMenuToggle.classList.toggle('active');
+                mobileMenu.classList.toggle('active');
+                document.body.style.overflow = mobileMenu.classList.contains('active') ? 'hidden' : '';
+            });
+
+            const mobileNavLinks = document.querySelectorAll('.mobile-nav-link');
+            mobileNavLinks.forEach(link => {
+                link.addEventListener('click', function() {
+                    mobileMenuToggle.classList.remove('active');
+                    mobileMenu.classList.remove('active');
+                    document.body.style.overflow = '';
+                });
+            });
+
+            window.addEventListener('resize', function() {
+                if (window.innerWidth > 768) {
+                    mobileMenuToggle.classList.remove('active');
+                    mobileMenu.classList.remove('active');
+                    document.body.style.overflow = '';
+                }
+            });
+        }
+
+        // Theme toggle
+        const themeToggle = document.getElementById('theme-toggle');
+        const savedTheme = localStorage.getItem('theme');
+        const systemTheme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+        const currentTheme = savedTheme || systemTheme;
+
+        document.documentElement.setAttribute('data-theme', currentTheme);
+        updateThemeIcon(currentTheme);
+
+        function updateThemeIcon(theme) {
+            const icon = themeToggle?.querySelector('.theme-icon');
+            if (icon) {
+                if (theme === 'dark') {
+                    icon.innerHTML = '<path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z" fill="currentColor"/>';
+                } else {
+                    icon.innerHTML = '<path d="M12 2.25a.75.75 0 01.75.75v2.25a.75.75 0 01-1.5 0V3a.75.75 0 01.75-.75zM7.5 12a4.5 4.5 0 119 0 4.5 4.5 0 01-9 0zM18.894 6.166a.75.75 0 00-1.06-1.06l-1.591 1.59a.75.75 0 101.06 1.061l1.591-1.59zM21.75 12a.75.75 0 01-.75.75h-2.25a.75.75 0 010-1.5H21a.75.75 0 01.75.75zM17.834 18.894a.75.75 0 001.06-1.06l-1.59-1.591a.75.75 0 10-1.061 1.06l1.59 1.591zM12 18a.75.75 0 01.75.75V21a.75.75 0 01-1.5 0v-2.25A.75.75 0 0112 18zM7.758 17.303a.75.75 0 00-1.061-1.06l-1.591 1.59a.75.75 0 001.06 1.061l1.591-1.59zM6 12a.75.75 0 01-.75.75H3a.75.75 0 010-1.5h2.25A.75.75 0 016 12zM6.697 7.757a.75.75 0 001.06-1.06l-1.59-1.591a.75.75 0 00-1.061 1.06l1.59 1.591z" fill="currentColor"/>';
+                }
+            }
+        }
+
+        if (themeToggle) {
+            themeToggle.addEventListener('click', function() {
+                const current = document.documentElement.getAttribute('data-theme');
+                const newTheme = current === 'light' ? 'dark' : 'light';
+                document.documentElement.setAttribute('data-theme', newTheme);
+                localStorage.setItem('theme', newTheme);
+                updateThemeIcon(newTheme);
+            });
+        }
+
+        // Language switcher
+        const langBtns = document.querySelectorAll('.lang-btn');
+        langBtns.forEach(btn => {
+            btn.addEventListener('click', function() {
+                const lang = this.dataset.lang;
+                langBtns.forEach(b => b.classList.remove('active'));
+                this.classList.add('active');
+                if (window.i18n) {
+                    window.i18n.setLanguage(lang);
+                    // Reload FAQ with new language
+                    loadFAQ();
+                }
+            });
+        });
+    </script>
+    <script>
+        let allFaqItems = [];
+
+        // Завантаження FAQ
+        async function loadFAQ() {
+            try {
+                const response = await fetch('/api/faq');
+                const faqItems = await response.json();
+
+                allFaqItems = faqItems;
+                renderFAQList(faqItems);
+
+            } catch (error) {
+                console.error('Load FAQ error:', error);
+                document.getElementById('faqList').innerHTML = '<p class="no-results">Помилка завантаження FAQ</p>';
+            }
+        }
+
+        // Відображення FAQ
+        function renderFAQList(items) {
+            const container = document.getElementById('faqList');
+            const noResults = document.getElementById('noResults');
+
+            if (!items || items.length === 0) {
+                container.innerHTML = '';
+                noResults.classList.remove('hidden');
+                return;
+            }
+
+            noResults.classList.add('hidden');
+
+            container.innerHTML = items.map(item => {
+                // Get translations directly from the translations object
+                const lang = window.i18n ? window.i18n.getCurrentLanguage() : 'uk';
+                const faqData = window.i18n?.translations?.[lang]?.faq?.items?.[item.key];
+
+                // If translation not found, skip this item
+                if (!faqData || typeof faqData !== 'object') {
+                    console.warn(`Translation not found for FAQ key: ${item.key}`);
+                    return '';
+                }
+
+                return `
+                    <div class="faq-item">
+                        <button class="faq-question" onclick="toggleFAQ(this)">
+                            <span>${escapeHtml(faqData.question || '')}</span>
+                            <span class="faq-icon">+</span>
+                        </button>
+                        <div class="faq-answer">
+                            <div class="faq-answer-content">${formatAnswer(faqData.answer || '')}</div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        // Format answer with line breaks
+        function formatAnswer(text) {
+            return escapeHtml(text).replace(/\n/g, '<br>');
+        }
+
+        // Перемикання FAQ
+        function toggleFAQ(button) {
+            const item = button.parentElement;
+            const icon = item.querySelector('.faq-icon');
+
+            // Закрити всі інші
+            document.querySelectorAll('.faq-item').forEach(el => {
+                if (el !== item && el.classList.contains('active')) {
+                    el.classList.remove('active');
+                    el.querySelector('.faq-icon').textContent = '+';
+                }
+            });
+
+            // Перемкнути поточний
+            item.classList.toggle('active');
+            icon.textContent = item.classList.contains('active') ? '−' : '+';
+        }
+
+        // Пошук
+        document.getElementById('faqSearch').addEventListener('input', (e) => {
+            const searchTerm = e.target.value.toLowerCase();
+
+            if (!searchTerm) {
+                renderFAQList(allFaqItems);
+                return;
+            }
+
+            const lang = window.i18n ? window.i18n.getCurrentLanguage() : 'uk';
+            const filtered = allFaqItems.filter(item => {
+                const faqData = window.i18n?.translations?.[lang]?.faq?.items?.[item.key];
+                if (!faqData || typeof faqData !== 'object') return false;
+
+                const question = (faqData.question || '').toLowerCase();
+                const answer = (faqData.answer || '').toLowerCase();
+                return question.includes(searchTerm) || answer.includes(searchTerm);
+            });
+
+            renderFAQList(filtered);
+        });
+
+        // Escape HTML
+        function escapeHtml(text) {
+            const map = {
+                '&': '&amp;',
+                '<': '&lt;',
+                '>': '&gt;',
+                '"': '&quot;',
+                "'": '&#039;'
+            };
+            return text.replace(/[&<>"']/g, m => map[m]);
+        }
+
+        // Додати Schema.org FAQPage markup
+        function addSchemaMarkup(items) {
+            if (!items || items.length === 0) return;
+
+            const lang = window.i18n ? window.i18n.getCurrentLanguage() : 'uk';
+            const mainEntity = items.map(item => {
+                const faqData = window.i18n?.translations?.[lang]?.faq?.items?.[item.key];
+                if (!faqData || typeof faqData !== 'object') return null;
+
+                return {
+                    "@type": "Question",
+                    "name": faqData.question,
+                    "acceptedAnswer": {
+                        "@type": "Answer",
+                        "text": faqData.answer
+                    }
+                };
+            }).filter(item => item !== null);
+
+            const schema = {
+                "@context": "https://schema.org",
+                "@type": "FAQPage",
+                "mainEntity": mainEntity
+            };
+
+            const script = document.createElement('script');
+            script.type = 'application/ld+json';
+            script.text = JSON.stringify(schema);
+            document.head.appendChild(script);
+        }
+
+        // Ініціалізація
+        document.addEventListener('DOMContentLoaded', async () => {
+            await loadFAQ();
+            addSchemaMarkup(allFaqItems);
+        });
+    </script>
+</body>
+</html>

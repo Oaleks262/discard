@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - disCard Admin</title>
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    <link rel="stylesheet" href="/admin/css/admin.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+</head>
+<body data-theme="light">
+    <div class="admin-layout">
+        <!-- Sidebar -->
+        <aside class="admin-sidebar">
+            <a href="/admin/dashboard.html" class="admin-logo">disCard Admin</a>
+            <nav>
+                <ul class="admin-nav">
+                    <li><a href="/admin/dashboard.html" class="active">📊 Dashboard</a></li>
+                    <li><a href="/admin/users.html">👥 Користувачі</a></li>
+                    <li><a href="/admin/blog.html">📝 Блог</a></li>
+                    <li><a href="/admin/faq.html">❓ FAQ</a></li>
+                    <li><a href="/admin/messages.html">✉️ Повідомлення</a></li>
+                    <li><a href="/admin/backup.html">💾 Резервні копії</a></li>
+                    <li><a href="/admin/settings.html">⚙️ Налаштування</a></li>
+                    <li><a href="/" target="_blank">🌐 Відкрити сайт</a></li>
+                    <li><a href="#" id="logout-btn">🚪 Вийти</a></li>
+                </ul>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="admin-main">
+            <header class="admin-header">
+                <h1>Dashboard</h1>
+                <div class="admin-header-actions">
+                    <button class="theme-toggle" id="theme-toggle">🌙</button>
+                    <span id="admin-name"></span>
+                </div>
+            </header>
+
+            <!-- Stats Grid -->
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-card-label">Всього користувачів</div>
+                    <div class="stat-card-value" id="totalUsers">-</div>
+                    <div class="stat-card-change positive" id="newUsersChange"></div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-card-label">Всього карток</div>
+                    <div class="stat-card-value" id="totalCards">-</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-card-label">Нові за тиждень</div>
+                    <div class="stat-card-value" id="newUsersWeek">-</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-card-label">Активні користувачі</div>
+                    <div class="stat-card-value" id="activeUsers">-</div>
+                </div>
+            </div>
+
+            <!-- Charts -->
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: var(--spacing-lg); margin-bottom: var(--spacing-xl);">
+                <div class="table-container" style="padding: var(--spacing-lg);">
+                    <h3 style="margin-bottom: var(--spacing-lg); color: var(--text-primary);">Ріст користувачів (7 днів)</h3>
+                    <canvas id="userGrowthChart"></canvas>
+                </div>
+                <div class="table-container" style="padding: var(--spacing-lg);">
+                    <h3 style="margin-bottom: var(--spacing-lg); color: var(--text-primary);">Популярні магазини</h3>
+                    <canvas id="popularStoresChart"></canvas>
+                </div>
+            </div>
+
+            <div id="error-message" class="error hidden"></div>
+            <div id="loader" class="loader hidden"></div>
+        </main>
+    </div>
+
+    <script src="/admin/js/auth.js"></script>
+    <script src="/admin/js/dashboard.js"></script>
+</body>
+</html>
