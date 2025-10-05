@@ -315,11 +315,21 @@ class AuthManager {
   showLoginForm() {
     document.getElementById('register-form').classList.add('hidden');
     document.getElementById('login-form').classList.remove('hidden');
+
+    // Update translations for login form
+    if (window.i18n) {
+      window.i18n.updatePageTexts();
+    }
   }
 
   showRegisterForm() {
     document.getElementById('login-form').classList.add('hidden');
     document.getElementById('register-form').classList.remove('hidden');
+
+    // Update translations for register form
+    if (window.i18n) {
+      window.i18n.updatePageTexts();
+    }
   }
 
   showAuthScreen() {
