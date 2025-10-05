@@ -121,6 +121,7 @@ Thumbs.db
 # IDE files
 .vscode/
 .idea/
+.claude/
 
 # Test files (removed from production)
 __tests__/
