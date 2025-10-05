@@ -151,6 +151,9 @@ clear-*.js
 promt.md
 google.md
 *.backup.md
+SERVER_SETUP_GUIDE.md
+SETUP_GUIDE.md
+*_SETUP*.md
 
 # Temporary files
 tmp/
