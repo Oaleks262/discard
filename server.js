@@ -81,6 +81,14 @@ app.use(cors({
 app.use(express.json({ limit: '10mb' }));
 app.use(express.static('public'));
 
+// Import routes
+const blogRoutes = require('./server/routes/blogRoutes');
+const faqRoutes = require('./server/routes/faqRoutes');
+
+// API Routes
+app.use('/api/blog', blogRoutes);
+app.use('/api/faq', faqRoutes);
+
 // App route - serve app.html for /app paths
 app.get('/app', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'app.html'));
@@ -97,6 +105,63 @@ app.get('/blog', (req, res) => {
 
 app.get('/blog/post/:id', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'blog', 'post.html'));
+});
+
+app.get('/faq', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'faq.html'));
+});
+
+app.get('/contact', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'contact.html'));
+});
+
+app.get('/privacy', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'privacy.html'));
+});
+
+app.get('/terms', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'terms.html'));
+});
+
+// Admin routes
+app.get('/admin', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'admin', 'login.html'));
+});
+
+app.get('/admin/login', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'admin', 'login.html'));
+});
+
+app.get('/admin/dashboard', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'admin', 'dashboard.html'));
+});
+
+app.get('/admin/users', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'admin', 'users.html'));
+});
+
+app.get('/admin/blog', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'admin', 'blog.html'));
+});
+
+app.get('/admin/blog-editor', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'admin', 'blog-editor.html'));
+});
+
+app.get('/admin/messages', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'admin', 'messages.html'));
+});
+
+app.get('/admin/faq', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'admin', 'faq.html'));
+});
+
+app.get('/admin/settings', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'admin', 'settings.html'));
+});
+
+app.get('/admin/backup', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'admin', 'backup.html'));
 });
 
 // MongoDB connection
@@ -433,66 +498,54 @@ userSchema.methods.comparePassword = async function(candidatePassword) {
 
 const User = mongoose.model('User', userSchema);
 
-// Blog Post Schema
-const blogPostSchema = new mongoose.Schema({
-  title: {
+// Admin Schema
+const adminSchema = new mongoose.Schema({
+  email: {
     type: String,
     required: true,
-    trim: true,
-    maxlength: 200
-  },
-  excerpt: {
-    type: String,
-    trim: true,
-    maxlength: 500
-  },
-  content: {
-    type: String,
-    required: true
-  },
-  category: {
-    type: String,
-    required: true,
-    enum: ['news', 'guides', 'tech', 'tutorials', 'updates']
-  },
-  status: {
-    type: String,
-    required: true,
-    enum: ['published', 'draft', 'scheduled'],
-    default: 'draft'
-  },
-  author: {
-    type: String,
-    required: true,
-    default: 'disCard Team'
-  },
-  tags: {
-    type: String,
+    unique: true,
+    lowercase: true,
     trim: true
   },
-  filename: {
+  password: {
     type: String,
     required: true
   },
-  views: {
-    type: Number,
-    default: 0
+  name: {
+    type: String,
+    required: true
   },
-  wordCount: {
-    type: Number,
-    default: 0
+  role: {
+    type: String,
+    enum: ['admin', 'superadmin'],
+    default: 'admin'
   },
-  scheduledDate: {
+  lastLogin: {
     type: Date
   },
-  publishedDate: {
-    type: Date
+  createdAt: {
+    type: Date,
+    default: Date.now
   }
-}, {
-  timestamps: true
 });
 
-const BlogPost = mongoose.model('BlogPost', blogPostSchema);
+// Hash password before saving
+adminSchema.pre('save', async function(next) {
+  if (!this.isModified('password')) return next();
+  this.password = await bcrypt.hash(this.password, 12);
+  next();
+});
+
+// Compare password method
+adminSchema.methods.comparePassword = async function(candidatePassword) {
+  return bcrypt.compare(candidatePassword, this.password);
+};
+
+const Admin = mongoose.model('Admin', adminSchema);
+
+// Import models
+const BlogPost = require('./server/models/BlogPost');
+const FAQ = require('./server/models/FAQ');
 
 // Site Settings Schema
 const settingsSchema = new mongoose.Schema({
@@ -2888,6 +2941,52 @@ app.get('/api/pages/:slug', async (req, res) => {
 
 // Routes
 
+// Admin Login
+app.post('/api/admin/auth/login', [
+  body('email').isEmail().normalizeEmail(),
+  body('password').exists()
+], handleValidationErrors, async (req, res) => {
+  try {
+    const { email, password } = req.body;
+
+    // Find admin
+    const admin = await Admin.findOne({ email });
+    if (!admin) {
+      return res.status(400).json({ error: 'Invalid credentials' });
+    }
+
+    // Check password
+    const isValidPassword = await admin.comparePassword(password);
+    if (!isValidPassword) {
+      return res.status(400).json({ error: 'Invalid credentials' });
+    }
+
+    // Update last login
+    admin.lastLogin = new Date();
+    await admin.save();
+
+    // Generate token
+    const token = jwt.sign(
+      { userId: admin._id, role: admin.role, adminId: admin._id },
+      process.env.JWT_SECRET,
+      { expiresIn: '7d' }
+    );
+
+    res.json({
+      admin: {
+        id: admin._id,
+        name: admin.name,
+        email: admin.email,
+        role: admin.role
+      },
+      token
+    });
+  } catch (error) {
+    console.error('Admin login error:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
 // Register
 app.post('/api/auth/register', [
   body('name').trim().isLength({ min: 2, max: 100 }).escape(),
@@ -2967,13 +3066,9 @@ app.post('/api/auth/login', [
       const verificationCode = generateVerificationCode();
       const expiresAt = new Date(Date.now() + 10 * 60 * 1000); // 10 minutes
 
-      console.log('🔐 Generated 2FA code for', email, ':', verificationCode, 'Type:', typeof verificationCode);
-
       user.verificationCode = verificationCode;
       user.verificationCodeExpires = expiresAt;
       await user.save();
-
-      console.log('💾 Saved code to DB. Checking:', user.verificationCode);
 
       // Send verification email with device info
       const userAgent = req.get('User-Agent') || '';
@@ -3034,37 +3129,25 @@ app.post('/api/auth/verify-code', [
   try {
     const { email, code } = req.body;
 
-    console.log('📧 2FA Verification attempt:', { email, code, codeType: typeof code });
-
     // Find user
     const user = await User.findOne({ email });
     if (!user) {
-      console.log('❌ User not found:', email);
       return res.status(400).json({ error: 'Invalid email' });
     }
 
-    console.log('✅ User found. Stored code:', user.verificationCode, 'Type:', typeof user.verificationCode);
-    console.log('🕐 Code expires at:', user.verificationCodeExpires);
-
     // Check if code exists and is not expired
     if (!user.verificationCode || !user.verificationCodeExpires) {
-      console.log('❌ No verification code in DB');
       return res.status(400).json({ error: 'No verification code found' });
     }
 
     if (new Date() > user.verificationCodeExpires) {
-      console.log('❌ Code expired');
       return res.status(400).json({ error: 'Verification code expired' });
     }
 
     // Check if code matches
-    console.log('🔍 Comparing codes:', { received: code, stored: user.verificationCode, match: user.verificationCode === code });
     if (user.verificationCode !== code) {
-      console.log('❌ Code mismatch!');
       return res.status(400).json({ error: 'Invalid verification code' });
     }
-
-    console.log('✅ Code verified successfully!');
 
     // Clear verification code
     user.verificationCode = undefined;
@@ -3751,9 +3834,15 @@ app.use((error, req, res, next) => {
   res.status(500).json({ error: 'Internal server error' });
 });
 
-// 404 handler
+// 404 handler - serve 404.html for non-API requests
 app.use((req, res) => {
-  res.status(404).json({ error: 'Not found' });
+  // For API requests, send JSON
+  if (req.path.startsWith('/api/')) {
+    return res.status(404).json({ error: 'Not found' });
+  }
+
+  // For other requests, serve 404.html
+  res.status(404).sendFile(path.join(__dirname, 'public', '404.html'));
 });
 
 // Start server

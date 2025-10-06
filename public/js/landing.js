@@ -11,6 +11,8 @@ class LandingPage {
 
   init() {
     this.setupLanguageSwitcher();
+    this.setupThemeToggle();
+    this.setupMobileMenu();
     this.setupCTAButton();
     this.setupScrollAnimations();
     this.setupThemeDetection();
@@ -43,25 +45,25 @@ class LandingPage {
   }
 
   setupLanguageSwitcher() {
-    const languageBtns = document.querySelectorAll('.lang-btn');
-    
+    const languageBtns = document.querySelectorAll('.lang-btn, .mobile-lang-btn');
+
     languageBtns.forEach(btn => {
       btn.addEventListener('click', (e) => {
         e.preventDefault();
-        
+
         const selectedLang = btn.dataset.lang;
         const currentLang = window.i18n ? window.i18n.getCurrentLanguage() : 'uk';
-        
+
         if (selectedLang !== currentLang) {
-          // Update active state
-          languageBtns.forEach(b => b.classList.remove('active'));
-          btn.classList.add('active');
-          
+          // Update active state for all buttons (desktop and mobile)
+          document.querySelectorAll('.lang-btn, .mobile-lang-btn').forEach(b => b.classList.remove('active'));
+          document.querySelectorAll(`[data-lang="${selectedLang}"]`).forEach(b => b.classList.add('active'));
+
           // Change language
           if (window.i18n) {
             window.i18n.setLanguage(selectedLang);
           }
-          
+
           // Add animation effect
           btn.style.transform = 'scale(0.95)';
           setTimeout(() => {
@@ -88,6 +90,64 @@ class LandingPage {
         }
       }
     }, 100);
+  }
+
+  setupThemeToggle() {
+    const themeToggles = document.querySelectorAll('#theme-toggle, #mobile-theme-toggle');
+
+    themeToggles.forEach(toggle => {
+      toggle.addEventListener('click', () => {
+        const currentTheme = document.documentElement.getAttribute('data-theme') || 'light';
+        const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+
+        document.documentElement.setAttribute('data-theme', newTheme);
+        localStorage.setItem('theme', newTheme);
+
+        // Update icon for all toggles
+        themeToggles.forEach(t => {
+          const icon = t.querySelector('.theme-icon');
+          if (icon) {
+            icon.style.transform = 'rotate(180deg)';
+            setTimeout(() => {
+              icon.style.transform = '';
+            }, 300);
+          }
+        });
+      });
+    });
+
+    // Set initial theme
+    const savedTheme = localStorage.getItem('theme') || 'light';
+    document.documentElement.setAttribute('data-theme', savedTheme);
+  }
+
+  setupMobileMenu() {
+    const menuToggle = document.getElementById('mobile-menu-toggle');
+    const mobileMenu = document.getElementById('mobile-menu');
+
+    if (menuToggle && mobileMenu) {
+      menuToggle.addEventListener('click', () => {
+        menuToggle.classList.toggle('active');
+        mobileMenu.classList.toggle('active');
+      });
+
+      // Close menu when clicking on a link
+      const mobileLinks = mobileMenu.querySelectorAll('.mobile-nav-link');
+      mobileLinks.forEach(link => {
+        link.addEventListener('click', () => {
+          menuToggle.classList.remove('active');
+          mobileMenu.classList.remove('active');
+        });
+      });
+
+      // Close menu when clicking outside
+      document.addEventListener('click', (e) => {
+        if (!menuToggle.contains(e.target) && !mobileMenu.contains(e.target)) {
+          menuToggle.classList.remove('active');
+          mobileMenu.classList.remove('active');
+        }
+      });
+    }
   }
 
   setupCTAButton() {
