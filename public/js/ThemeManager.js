@@ -50,28 +50,27 @@ class ThemeManager {
   updateCodesForTheme() {
     // Set flag to reduce logging during theme updates
     this.isThemeUpdate = true;
-    
+
     try {
       // 1. Update code preview in add form (if visible and has content)
       const codeInput = document.getElementById('card-code');
       const preview = document.getElementById('code-preview');
       if (codeInput && preview && codeInput.value && !preview.classList.contains('hidden')) {
-        this.app.updateCodePreview();
-      }
-      
-      // 2. Update all card previews in grid
-      const cardItems = document.querySelectorAll('.card-item');
-      cardItems.forEach((cardElement, index) => {
-        if (index < AppState.cards.length) {
-          const card = AppState.cards[index];
-          this.app.generateCardPreview(card, cardElement);
+        if (this.app.cards && typeof this.app.cards.updateCodePreview === 'function') {
+          this.app.cards.updateCodePreview();
         }
-      });
-      
+      }
+
+      // 2. Card previews in grid don't need regeneration - they're just styled elements
+      // No code generation is needed for the card list items
+
       // 3. Update modal code if modal is open
       const cardModal = document.getElementById('card-modal');
-      if (cardModal && cardModal.classList.contains('show') && this.app.currentCard) {
-        this.regenerateModalCode();
+      if (cardModal && cardModal.classList.contains('show')) {
+        const currentCard = this.app.cards?.currentCard;
+        if (currentCard) {
+          this.regenerateModalCode();
+        }
       }
     } finally {
       // Always reset flag
@@ -80,7 +79,8 @@ class ThemeManager {
   }
 
   regenerateModalCode() {
-    if (!this.app.currentCard) {
+    const currentCard = this.app.cards?.currentCard;
+    if (!currentCard) {
       return;
     }
 
@@ -89,7 +89,7 @@ class ThemeManager {
       return;
     }
 
-    const card = this.app.currentCard;
+    const card = currentCard;
 
     try {
       if (card.codeType === 'qrcode') {

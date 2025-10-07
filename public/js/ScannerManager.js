@@ -48,7 +48,7 @@ class ScannerManager {
     
     instructions.textContent = instructionText;
     
-    modal.classList.add('show');
+    modal.classList.add('active');
 
     try {
       // Check for PWA standalone mode
@@ -145,7 +145,7 @@ class ScannerManager {
 
   closeScanner() {
     const modal = document.getElementById('scanner-modal');
-    modal.classList.remove('show');
+    modal.classList.remove('active');
 
     if (this.currentStream) {
       this.currentStream.getTracks().forEach(track => track.stop());

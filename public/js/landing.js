@@ -45,133 +45,23 @@ class LandingPage {
   }
 
   setupLanguageSwitcher() {
-    const languageBtns = document.querySelectorAll('.lang-btn, .mobile-lang-btn');
-
-    languageBtns.forEach(btn => {
-      btn.addEventListener('click', (e) => {
-        e.preventDefault();
-
-        const selectedLang = btn.dataset.lang;
-        const currentLang = window.i18n ? window.i18n.getCurrentLanguage() : 'uk';
-
-        if (selectedLang !== currentLang) {
-          // Update active state for all buttons (desktop and mobile)
-          document.querySelectorAll('.lang-btn, .mobile-lang-btn').forEach(b => b.classList.remove('active'));
-          document.querySelectorAll(`[data-lang="${selectedLang}"]`).forEach(b => b.classList.add('active'));
-
-          // Change language
-          if (window.i18n) {
-            window.i18n.setLanguage(selectedLang);
-          }
-
-          // Add animation effect
-          btn.style.transform = 'scale(0.95)';
-          setTimeout(() => {
-            btn.style.transform = '';
-          }, 150);
-        }
-      });
-    });
-
-    // Set initial active state
-    setTimeout(() => {
-      if (window.i18n) {
-        const currentLang = window.i18n.getCurrentLanguage();
-        const activeLangBtn = document.querySelector(`[data-lang="${currentLang}"]`);
-        if (activeLangBtn) {
-          document.querySelectorAll('.lang-btn').forEach(btn => btn.classList.remove('active'));
-          activeLangBtn.classList.add('active');
-        }
-      } else {
-        // Default to Ukrainian if i18n not loaded
-        const ukBtn = document.querySelector('[data-lang="uk"]');
-        if (ukBtn) {
-          ukBtn.classList.add('active');
-        }
-      }
-    }, 100);
+    // Language switching is handled in inline script in index.html
+    // This method kept for compatibility but doesn't add duplicate handlers
   }
 
   setupThemeToggle() {
-    const themeToggles = document.querySelectorAll('#theme-toggle, #mobile-theme-toggle');
-
-    themeToggles.forEach(toggle => {
-      toggle.addEventListener('click', () => {
-        const currentTheme = document.documentElement.getAttribute('data-theme') || 'light';
-        const newTheme = currentTheme === 'light' ? 'dark' : 'light';
-
-        document.documentElement.setAttribute('data-theme', newTheme);
-        localStorage.setItem('theme', newTheme);
-
-        // Update icon for all toggles
-        themeToggles.forEach(t => {
-          const icon = t.querySelector('.theme-icon');
-          if (icon) {
-            icon.style.transform = 'rotate(180deg)';
-            setTimeout(() => {
-              icon.style.transform = '';
-            }, 300);
-          }
-        });
-      });
-    });
-
-    // Set initial theme
-    const savedTheme = localStorage.getItem('theme') || 'light';
-    document.documentElement.setAttribute('data-theme', savedTheme);
+    // Theme toggle is handled in inline script in index.html
+    // This method kept for compatibility but doesn't add duplicate handlers
   }
 
   setupMobileMenu() {
-    const menuToggle = document.getElementById('mobile-menu-toggle');
-    const mobileMenu = document.getElementById('mobile-menu');
-
-    if (menuToggle && mobileMenu) {
-      menuToggle.addEventListener('click', () => {
-        menuToggle.classList.toggle('active');
-        mobileMenu.classList.toggle('active');
-      });
-
-      // Close menu when clicking on a link
-      const mobileLinks = mobileMenu.querySelectorAll('.mobile-nav-link');
-      mobileLinks.forEach(link => {
-        link.addEventListener('click', () => {
-          menuToggle.classList.remove('active');
-          mobileMenu.classList.remove('active');
-        });
-      });
-
-      // Close menu when clicking outside
-      document.addEventListener('click', (e) => {
-        if (!menuToggle.contains(e.target) && !mobileMenu.contains(e.target)) {
-          menuToggle.classList.remove('active');
-          mobileMenu.classList.remove('active');
-        }
-      });
-    }
+    // Mobile menu is handled in inline script in index.html
+    // This method kept for compatibility but doesn't add duplicate handlers
   }
 
   setupCTAButton() {
-    const ctaButton = document.getElementById('cta-button');
-    
-    if (ctaButton) {
-      ctaButton.addEventListener('click', (e) => {
-        e.preventDefault();
-        
-        // Add click animation
-        ctaButton.style.transform = 'translateY(-2px) scale(0.98)';
-        
-        setTimeout(() => {
-          ctaButton.style.transform = '';
-          // Redirect to app
-          this.navigateToApp();
-        }, 200);
-      });
-
-      // Add hover effect
-      ctaButton.addEventListener('mouseenter', () => {
-        this.animatePhoneMockup();
-      });
-    }
+    // CTA button is handled in inline script in index.html
+    // This method kept for compatibility but doesn't add duplicate handlers
   }
 
   navigateToApp() {

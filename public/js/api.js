@@ -171,6 +171,26 @@ class APIClient {
         return response;
     }
 
+    async verifyTwoFactor(data) {
+        const response = await this.request('/auth/verify-code', {
+            method: 'POST',
+            body: JSON.stringify(data)
+        });
+        
+        if (response.token) {
+            this.setToken(response.token);
+        }
+        
+        return response;
+    }
+
+    async resendCode(data) {
+        return this.request('/auth/resend-code', {
+            method: 'POST',
+            body: JSON.stringify(data)
+        });
+    }
+
     async logout() {
         this.setToken(null);
     }

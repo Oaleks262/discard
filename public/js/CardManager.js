@@ -105,11 +105,11 @@ class CardManager {
     try {
       const grid = document.getElementById('cards-grid');
       const emptyState = document.getElementById('cards-empty');
-      
+
       if (!grid || !emptyState) {
         return;
       }
-    
+
     if (AppState.cards.length === 0) {
       grid.innerHTML = '';
       emptyState.classList.remove('hidden');
@@ -118,12 +118,12 @@ class CardManager {
 
     emptyState.classList.add('hidden');
     grid.innerHTML = AppState.cards.map(card => this.createCardHTML(card)).join('');
-    
+
     // Add click handlers and generate codes
     grid.querySelectorAll('.card-item').forEach((cardEl, index) => {
       const card = AppState.cards[index];
-      
-      cardEl.addEventListener('click', () => {
+
+      cardEl.addEventListener('click', (e) => {
         // Validate card before showing modal
         if (!card || !card.name) {
           console.error('Invalid card data:', card);
@@ -132,7 +132,7 @@ class CardManager {
         }
         this.showCardModal(card);
       });
-      
+
     });
 
     // Update cards count in profile
@@ -189,7 +189,7 @@ class CardManager {
     const title = document.getElementById('modal-card-name');
     const canvas = document.getElementById('modal-canvas');
     const codeText = document.getElementById('modal-code-text');
-    
+
     if (!modal || !title || !canvas || !codeText) {
       console.error('Modal elements not found');
       return;
@@ -219,8 +219,8 @@ class CardManager {
       this.generateModalCode(card);
     }
     
-    modal.classList.add('show');
-    
+    modal.classList.add('active');
+
     // Add backdrop click listener (only once)
     if (!modal.hasAttribute('data-backdrop-listener')) {
       modal.addEventListener('click', (e) => {
@@ -391,7 +391,7 @@ class CardManager {
   }
 
   closeCardModal() {
-    document.getElementById('card-modal').classList.remove('show');
+    document.getElementById('card-modal').classList.remove('active');
     this.currentCard = null;
     
     // Remove ESC key listener

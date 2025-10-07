@@ -1,4 +1,4 @@
-const express = require('express');
+/*  */const express = require('express');
 const path = require('path');
 const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
@@ -3124,10 +3124,11 @@ app.post('/api/auth/login', [
 // Verify 2FA code
 app.post('/api/auth/verify-code', [
   body('email').isEmail().normalizeEmail(),
-  body('code').isLength({ min: 5, max: 5 }).isNumeric()
+  body('code').trim().isLength({ min: 5, max: 5 }).isNumeric()
 ], handleValidationErrors, async (req, res) => {
   try {
     const { email, code } = req.body;
+    const trimmedCode = code.trim();
 
     // Find user
     const user = await User.findOne({ email });
@@ -3144,8 +3145,15 @@ app.post('/api/auth/verify-code', [
       return res.status(400).json({ error: 'Verification code expired' });
     }
 
+    // Debug logging
+    console.log('2FA Code Comparison:', {
+      stored: user.verificationCode,
+      received: trimmedCode,
+      match: user.verificationCode === trimmedCode
+    });
+
     // Check if code matches
-    if (user.verificationCode !== code) {
+    if (user.verificationCode !== trimmedCode) {
       return res.status(400).json({ error: 'Invalid verification code' });
     }
 

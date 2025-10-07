@@ -248,6 +248,8 @@ body {
   cursor: pointer;
   padding: 0;
   z-index: 1001;
+  position: relative;
+  pointer-events: auto;
 }
 
 .hamburger-line {
@@ -256,6 +258,7 @@ body {
   background-color: var(--text-primary);
   border-radius: 2px;
   transition: all 0.3s ease;
+  pointer-events: none;
 }
 
 .mobile-menu-toggle.active .hamburger-line:nth-child(1) {
@@ -288,7 +291,7 @@ body {
 }
 
 .mobile-menu.active {
-  max-height: 400px;
+  max-height: 520px;
 }
 
 .mobile-nav-link {
@@ -406,6 +409,12 @@ body {
 
   .mobile-menu {
     display: flex;
+  }
+
+  /* Hide desktop theme toggle and language switcher on mobile */
+  .header-actions .theme-toggle,
+  .header-actions .language-switcher {
+    display: none;
   }
 }
 

@@ -637,9 +637,12 @@ class AuthManager {
           }
         } catch (error) {
           console.error('Token validation failed:', error);
-          // Token is invalid, logout user
-          this.handleLogout();
-          UIUtils.showToast('error', UIUtils.safeT('messages.sessionExpired', 'Сесія закінчилася, увійдіть знову'));
+          // Only logout on explicit 401 Unauthorized, not on network errors
+          if (error.message && (error.message.includes('Unauthorized') || error.message.includes('401'))) {
+            this.handleLogout();
+            UIUtils.showToast('error', UIUtils.safeT('messages.sessionExpired', 'Сесія закінчилася, увійдіть знову'));
+          }
+          // Network errors are ignored - user stays logged in with cached data
         }
       }
       
@@ -692,12 +695,12 @@ class AuthManager {
 
     // Show modal
     modal.classList.remove('hidden');
-    modal.classList.add('show');
+    modal.classList.add('active');
 
     // Setup event listeners
     const closeModal = () => {
       modal.classList.add('hidden');
-      modal.classList.remove('show');
+      modal.classList.remove('active');
     };
 
     // Close button
@@ -762,7 +765,7 @@ class AuthManager {
         setTimeout(() => {
           const modal = document.getElementById('forgot-password-modal');
           modal.classList.add('hidden');
-          modal.classList.remove('show');
+          modal.classList.remove('active');
         }, 3000);
       } else {
         throw new Error(data.error || 'Помилка відновлення паролю');

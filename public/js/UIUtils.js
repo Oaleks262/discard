@@ -207,7 +207,7 @@ class UIUtils {
 
       // Add new listeners
       const hideModal = () => {
-        overlay.classList.remove('show');
+        overlay.classList.remove('active');
         document.body.style.overflow = '';
         
         // Remove modal from DOM after transition
@@ -251,7 +251,7 @@ class UIUtils {
       document.addEventListener('keydown', escHandler);
 
       // Show modal
-      overlay.classList.add('show');
+      overlay.classList.add('active');
       document.body.style.overflow = 'hidden';
       
       // Focus on confirm button
@@ -320,7 +320,7 @@ class UIUtils {
       closeBtn.parentNode.replaceChild(newCloseBtn, closeBtn);
 
       const hideModal = () => {
-        overlay.classList.remove('show');
+        overlay.classList.remove('active');
         document.body.style.overflow = '';
         
         // Remove modal from DOM after transition
@@ -361,7 +361,7 @@ class UIUtils {
       });
 
       // Show modal
-      overlay.classList.add('show');
+      overlay.classList.add('active');
       document.body.style.overflow = 'hidden';
       
       // Focus on input

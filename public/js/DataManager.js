@@ -35,6 +35,11 @@ class DataManager {
             autoRun: true,
             requireConfirmation: false
           });
+          
+          // Trigger card re-rendering after migration completes
+          if (window.app && window.app.cardManager) {
+            window.app.cardManager.renderCards();
+          }
         } catch (error) {
           console.error('Auto-migration failed:', error);
         }
@@ -207,10 +212,10 @@ class DataManager {
         return await window.api.changePassword(JSON.parse(options.body));
       } else if (endpoint === '/auth/profile' && options.method === 'PUT') {
         return await window.api.updateProfile(JSON.parse(options.body));
-      } else if (endpoint === '/auth/verify-code' && options.method === 'POST') {
-        return await window.api.request('/auth/verify-code', options);
-      } else if (endpoint === '/auth/resend-code' && options.method === 'POST') {
-        return await window.api.request('/auth/resend-code', options);
+      } else if (endpoint === '/auth/verify-code') {
+        return await window.api.verifyTwoFactor(JSON.parse(options.body));
+      } else if (endpoint === '/auth/resend-code') {
+        return await window.api.resendCode(JSON.parse(options.body));
       } else if (endpoint === '/cards' && options.method === 'POST') {
         const cardData = JSON.parse(options.body);
         
