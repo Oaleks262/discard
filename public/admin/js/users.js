@@ -47,14 +47,14 @@ function renderUsersTable(users) {
 
     tbody.innerHTML = users.map(user => `
         <tr>
-            <td>${user._id.substring(0, 8)}...</td>
+            <td>${(user.id || user._id || '').substring(0, 8)}...</td>
             <td>${escapeHtml(user.name)}</td>
             <td>${escapeHtml(user.email)}</td>
-            <td>${formatDate(user.createdAt)}</td>
+            <td>${formatDate(user.registrationDate || user.createdAt)}</td>
             <td>${user.cardsCount || 0}</td>
             <td>
-                <button onclick="viewUser('${user._id}')" class="btn-outline" style="padding: 0.5rem 1rem; margin-right: 0.5rem;">Переглянути</button>
-                <button onclick="deleteUser('${user._id}', '${escapeHtml(user.name)}')" class="btn-danger" style="padding: 0.5rem 1rem;">Видалити</button>
+                <button onclick="viewUser('${user.id || user._id}')" class="btn-outline" style="padding: 0.5rem 1rem; margin-right: 0.5rem;">Переглянути</button>
+                <button onclick="deleteUser('${user.id || user._id}', '${escapeHtml(user.name)}')" class="btn-danger" style="padding: 0.5rem 1rem;">Видалити</button>
             </td>
         </tr>
     `).join('');

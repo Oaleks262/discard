@@ -21,6 +21,7 @@ async function authFetch(url, options = {}) {
     const headers = {
         'Content-Type': 'application/json',
         'Authorization': `Bearer ${token}`,
+        'x-admin-key': 'admin-key-discard-2025',
         ...options.headers
     };
 

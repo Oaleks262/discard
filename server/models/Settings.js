@@ -80,10 +80,24 @@ const settingsSchema = new mongoose.Schema({
     twitter: { type: String }
   },
 
+  // Секційні налаштування для різних модулів (backup, email, тощо)
+  section: {
+    type: String,
+    sparse: true, // дозволяє null значення для backward compatibility
+    index: true
+  },
+  settings: {
+    type: mongoose.Schema.Types.Mixed, // дозволяє будь-який тип даних
+    default: {}
+  },
+
   updatedAt: {
     type: Date,
     default: Date.now
   }
+}, {
+  strict: false, // дозволяє додавання полів, які не в схемі
+  timestamps: true
 });
 
 // Зберігаємо тільки один документ налаштувань

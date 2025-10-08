@@ -12,7 +12,7 @@ async function loadDashboardStats() {
     errorDiv.classList.add('hidden');
 
     try {
-        const response = await authFetch('/api/admin/dashboard/stats');
+        const response = await authFetch('/api/admin/analytics');
 
         if (!response || !response.ok) {
             throw new Error('Помилка завантаження статистики');
@@ -21,21 +21,21 @@ async function loadDashboardStats() {
         const stats = await response.json();
 
         // Оновити stat cards
-        document.getElementById('totalUsers').textContent = stats.totalUsers || 0;
-        document.getElementById('totalCards').textContent = stats.totalCards || 0;
-        document.getElementById('newUsersWeek').textContent = stats.newUsersThisWeek || 0;
-        document.getElementById('activeUsers').textContent = stats.activeUsersThisMonth || 0;
+        document.getElementById('totalUsers').textContent = stats.data?.summary?.totalUsers || 0;
+        document.getElementById('totalCards').textContent = stats.data?.summary?.totalCards || 0;
+        document.getElementById('newUsersWeek').textContent = stats.data?.summary?.newUsersWeek || 0;
+        document.getElementById('activeUsers').textContent = stats.data?.summary?.activeUsers || 0;
 
         // Показати зміну за тиждень
         const changeEl = document.getElementById('newUsersChange');
-        if (stats.newUsersThisWeek > 0) {
-            changeEl.textContent = `+${stats.newUsersThisWeek} за тиждень`;
+        if (stats.data?.summary?.newUsersWeek > 0) {
+            changeEl.textContent = `+${stats.data.summary.newUsersWeek} за тиждень`;
             changeEl.className = 'stat-card-change positive';
         }
 
         // Відобразити графіки
-        renderUserGrowthChart(stats.userGrowthData || []);
-        renderPopularStoresChart(stats.popularStores || []);
+        renderUserGrowthChart(stats.data?.growth?.users || []);
+        renderPopularStoresChart(stats.data?.popular?.stores || []);
 
     } catch (error) {
         console.error('Load stats error:', error);

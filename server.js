@@ -12,6 +12,13 @@ const fs = require('fs-extra');
 const archiver = require('archiver');
 const multer = require('multer');
 const extract = require('extract-zip');
+// const adminAuthRoutes = require('./server/routes/authRoutes');
+// const adminRoutes = require('./server/routes/adminRoutes');
+const blogRoutes = require('./server/routes/blogRoutes');
+const faqRoutes = require('./server/routes/faqRoutes');
+const settingsRoutes = require('./server/routes/settingsRoutes');
+const contactRoutes = require('./server/routes/contactRoutes');
+const seoRoutes = require('./server/routes/seoRoutes');
 require('dotenv').config();
 
 const app = express();
@@ -81,13 +88,8 @@ app.use(cors({
 app.use(express.json({ limit: '10mb' }));
 app.use(express.static('public'));
 
-// Import routes
-const blogRoutes = require('./server/routes/blogRoutes');
-const faqRoutes = require('./server/routes/faqRoutes');
-
-// API Routes
-app.use('/api/blog', blogRoutes);
-app.use('/api/faq', faqRoutes);
+// Import routes (moved to avoid duplicates)
+// Routes imported below
 
 // App route - serve app.html for /app paths
 app.get('/app', (req, res) => {
@@ -163,6 +165,13 @@ app.get('/admin/settings', (req, res) => {
 app.get('/admin/backup', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'admin', 'backup.html'));
 });
+// app.use('/api/admin/auth', adminAuthRoutes);
+// app.use('/api/admin', adminRoutes);
+app.use('/api/blog', blogRoutes);
+app.use('/api/faq', faqRoutes);
+app.use('/api/settings', settingsRoutes);
+app.use('/api/contact', contactRoutes);
+app.use('/', seoRoutes);
 
 // MongoDB connection
 mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/loyalty-cards', {
@@ -547,22 +556,8 @@ const Admin = mongoose.model('Admin', adminSchema);
 const BlogPost = require('./server/models/BlogPost');
 const FAQ = require('./server/models/FAQ');
 
-// Site Settings Schema
-const settingsSchema = new mongoose.Schema({
-  section: {
-    type: String,
-    required: true,
-    unique: true
-  },
-  settings: {
-    type: mongoose.Schema.Types.Mixed,
-    required: true
-  }
-}, {
-  timestamps: true
-});
-
-const Settings = mongoose.model('Settings', settingsSchema);
+// Import Settings model instead of duplicating
+const Settings = require('./server/models/Settings');
 
 // Page Content Schema
 const pageSchema = new mongoose.Schema({
@@ -743,7 +738,7 @@ const handleValidationErrors = (req, res, next) => {
   next();
 };
 
-// Admin middleware for admin routes - simplified for development
+// Admin middleware for admin routes
 const authenticateAdmin = async (req, res, next) => {
   const adminKey = req.headers['x-admin-key'];
   const authHeader = req.headers['authorization'];
@@ -760,15 +755,15 @@ const authenticateAdmin = async (req, res, next) => {
     try {
       const decoded = jwt.verify(token, process.env.JWT_SECRET || 'fallback-secret-key');
       
-      if (decoded.userId === 'admin' && decoded.isAdmin) {
-        req.user = { _id: 'admin', isAdmin: true };
+      if (decoded.role === 'superadmin' || decoded.role === 'admin') {
+        req.user = { _id: decoded.id || decoded.userId, isAdmin: true, role: decoded.role };
         return next();
-      }
-      
-      const user = await User.findById(decoded.userId).select('-password');
-      if (user) {
-        req.user = user;
-        return next();
+      } else {
+        const user = await User.findById(decoded.userId).select('-password');
+        if (user) {
+          req.user = user;
+          return next();
+        }
       }
     } catch (error) {
       console.error('JWT verification failed:', error.message);
@@ -1005,28 +1000,40 @@ app.get('/api/admin/analytics', authenticateAdmin, async (req, res) => {
   try {
     const period = req.query.period || '7days';
     
-    // Calculate date range based on period
+    // Get total stats first (simple queries)
+    const totalUsers = await User.countDocuments();
+    const totalCards = await User.aggregate([
+      { $project: { cardCount: { $size: { $ifNull: ["$cards", []] } } } },
+      { $group: { _id: null, total: { $sum: "$cardCount" } } }
+    ]);
+    
+    // Calculate new users this week
+    const weekAgo = new Date();
+    weekAgo.setDate(weekAgo.getDate() - 7);
+    const newUsersWeek = await User.countDocuments({
+      createdAt: { $gte: weekAgo }
+    });
+    
+    // Calculate active users (users with cards)
+    const activeUsers = await User.countDocuments({
+      'cards.0': { $exists: true }
+    });
+    
+    // Get popular stores
+    const popularStores = await User.aggregate([
+      { $unwind: { path: "$cards", preserveNullAndEmptyArrays: false } },
+      { $group: { _id: "$cards.name", count: { $sum: 1 } } },
+      { $sort: { count: -1 } },
+      { $limit: 5 },
+      { $project: { name: "$_id", count: 1, _id: 0 } }
+    ]);
+    
+    // Calculate date range for growth data
     const endDate = new Date();
     const startDate = new Date();
+    startDate.setDate(startDate.getDate() - 7);
     
-    switch (period) {
-      case '24hours':
-        startDate.setDate(startDate.getDate() - 1);
-        break;
-      case '7days':
-        startDate.setDate(startDate.getDate() - 7);
-        break;
-      case '30days':
-        startDate.setDate(startDate.getDate() - 30);
-        break;
-      case '90days':
-        startDate.setDate(startDate.getDate() - 90);
-        break;
-      default:
-        startDate.setDate(startDate.getDate() - 7);
-    }
-    
-    // Get registration data by day
+    // Get registration growth data
     const registrations = await User.aggregate([
       {
         $match: {
@@ -1046,43 +1053,21 @@ app.get('/api/admin/analytics', authenticateAdmin, async (req, res) => {
       }
     ]);
     
-    // Get cards creation data
-    const cardsCreated = await User.aggregate([
-      { $unwind: "$cards" },
-      {
-        $match: {
-          "cards.createdAt": { $gte: startDate, $lte: endDate }
-        }
-      },
-      {
-        $group: {
-          _id: {
-            $dateToString: { format: "%Y-%m-%d", date: "$cards.createdAt" }
-          },
-          count: { $sum: 1 }
-        }
-      },
-      {
-        $sort: { _id: 1 }
-      }
-    ]);
-    
-    // Get total stats
-    const totalUsers = await User.countDocuments();
-    const totalCards = await User.aggregate([
-      { $project: { cardCount: { $size: "$cards" } } },
-      { $group: { _id: null, total: { $sum: "$cardCount" } } }
-    ]);
-    
     res.json({
       success: true,
       data: {
-        registrations,
-        cardsCreated,
         summary: {
           totalUsers,
           totalCards: totalCards[0]?.total || 0,
+          newUsersWeek,
+          activeUsers,
           period
+        },
+        growth: {
+          users: registrations.map(r => ({ date: r._id, count: r.count }))
+        },
+        popular: {
+          stores: popularStores
         }
       }
     });
@@ -1594,29 +1579,29 @@ async function initializeBlogPosts() {
       const defaultPosts = [
         {
           title: 'Як організувати цифровий гаманець',
-          excerpt: 'Дізнайтеся, як ефективно організувати свої цифрові картки та документи у одному зручному додатку.',
+          slug: 'organize-digital-wallet',
+          description: 'Дізнайтеся, як ефективно організувати свої цифрові картки та документи у одному зручному додатку.',
           content: '<h2>Як організувати цифровий гаманець</h2>\n\n<p>У сучасному світі цифрових технологій важливо мати всі свої документи та картки в одному місці. disCard допомагає вам організувати цифровий гаманець максимально ефективно.</p>\n\n<h3>Основні принципи організації</h3>\n<ul>\n<li>Структуруйте картки за категоріями</li>\n<li>Використовуйте описові назви</li>\n<li>Регулярно оновлюйте інформацію</li>\n</ul>',
           category: 'guides',
           status: 'published',
           author: 'disCard Team',
-          tags: 'організація, цифровий гаманець, поради',
-          filename: 'organize-digital-wallet.html',
+          tags: ['організація', 'цифровий гаманець', 'поради'],
           views: 1247,
-          wordCount: 850,
-          publishedDate: new Date('2024-09-15')
+          readTime: 5,
+          publishedAt: new Date('2024-09-15')
         },
         {
           title: 'PWA vs нативні додатки: чому ми обрали PWA',
-          excerpt: 'Розбираємо переваги Progressive Web Apps та чому ми вибрали цю технологію для disCard.',
+          slug: 'pwa-vs-native-apps',
+          description: 'Розбираємо переваги Progressive Web Apps та чому ми вибрали цю технологію для disCard.',
           content: '<h2>PWA vs нативні додатки</h2>\n\n<p>При розробці disCard ми стояли перед вибором: створювати нативний додаток чи Progressive Web App. Ось чому ми обрали PWA.</p>\n\n<h3>Переваги PWA</h3>\n<ul>\n<li>Кроссплатформенність</li>\n<li>Швидке завантаження</li>\n<li>Офлайн робота</li>\n<li>Легке оновлення</li>\n</ul>',
-          category: 'tech',
+          category: 'guides',
           status: 'published',
           author: 'disCard Team',
-          tags: 'pwa, технології, розробка',
-          filename: 'pwa-vs-native-apps.html',
+          tags: ['pwa', 'технології', 'розробка'],
           views: 892,
-          wordCount: 1200,
-          publishedDate: new Date('2024-09-18')
+          readTime: 7,
+          publishedAt: new Date('2024-09-18')
         }
       ];
 
@@ -1692,7 +1677,7 @@ app.get('/api/admin/blog/posts', authenticateAdmin, async (req, res) => {
       content: post.content,
       category: post.category,
       status: post.status,
-      date: post.publishedDate ? post.publishedDate.toISOString().split('T')[0] : post.createdAt.toISOString().split('T')[0],
+      date: post.publishedAt ? post.publishedAt.toISOString().split('T')[0] : post.createdAt.toISOString().split('T')[0],
       author: post.author,
       views: post.views,
       wordCount: post.wordCount,
@@ -1797,7 +1782,7 @@ app.put('/api/admin/blog/posts/:id', authenticateAdmin, [
     if (status === 'scheduled' && scheduleDate) {
       post.scheduledDate = new Date(scheduleDate);
     } else if (status === 'published' && !wasPublished) {
-      post.publishedDate = new Date();
+      post.publishedAt = new Date();
     }
     
     await post.save();
@@ -1880,7 +1865,7 @@ app.get('/api/blog/posts/:id', async (req, res) => {
         author: post.author,
         tags: post.tags,
         views: post.views,
-        date: post.publishedDate ? post.publishedDate.toISOString().split('T')[0] : post.createdAt.toISOString().split('T')[0]
+        date: post.publishedAt ? post.publishedAt.toISOString().split('T')[0] : post.createdAt.toISOString().split('T')[0]
       }
     });
   } catch (error) {
@@ -1904,7 +1889,7 @@ app.get('/api/blog/posts', async (req, res) => {
       title: post.title,
       excerpt: post.excerpt,
       category: post.category,
-      date: post.publishedDate ? post.publishedDate.toISOString().split('T')[0] : post.createdAt.toISOString().split('T')[0],
+      date: post.publishedAt ? post.publishedAt.toISOString().split('T')[0] : post.createdAt.toISOString().split('T')[0],
       author: post.author,
       views: post.views,
       tags: post.tags

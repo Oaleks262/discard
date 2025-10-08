@@ -199,12 +199,15 @@ a {
   align-items: center;
   justify-content: center;
   z-index: var(--z-modal);
+  overflow-y: auto;
+  min-height: 100vh;
 }
 
 .auth-container {
   width: 100%;
   max-width: 400px;
-  margin: 0 var(--spacing-md);
+  margin: var(--spacing-lg) var(--spacing-md);
+  padding: var(--spacing-md);
 }
 
 .auth-header {
@@ -2275,6 +2278,32 @@ input:focus-visible,
   }
 }
 
+/* Small screens */
+@media (max-width: 480px) {
+  .auth-screen {
+    align-items: flex-start;
+    padding: var(--spacing-xl) 0;
+  }
+  
+  .auth-container {
+    margin: var(--spacing-lg) var(--spacing-sm);
+    padding: var(--spacing-sm);
+  }
+  
+  .auth-form {
+    padding: var(--spacing-md);
+  }
+  
+  .auth-header {
+    margin-bottom: var(--spacing-md);
+  }
+  
+  .auth-header .logo-icon {
+    width: 32px;
+    height: 32px;
+  }
+}
+
 /* Extra small screens */
 @media (max-width: 360px) {
   .modal-overlay {
@@ -2300,6 +2329,11 @@ input:focus-visible,
   .app-modal-system .app-modal-content {
     width: calc(100% - var(--spacing-xs)) !important;
     max-width: none !important;
+  }
+  
+  .auth-container {
+    margin: var(--spacing-md) var(--spacing-xs);
+    padding: var(--spacing-xs);
   }
 }
 

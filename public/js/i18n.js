@@ -2,6 +2,158 @@
 
 const translations = {
   uk: {
+    // Navigation
+    nav: {
+      home: "Головна",
+      blog: "Блог",
+      faq: "FAQ",
+      contact: "Контакти",
+      app: "Відкрити додаток"
+    },
+    
+    // Blog
+    blog: {
+      title: "Блог - disCard",
+      pageTitle: "Блог",
+      subtitle: "Поради, новини та гайди про карти лояльності",
+      readTime: "хв читання",
+      noResults: "Нічого не знайдено",
+      filters: {
+        all: "Всі",
+        tips: "Поради",
+        news: "Новини",
+        guides: "Гайди"
+      },
+      categories: {
+        tips: "Поради",
+        news: "Новини",
+        guides: "Гайди",
+        other: "Інше"
+      }
+    },
+    
+    // Contact
+    contact: {
+      title: "Контакти - disCard",
+      heading: "Зв'яжіться з нами",
+      subtitle: "Маєте питання чи пропозиції? Ми завжди раді вам допомогти!",
+      form: {
+        heading: "Форма зворотного зв'язку",
+        email: "Email",
+        emailPlaceholder: "your@email.com",
+        subject: "Тема",
+        subjectPlaceholder: "Тема вашого повідомлення",
+        message: "Повідомлення",
+        messagePlaceholder: "Опишіть ваше питання або пропозицію",
+        submit: "Відправити",
+        success: "Повідомлення успішно відправлено!",
+        error: "Помилка відправлення. Спробуйте пізніше."
+      },
+      info: {
+        heading: "Контактна інформація",
+        email: "Email",
+        emailAddress: "discardmessage@gmail.com",
+        responseTime: "Час відповіді",
+        responseTimeValue: "Протягом 24 годин",
+        social: "Соціальні мережі"
+      }
+    },
+    
+    // FAQ
+    faq: {
+      title: "FAQ - Часті питання",
+      heading: "Часті питання",
+      subtitle: "Знайдіть відповіді на найпоширеніші питання про disCard",
+      searchPlaceholder: "🔍 Шукати питання...",
+      noResults: "Нічого не знайдено. Спробуйте інший запит.",
+      items: {
+        what_is_discard: {
+          question: "Що таке disCard?",
+          answer: "disCard - це сучасний прогресивний веб-додаток (PWA) для зберігання та управління картами лояльності магазинів. Він дозволяє зберігати всі ваші картки в одному місці, сканувати штрих-коди та QR-коди, і використовувати їх навіть без інтернету."
+        },
+        is_free: {
+          question: "Чи безкоштовний disCard?",
+          answer: "Так, disCard повністю безкоштовний для використання. Немає прихованих платежів, підписок або обмежень. Всі функції доступні безкоштовно."
+        },
+        how_to_install: {
+          question: "Як встановити disCard на телефон?",
+          answer: "Відкрийте сайт у браузері Safari (iOS) або Chrome (Android), натисніть на меню браузера і виберіть \"Додати на головний екран\" або \"Install app\". Додаток встановиться як звичайна програма."
+        },
+        works_offline: {
+          question: "Чи працює disCard без інтернету?",
+          answer: "Так! Після встановлення disCard працює повністю офлайн. Ви можете переглядати та використовувати всі збережені картки навіть без інтернет-з'єднання."
+        },
+        supported_codes: {
+          question: "Які типи кодів підтримує disCard?",
+          answer: "disCard підтримує штрих-коди (Barcode) та QR-коди. Ви можете сканувати коди камерою або ввести їх вручну."
+        },
+        how_to_add_card: {
+          question: "Як додати нову картку?",
+          answer: "Натисніть кнопку \"Додати картку\", введіть назву магазину, потім або відскануйте код камерою, або введіть його вручну. Оберіть колір картки та збережіть."
+        },
+        is_safe: {
+          question: "Чи безпечно зберігати картки в disCard?",
+          answer: "Так, це повністю безпечно. Всі дані зберігаються локально на вашому пристрої з шифруванням. Ніхто не має доступу до ваших карток, крім вас."
+        },
+        sync_devices: {
+          question: "Чи синхронізуються картки між пристроями?",
+          answer: "Поточна версія зберігає дані локально на кожному пристрої. Синхронізація між пристроями планується в майбутніх версіях."
+        },
+        code_wont_scan: {
+          question: "Що робити, якщо код не сканується?",
+          answer: "Спробуйте покращити освітлення, очистити камеру, або введіть код вручну. Переконайтеся, що дозволили доступ до камери."
+        },
+        how_many_cards: {
+          question: "Скільки карток можна зберігати?",
+          answer: "Немає обмежень на кількість карток. Ви можете зберігати стільки карток, скільки потрібно."
+        },
+        how_to_use_in_store: {
+          question: "Як використовувати картки в магазині?",
+          answer: "Відкрийте disCard, знайдіть потрібну картку та покажіть штрих-код або QR-код касиру для сканування."
+        },
+        registration_required: {
+          question: "Чи потрібна реєстрація для використання?",
+          answer: "Ні, реєстрація не обов'язкова. Ви можете використовувати disCard без створення акаунту, але реєстрація дозволить зберігати картки в хмарі."
+        },
+        forgot_password: {
+          question: "Що робити, якщо забув пароль?",
+          answer: "Натисніть \"Забув пароль?\" на сторінці входу, введіть свій email, і вам буде надіслано новий згенерований пароль."
+        },
+        can_delete_card: {
+          question: "Чи можна видалити картку?",
+          answer: "Так, ви можете видалити будь-яку картку. Натисніть на картку, потім на кнопку \"Видалити\" та підтвердіть дію."
+        },
+        dark_theme_support: {
+          question: "Чи підтримує disCard темну тему?",
+          answer: "Так, disCard підтримує як світлу, так і темну теми. Ви можете переключити тему в налаштуваннях або додаток автоматично підлаштується під системну тему."
+        },
+        pwa_vs_regular: {
+          question: "Чим PWA відрізняється від звичайного додатку?",
+          answer: "PWA - це веб-технологія, що дозволяє додаткам працювати як нативні програми: офлайн доступ, швидке завантаження, встановлення без магазинів додатків."
+        },
+        data_collection: {
+          question: "Які дані збирає disCard?",
+          answer: "disCard не збирає особисті дані. Всі ваші картки зберігаються локально на вашому пристрої. Ми можемо збирати анонімну аналітику для покращення додатку."
+        },
+        change_language: {
+          question: "Як змінити мову інтерфейсу?",
+          answer: "Мову можна змінити в правому верхньому куті сторінки, натиснувши на перемикач \"УК/EN\"."
+        },
+        contact_support: {
+          question: "Як зв'язатися з підтримкою?",
+          answer: "Ви можете написати нам через форму на сторінці \"Контакти\" або надіслати email на discardmessage@gmail.com"
+        },
+        export_data: {
+          question: "Чи можна експортувати дані?",
+          answer: "Функція експорту планується в майбутніх версіях. Поки що ви можете зробити резервну копію через налаштування акаунту."
+        },
+        technical_issues: {
+          question: "Що робити при технічних проблемах?",
+          answer: "Спробуйте оновити сторінку, очистити кеш браузера або перевстановити PWA. Якщо проблема залишається, зверніться до підтримки."
+        }
+      }
+    },
+    
     // Landing Page
     heroTitle: "Всі карти лояльності в одному місці",
     heroSubtitle: "Скануй, зберігай та використовуй картки магазинів у зручному PWA додатку",
@@ -160,7 +312,11 @@ const translations = {
       resetPassword: "Відновлення паролю",
       resetPasswordText: "Введіть вашу електронну пошту і ми згенеруємо новий пароль та надішлемо його вам.",
       generatePassword: "Згенерувати пароль",
-      generatingPassword: "Генеруємо новий пароль..."
+      generatingPassword: "Генеруємо новий пароль...",
+      agreeToTerms: "Я погоджуюся з",
+      termsOfService: "умовами використання",
+      and: "та",
+      privacyPolicy: "політикою конфіденційності"
     },
     
     // Common
@@ -294,6 +450,7 @@ const translations = {
       invalidName: "Некоректне ім'я. Використовуйте тільки літери, апостроф, дефіс та пробіли (2-50 символів)",
       passwordsDontMatch: "Паролі не співпадають",
       fillAllFields: "Заповніть всі поля",
+      mustAgreeToTerms: "Необхідно погодитися з умовами використання та політикою конфіденційності",
       networkError: "Помилка мережі",
       serverError: "Помилка сервера",
       cameraNotSupported: "Камера не підтримується",
@@ -319,6 +476,158 @@ const translations = {
   },
   
   en: {
+    // Navigation
+    nav: {
+      home: "Home",
+      blog: "Blog",
+      faq: "FAQ",
+      contact: "Contact",
+      app: "Open App"
+    },
+    
+    // Blog
+    blog: {
+      title: "Blog - disCard",
+      pageTitle: "Blog",
+      subtitle: "Tips, news and guides about loyalty cards",
+      readTime: "min read",
+      noResults: "Nothing found",
+      filters: {
+        all: "All",
+        tips: "Tips",
+        news: "News",
+        guides: "Guides"
+      },
+      categories: {
+        tips: "Tips",
+        news: "News",
+        guides: "Guides",
+        other: "Other"
+      }
+    },
+    
+    // Contact
+    contact: {
+      title: "Contact - disCard",
+      heading: "Contact Us",
+      subtitle: "Have questions or suggestions? We're always happy to help!",
+      form: {
+        heading: "Contact Form",
+        email: "Email",
+        emailPlaceholder: "your@email.com",
+        subject: "Subject",
+        subjectPlaceholder: "Subject of your message",
+        message: "Message",
+        messagePlaceholder: "Describe your question or suggestion",
+        submit: "Send",
+        success: "Message sent successfully!",
+        error: "Sending error. Try again later."
+      },
+      info: {
+        heading: "Contact Information",
+        email: "Email",
+        emailAddress: "discardmessage@gmail.com",
+        responseTime: "Response Time",
+        responseTimeValue: "Within 24 hours",
+        social: "Social Media"
+      }
+    },
+    
+    // FAQ
+    faq: {
+      title: "FAQ - Frequently Asked Questions",
+      heading: "Frequently Asked Questions",
+      subtitle: "Find answers to the most common questions about disCard",
+      searchPlaceholder: "🔍 Search questions...",
+      noResults: "Nothing found. Try another query.",
+      items: {
+        what_is_discard: {
+          question: "What is disCard?",
+          answer: "disCard is a modern Progressive Web App (PWA) for storing and managing store loyalty cards. It allows you to store all your cards in one place, scan barcodes and QR codes, and use them even without internet."
+        },
+        is_free: {
+          question: "Is disCard free?",
+          answer: "Yes, disCard is completely free to use. There are no hidden fees, subscriptions, or limitations. All features are available for free."
+        },
+        how_to_install: {
+          question: "How to install disCard on phone?",
+          answer: "Open the website in Safari (iOS) or Chrome (Android), tap the browser menu and select \"Add to Home screen\" or \"Install app\". The app will install like a regular program."
+        },
+        works_offline: {
+          question: "Does disCard work without internet?",
+          answer: "Yes! After installation, disCard works completely offline. You can view and use all saved cards even without internet connection."
+        },
+        supported_codes: {
+          question: "What code types does disCard support?",
+          answer: "disCard supports barcodes and QR codes. You can scan codes with camera or enter them manually."
+        },
+        how_to_add_card: {
+          question: "How to add a new card?",
+          answer: "Click \"Add card\" button, enter store name, then either scan the code with camera or enter it manually. Choose card color and save."
+        },
+        is_safe: {
+          question: "Is it safe to store cards in disCard?",
+          answer: "Yes, it's completely safe. All data is stored locally on your device with encryption. No one has access to your cards except you."
+        },
+        sync_devices: {
+          question: "Do cards sync between devices?",
+          answer: "Current version stores data locally on each device. Synchronization between devices is planned for future versions."
+        },
+        code_wont_scan: {
+          question: "What to do if code won't scan?",
+          answer: "Try improving lighting, cleaning the camera, or enter the code manually. Make sure you've allowed camera access."
+        },
+        how_many_cards: {
+          question: "How many cards can be stored?",
+          answer: "There are no limits on the number of cards. You can store as many cards as you need."
+        },
+        how_to_use_in_store: {
+          question: "How to use cards in store?",
+          answer: "Open disCard, find the needed card and show the barcode or QR code to the cashier for scanning."
+        },
+        registration_required: {
+          question: "Is registration required?",
+          answer: "No, registration is not required. You can use disCard without creating an account, but registration allows storing cards in the cloud."
+        },
+        forgot_password: {
+          question: "What to do if I forgot my password?",
+          answer: "Click \"Forgot password?\" on the login page, enter your email, and you'll receive a new generated password."
+        },
+        can_delete_card: {
+          question: "Can I delete a card?",
+          answer: "Yes, you can delete any card. Click on the card, then the \"Delete\" button and confirm the action."
+        },
+        dark_theme_support: {
+          question: "Does disCard support dark theme?",
+          answer: "Yes, disCard supports both light and dark themes. You can switch themes in settings or the app automatically adapts to system theme."
+        },
+        pwa_vs_regular: {
+          question: "How is PWA different from regular app?",
+          answer: "PWA is a web technology that allows apps to work like native programs: offline access, fast loading, installation without app stores."
+        },
+        data_collection: {
+          question: "What data does disCard collect?",
+          answer: "disCard doesn't collect personal data. All your cards are stored locally on your device. We may collect anonymous analytics to improve the app."
+        },
+        change_language: {
+          question: "How to change interface language?",
+          answer: "Language can be changed in the top right corner of the page by clicking the \"UK/EN\" toggle."
+        },
+        contact_support: {
+          question: "How to contact support?",
+          answer: "You can write to us through the form on the \"Contact\" page or send an email to discardmessage@gmail.com"
+        },
+        export_data: {
+          question: "Can I export data?",
+          answer: "Export feature is planned for future versions. Currently you can make a backup through account settings."
+        },
+        technical_issues: {
+          question: "What to do with technical issues?",
+          answer: "Try refreshing the page, clearing browser cache or reinstalling PWA. If the problem persists, contact support."
+        }
+      }
+    },
+    
     // Landing Page
     heroTitle: "All loyalty cards in one place",
     heroSubtitle: "Scan, store and use your store cards in a convenient PWA app",
@@ -477,7 +786,11 @@ const translations = {
       resetPassword: "Password Recovery",
       resetPasswordText: "Enter your email address and we will generate a new password and send it to you.",
       generatePassword: "Generate Password",
-      generatingPassword: "Generating new password..."
+      generatingPassword: "Generating new password...",
+      agreeToTerms: "I agree to the",
+      termsOfService: "terms of service",
+      and: "and",
+      privacyPolicy: "privacy policy"
     },
     
     // Common
@@ -611,6 +924,7 @@ const translations = {
       invalidName: "Invalid name. Use only letters, apostrophe, hyphen and spaces (2-50 characters)",
       passwordsDontMatch: "Passwords don't match",
       fillAllFields: "Please fill all fields",
+      mustAgreeToTerms: "You must agree to the terms of service and privacy policy",
       networkError: "Network error",
       serverError: "Server error",
       cameraNotSupported: "Camera not supported",

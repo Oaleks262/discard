@@ -172,9 +172,15 @@ class AuthManager {
     const name = document.getElementById('register-name').value;
     const email = document.getElementById('register-email').value;
     const password = document.getElementById('register-password').value;
+    const consent = document.getElementById('register-consent').checked;
     
     if (!name || !email || !password) {
       UIUtils.showToast('error', UIUtils.safeT('messages.fillAllFields', 'Заповніть всі поля'));
+      return;
+    }
+
+    if (!consent) {
+      UIUtils.showToast('error', UIUtils.safeT('messages.mustAgreeToTerms', 'Необхідно погодитися з умовами використання та політикою конфіденційності'));
       return;
     }
 
