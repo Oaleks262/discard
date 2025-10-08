@@ -2302,6 +2302,40 @@ input:focus-visible,
     width: 32px;
     height: 32px;
   }
+  
+  .form-checkbox label {
+    font-size: var(--text-xs);
+  }
+}
+
+/* Consent checkbox styling */
+.form-checkbox {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--spacing-sm);
+  line-height: 1.4;
+}
+
+.form-checkbox input[type="checkbox"] {
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.form-checkbox label {
+  flex: 1;
+  font-size: var(--text-sm);
+  line-height: 1.4;
+  word-wrap: break-word;
+  max-width: 100%;
+}
+
+.form-checkbox label a {
+  color: var(--primary);
+  text-decoration: underline;
+}
+
+.form-checkbox label a:hover {
+  color: var(--primary-hover);
 }
 
 /* Extra small screens */
