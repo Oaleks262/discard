@@ -3491,7 +3491,7 @@ app.put('/api/auth/password', [
 // Add card with server-side encryption
 app.post('/api/cards', [
   body('name').trim().isLength({ min: 1, max: 100 }).escape(),
-  body('code').trim().isLength({ min: 1, max: 500 }),
+  body('code').trim().isLength({ min: 1, max: 1000 }),
   body('codeType').isIn(['barcode', 'qrcode']),
   body('color').optional().matches(/^#[0-9A-F]{6}$/i).withMessage('Color must be a valid hex color')
 ], handleValidationErrors, authenticateToken, async (req, res) => {
@@ -3538,7 +3538,7 @@ app.post('/api/cards', [
 // Update card with server-side encryption
 app.put('/api/cards/:id', [
   body('name').optional().trim().isLength({ min: 1, max: 100 }).escape(),
-  body('code').optional().trim().isLength({ min: 1, max: 500 }),
+  body('code').optional().trim().isLength({ min: 1, max: 1000 }),
   body('codeType').optional().isIn(['barcode', 'qrcode']),
   body('color').optional().matches(/^#[0-9A-F]{6}$/i).withMessage('Color must be a valid hex color')
 ], handleValidationErrors, authenticateToken, async (req, res) => {

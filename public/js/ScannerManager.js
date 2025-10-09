@@ -250,13 +250,7 @@ class ScannerManager {
     
     // Fill the form with validated code
     const codeInput = document.getElementById('card-code');
-    const filteredCode = code.replace(/[^A-Za-z0-9\-\s]/g, '');
-    
-    if (code !== filteredCode) {
-      UIUtils.showToast('warning', 'Код містив недозволені символи, вони були видалені');
-    }
-    
-    codeInput.value = filteredCode;
+    codeInput.value = code;
     
     // Select the correct code type if it doesn't match
     const currentCodeType = document.querySelector('input[name="codeType"]:checked')?.value;

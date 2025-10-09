@@ -589,16 +589,6 @@ class CardManager {
     // Form validation on input changes
     document.getElementById('card-name')?.addEventListener('input', this.updateFormValidation.bind(this));
     document.getElementById('card-code')?.addEventListener('input', (e) => {
-      // Validate and filter input to only allow English letters, numbers, hyphens, and spaces
-      const input = e.target;
-      const value = input.value;
-      const filteredValue = value.replace(/[^A-Za-z0-9\-\s]/g, '');
-      
-      if (value !== filteredValue) {
-        input.value = filteredValue;
-        UIUtils.showToast('warning', 'Дозволені тільки англійські літери, цифри, дефіси та пробіли');
-      }
-      
       this.updateFormValidation();
       this.updateCodePreview();
     });
