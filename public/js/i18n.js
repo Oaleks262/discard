@@ -47,7 +47,14 @@ const translations = {
         messagePlaceholder: "Опишіть ваше питання або пропозицію",
         submit: "Відправити",
         success: "Повідомлення успішно відправлено!",
-        error: "Помилка відправлення. Спробуйте пізніше."
+        error: "Помилка відправлення. Спробуйте пізніше.",
+        subjects: {
+          support: "Підтримка",
+          feedback: "Відгук",
+          bug: "Повідомлення про помилку",
+          feature: "Пропозиція функції",
+          other: "Інше"
+        }
       },
       info: {
         heading: "Контактна інформація",
@@ -253,6 +260,16 @@ const translations = {
         install: "Як встановити",
         features: "Можливості",
         guide: "Інструкція"
+      },
+      legal: {
+        title: "Юридична інформація",
+        terms: "Умови використання",
+        privacy: "Політика конфіденційності",
+        contact: "Зворотній зв'язок"
+      },
+      quickLinks: {
+        terms: "Умови",
+        privacy: "Конфіденційність"
       }
     },
     
@@ -319,6 +336,263 @@ const translations = {
       privacyPolicy: "політикою конфіденційності"
     },
     
+    // Terms of Service
+    terms: {
+      title: "Умови використання - disCard",
+      heading: "Умови використання",
+      lastUpdated: "Останнє оновлення: 4 жовтня 2025 року",
+      backToHome: "Повернутися на головну",
+      sections: {
+        important: "ВАЖЛИВО: Використовуючи сервіс disCard, ви приймаєте ці умови в повному обсязі. Якщо ви не згодні з будь-яким пунктом, припиніть використання сервісу.",
+        general: {
+          title: "1. Загальні положення",
+          content1: "1.1. Ці Умови використання регулюють відносини між вами (далі — \"Користувач\") та сервісом disCard (далі — \"Сервіс\", \"ми\").",
+          content2: "1.2. Сервіс надається \"як є\" без будь-яких гарантій.",
+          content3: "1.3. Ми залишаємо за собою право змінювати ці умови в будь-який момент без попереднього повідомлення."
+        },
+        description: {
+          title: "2. Опис сервісу",
+          content1: "2.1. disCard — це веб-додаток для зберігання та управління картками лояльності магазинів.",
+          content2: "2.2. Сервіс дозволяє:",
+          features: {
+            store: "Зберігати інформацію про карти лояльності",
+            scan: "Сканувати штрих-коди та QR-коди",
+            access: "Отримувати швидкий доступ до карток",
+            offline: "Працювати в офлайн-режимі (PWA)"
+          }
+        },
+        disclaimer: {
+          title: "3. Відмова від відповідальності",
+          noWarranties: "3.1. ВІДСУТНІСТЬ ГАРАНТІЙ",
+          noWarrantiesDesc: "Сервіс надається \"як є\" та \"як доступний\". Ми НЕ надаємо жодних гарантій щодо:",
+          noWarrantiesList: {
+            uptime: "Безперебійної роботи сервісу",
+            errors: "Відсутності помилок або збоїв",
+            accuracy: "Точності, надійності або повноти інформації",
+            expectations: "Відповідності вашим очікуванням",
+            compatibility: "Сумісності з вашими пристроями"
+          },
+          limitations: "3.2. Обмеження відповідальності:",
+          limitationsList: {
+            damages: "Ми НЕ несемо відповідальності за будь-які прямі, непрямі, випадкові, спеціальні або наслідкові збитки",
+            losses: "Ми НЕ несемо відповідальності за втрату даних, прибутку, репутації або інших нематеріальних втрат",
+            stores: "Ми НЕ несемо відповідальності за збої в роботі магазинів при використанні карток з додатку",
+            risk: "Ви використовуєте сервіс на власний ризик"
+          },
+          maxLiability: "3.3. Максимальна відповідальність: У будь-якому випадку наша відповідальність обмежена сумою, яку ви сплатили за використання сервісу (якщо сервіс безкоштовний — 0 грн)."
+        },
+        userResponsibility: {
+          title: "4. Відповідальність користувача",
+          content1: "4.1. Ви несете повну відповідальність за:",
+          responsibilities: {
+            accuracy: "Точність внесеної інформації",
+            backup: "Збереження власних даних і резервних копій",
+            legal: "Використання сервісу відповідно до законодавства",
+            security: "Безпеку свого облікового запису та паролів"
+          },
+          content2: "4.2. Ви зобов'язуєтесь НЕ використовувати сервіс для:",
+          prohibitions: {
+            illegal: "Незаконних дій",
+            rights: "Порушення прав третіх осіб",
+            malware: "Розповсюдження шкідливого програмного забезпечення",
+            hacking: "Спроб зламати або порушити роботу сервісу"
+          }
+        },
+        privacy: {
+          title: "5. Конфіденційність даних",
+          content1: "5.1. Ми зберігаємо ваші дані відповідно до Політики конфіденційності.",
+          content2: "5.2. Ви надаєте дані на власний розсуд і ризик.",
+          content3: "5.3. Ми НЕ гарантуємо абсолютну безпеку даних, хоча докладаємо розумних зусиль для їх захисту."
+        },
+        ip: {
+          title: "6. Права інтелектуальної власності",
+          content1: "6.1. Всі права на сервіс, включаючи дизайн, код, логотипи та контент, належать власникам disCard.",
+          content2: "6.2. Забороняється копіювання, модифікація або комерційне використання без письмового дозволу."
+        },
+        termination: {
+          title: "7. Припинення надання послуг",
+          content1: "7.1. Ми маємо право в будь-який момент:",
+          rights: {
+            stop: "Припинити роботу сервісу без попередження",
+            delete: "Видалити ваш обліковий запис",
+            limit: "Обмежити доступ до функціоналу",
+            change: "Змінити умови використання"
+          },
+          content2: "7.2. При припиненні роботи сервісу ми НЕ зобов'язані відшкодовувати будь-які збитки."
+        },
+        forceMajeure: {
+          title: "8. Форс-мажор",
+          content1: "8.1. Ми НЕ несемо відповідальності за невиконання зобов'язань через обставини непереборної сили, включаючи:",
+          circumstances: {
+            natural: "Стихійні лиха",
+            war: "Війни, терористичні акти",
+            internet: "Збої в роботі інтернет-провайдерів",
+            cyber: "Кібератаки",
+            legal: "Зміни законодавства",
+            third: "Дії третіх осіб"
+          }
+        },
+        feedback: {
+          title: "9. Зворотній зв'язок та скарги",
+          content1: "9.1. Всі скарги та пропозиції приймаються через форму зворотного зв'язку.",
+          content2: "9.2. Ми розглянемо вашу скаргу, але НЕ гарантуємо її задоволення."
+        },
+        law: {
+          title: "10. Застосовне право",
+          content1: "10.1. Ці умови регулюються законодавством України.",
+          content2: "10.2. Всі спори вирішуються шляхом переговорів, а при неможливості — в судовому порядку за місцем знаходження власника сервісу."
+        },
+        final: {
+          title: "11. Прикінцеві положення",
+          content1: "11.1. Недійсність окремих положень цих умов не тягне недійсність інших положень.",
+          content2: "11.2. Невикористання нами наших прав не означає відмови від цих прав.",
+          content3: "11.3. Продовжуючи використання сервісу після змін в умовах, ви автоматично приймаєте нові умови."
+        },
+        summary: "ПІДСУМОК: Використовуючи disCard, ви приймаєте всі ризики та відповідальність. Сервіс надається безкоштовно без будь-яких гарантій. Власники сервісу НЕ несуть відповідальності за будь-які збитки."
+      }
+    },
+
+    // Privacy Policy
+    privacy: {
+      title: "Політика конфіденційності - disCard",
+      heading: "Політика конфіденційності",
+      lastUpdated: "Останнє оновлення: 4 жовтня 2025 року",
+      backToHome: "Повернутися на головну",
+      sections: {
+        summary: "Коротко: Ми збираємо мінімальні дані, необхідні для роботи сервісу. Не продаємо ваші дані третім особам. Ви використовуєте сервіс на власний ризик.",
+        general: {
+          title: "1. Загальна інформація",
+          content1: "1.1. Ця Політика конфіденційності описує, як ми збираємо, використовуємо та захищаємо вашу персональну інформацію при використанні сервісу disCard.",
+          content2: "1.2. Використовуючи сервіс, ви погоджуєтесь з умовами цієї політики."
+        },
+        dataCollection: {
+          title: "2. Які дані ми збираємо",
+          required: {
+            title: "2.1. Обов'язкові дані",
+            email: "Email адреса — для реєстрації та авторизації",
+            password: "Пароль — зберігається в зашифрованому вигляді (bcrypt)",
+            cards: "Дані карток лояльності — назва магазину, номер картки, штрих-код"
+          },
+          automatic: {
+            title: "2.2. Автоматично зібрані дані",
+            ip: "IP-адреса",
+            device: "Інформація про пристрій і браузер",
+            time: "Дата та час використання сервісу",
+            cookies: "Cookies та локальні дані (localStorage)"
+          },
+          optional: {
+            title: "2.3. Необов'язкові дані",
+            name: "Ім'я користувача (якщо вказане)",
+            photos: "Фотографії карток (якщо завантажені)"
+          }
+        },
+        dataUsage: {
+          title: "3. Як ми використовуємо ваші дані",
+          content1: "3.1. Ми використовуємо зібрані дані для:",
+          purposes: {
+            access: "Надання доступу до сервісу",
+            storage: "Зберігання ваших карток лояльності",
+            improvement: "Покращення функціоналу додатку",
+            support: "Технічної підтримки",
+            security: "Забезпечення безпеки",
+            legal: "Виконання законодавчих вимог"
+          },
+          content2: "3.2. Ми НЕ використовуємо дані для:",
+          notUsedFor: {
+            selling: "Продажу третім особам",
+            spam: "Спаму або нав'язливої реклами",
+            ads: "Передачі рекламним мережам (без вашої згоди)"
+          }
+        },
+        security: {
+          title: "4. Захист даних",
+          important: "ВАЖЛИВО: Ми докладаємо розумних зусиль для захисту ваших даних, але НЕ можемо гарантувати абсолютну безпеку.",
+          content1: "4.1. Заходи безпеки:",
+          measures: {
+            encryption: "Шифрування паролів (bcrypt)",
+            https: "HTTPS з'єднання",
+            cardEncryption: "Шифрування даних карток",
+            jwt: "JWT токени для авторизації",
+            rateLimit: "Rate limiting (обмеження кількості запитів)",
+            sqlProtection: "Захист від SQL-ін'єкцій"
+          },
+          content2: "4.2. Обмеження:",
+          limitations: {
+            noMethod: "Жоден метод передачі даних не є 100% безпечним",
+            userResponsibility: "Ви несете відповідальність за збереження паролів",
+            deviceSecurity: "При злому вашого пристрою дані можуть бути скомпрометовані"
+          }
+        },
+        cookies: {
+          title: "5. Cookies та локальне сховище",
+          content1: "5.1. Ми використовуємо:",
+          types: {
+            localStorage: "localStorage — для зберігання JWT токенів та налаштувань",
+            cookies: "Cookies — для відстеження сесій",
+            analytics: "Google Analytics — для аналізу відвідуваності (якщо ввімкнено)"
+          },
+          content2: "5.2. Ви можете відключити cookies в налаштуваннях браузера, але це може обмежити функціонал."
+        },
+        thirdParty: {
+          title: "6. Передача даних третім особам",
+          content1: "6.1. Ми можемо передавати дані:",
+          parties: {
+            hosting: "Хостинг-провайдерам — для зберігання даних на серверах",
+            analytics: "Аналітичним сервісам — Google Analytics (знеособлені дані)",
+            law: "Правоохоронним органам — за законною вимогою"
+          },
+          content2: "6.2. Ми НЕ продаємо та не орендуємо ваші персональні дані."
+        },
+        rights: {
+          title: "7. Ваші права",
+          content1: "7.1. Ви маєте право:",
+          list: {
+            copy: "Отримати копію своїх даних",
+            correct: "Виправити неточні дані",
+            delete: "Видалити свій обліковий запис",
+            limit: "Обмежити обробку даних",
+            revoke: "Відкликати згоду на обробку"
+          },
+          content2: "7.2. Для реалізації прав зверніться через форму зворотного зв'язку."
+        },
+        retention: {
+          title: "8. Зберігання даних",
+          content1: "8.1. Ми зберігаємо ваші дані поки:",
+          conditions: {
+            using: "Ви використовуєте сервіс",
+            legal: "Це необхідно для виконання законодавчих вимог",
+            account: "Ви не видалите свій обліковий запис"
+          },
+          content2: "8.2. Після видалення облікового запису дані видаляються протягом 30 днів.",
+          content3: "8.3. Резервні копії можуть зберігатися до 90 днів."
+        },
+        children: {
+          title: "9. Діти",
+          content1: "9.1. Сервіс призначений для осіб старше 16 років.",
+          content2: "9.2. Ми свідомо не збираємо дані дітей до 16 років.",
+          content3: "9.3. Якщо ви батьки/опікуни — повідомте нас про використання сервісу дитиною."
+        },
+        international: {
+          title: "10. Міжнародна передача даних",
+          content1: "10.1. Дані можуть зберігатися на серверах в різних країнах.",
+          content2: "10.2. Використовуючи сервіс, ви погоджуєтесь на міжнародну передачу даних."
+        },
+        changes: {
+          title: "11. Зміни в політиці",
+          content1: "11.1. Ми маємо право змінювати цю політику в будь-який момент.",
+          content2: "11.2. Про суттєві зміни ми повідомимо через email або повідомлення в додатку.",
+          content3: "11.3. Продовження використання сервісу після змін означає вашу згоду."
+        },
+        contact: {
+          title: "12. Контактна інформація",
+          content1: "З питань конфіденційності звертайтесь:",
+          form: "Форма зв'язку: <a href=\"/contact\" style=\"color: var(--primary);\">Контакти</a>"
+        },
+        finalSummary: "ПІДСУМОК: Ми збираємо мінімально необхідні дані, захищаємо їх та не продаємо третім особам. Ви можете в будь-який момент видалити свій обліковий запис. Використання сервісу на власний ризик.",
+        finalSummaryTitle: "ПІДСУМОК:"
+      }
+    },
+
     // Common
     common: {
       cancel: "Скасувати",
@@ -521,7 +795,14 @@ const translations = {
         messagePlaceholder: "Describe your question or suggestion",
         submit: "Send",
         success: "Message sent successfully!",
-        error: "Sending error. Try again later."
+        error: "Sending error. Try again later.",
+        subjects: {
+          support: "Support",
+          feedback: "Feedback",
+          bug: "Bug Report",
+          feature: "Feature Request",
+          other: "Other"
+        }
       },
       info: {
         heading: "Contact Information",
@@ -727,6 +1008,16 @@ const translations = {
         install: "How to Install",
         features: "Features",
         guide: "Guide"
+      },
+      legal: {
+        title: "Legal Information",
+        terms: "Terms of Service",
+        privacy: "Privacy Policy",
+        contact: "Feedback"
+      },
+      quickLinks: {
+        terms: "Terms",
+        privacy: "Privacy"
       }
     },
     
@@ -793,6 +1084,263 @@ const translations = {
       privacyPolicy: "privacy policy"
     },
     
+    // Terms of Service
+    terms: {
+      title: "Terms of Service - disCard",
+      heading: "Terms of Service",
+      lastUpdated: "Last updated: October 4, 2025",
+      backToHome: "Back to Home",
+      sections: {
+        important: "IMPORTANT: By using the disCard service, you accept these terms in full. If you disagree with any point, stop using the service.",
+        general: {
+          title: "1. General Provisions",
+          content1: "1.1. These Terms of Service govern the relationship between you (hereinafter - \"User\") and the disCard service (hereinafter - \"Service\", \"we\").",
+          content2: "1.2. The service is provided \"as is\" without any warranties.",
+          content3: "1.3. We reserve the right to change these terms at any time without prior notice."
+        },
+        description: {
+          title: "2. Service Description",
+          content1: "2.1. disCard is a web application for storing and managing store loyalty cards.",
+          content2: "2.2. The service allows:",
+          features: {
+            store: "Store loyalty card information",
+            scan: "Scan barcodes and QR codes",
+            access: "Get quick access to cards",
+            offline: "Work in offline mode (PWA)"
+          }
+        },
+        disclaimer: {
+          title: "3. Disclaimer",
+          noWarranties: "3.1. NO WARRANTIES",
+          noWarrantiesDesc: "The service is provided \"as is\" and \"as available\". We do NOT provide any warranties regarding:",
+          noWarrantiesList: {
+            uptime: "Uninterrupted service operation",
+            errors: "Absence of errors or failures",
+            accuracy: "Accuracy, reliability or completeness of information",
+            expectations: "Meeting your expectations",
+            compatibility: "Compatibility with your devices"
+          },
+          limitations: "3.2. Limitation of liability:",
+          limitationsList: {
+            damages: "We are NOT liable for any direct, indirect, incidental, special or consequential damages",
+            losses: "We are NOT liable for loss of data, profit, reputation or other intangible losses",
+            stores: "We are NOT liable for store failures when using cards from the app",
+            risk: "You use the service at your own risk"
+          },
+          maxLiability: "3.3. Maximum liability: In any case, our liability is limited to the amount you paid for using the service (if the service is free - $0)."
+        },
+        userResponsibility: {
+          title: "4. User Responsibility",
+          content1: "4.1. You bear full responsibility for:",
+          responsibilities: {
+            accuracy: "Accuracy of entered information",
+            backup: "Storing your own data and backups",
+            legal: "Using the service in accordance with the law",
+            security: "Security of your account and passwords"
+          },
+          content2: "4.2. You undertake NOT to use the service for:",
+          prohibitions: {
+            illegal: "Illegal actions",
+            rights: "Violating the rights of third parties",
+            malware: "Distributing malicious software",
+            hacking: "Attempts to hack or disrupt the service"
+          }
+        },
+        privacy: {
+          title: "5. Data Privacy",
+          content1: "5.1. We store your data in accordance with the Privacy Policy.",
+          content2: "5.2. You provide data at your own discretion and risk.",
+          content3: "5.3. We do NOT guarantee absolute data security, although we make reasonable efforts to protect it."
+        },
+        ip: {
+          title: "6. Intellectual Property Rights",
+          content1: "6.1. All rights to the service, including design, code, logos and content, belong to the owners of disCard.",
+          content2: "6.2. Copying, modification or commercial use without written permission is prohibited."
+        },
+        termination: {
+          title: "7. Service Termination",
+          content1: "7.1. We have the right at any time to:",
+          rights: {
+            stop: "Stop the service without warning",
+            delete: "Delete your account",
+            limit: "Limit access to functionality",
+            change: "Change terms of use"
+          },
+          content2: "7.2. Upon termination of the service, we are NOT obligated to compensate for any damages."
+        },
+        forceMajeure: {
+          title: "8. Force Majeure",
+          content1: "8.1. We are NOT liable for non-performance of obligations due to force majeure circumstances, including:",
+          circumstances: {
+            natural: "Natural disasters",
+            war: "Wars, terrorist acts",
+            internet: "Internet provider failures",
+            cyber: "Cyber attacks",
+            legal: "Changes in legislation",
+            third: "Actions of third parties"
+          }
+        },
+        feedback: {
+          title: "9. Feedback and Complaints",
+          content1: "9.1. All complaints and suggestions are accepted through the feedback form.",
+          content2: "9.2. We will review your complaint, but do NOT guarantee its satisfaction."
+        },
+        law: {
+          title: "10. Applicable Law",
+          content1: "10.1. These terms are governed by the laws of Ukraine.",
+          content2: "10.2. All disputes are resolved through negotiations, and if impossible - in court at the location of the service owner."
+        },
+        final: {
+          title: "11. Final Provisions",
+          content1: "11.1. The invalidity of individual provisions of these terms does not entail the invalidity of other provisions.",
+          content2: "11.2. Our non-use of our rights does not mean waiving those rights.",
+          content3: "11.3. By continuing to use the service after changes to the terms, you automatically accept the new terms."
+        },
+        summary: "SUMMARY: By using disCard, you accept all risks and responsibilities. The service is provided free of charge without any warranties. Service owners are NOT liable for any damages."
+      }
+    },
+
+    // Privacy Policy
+    privacy: {
+      title: "Privacy Policy - disCard",
+      heading: "Privacy Policy",
+      lastUpdated: "Last updated: October 4, 2025",
+      backToHome: "Back to Home",
+      sections: {
+        summary: "In short: We collect minimal data necessary for the service to work. We do not sell your data to third parties. You use the service at your own risk.",
+        general: {
+          title: "1. General Information",
+          content1: "1.1. This Privacy Policy describes how we collect, use and protect your personal information when using the disCard service.",
+          content2: "1.2. By using the service, you agree to the terms of this policy."
+        },
+        dataCollection: {
+          title: "2. What Data We Collect",
+          required: {
+            title: "2.1. Required Data",
+            email: "Email address — for registration and authorization",
+            password: "Password — stored in encrypted form (bcrypt)",
+            cards: "Loyalty card data — store name, card number, barcode"
+          },
+          automatic: {
+            title: "2.2. Automatically Collected Data",
+            ip: "IP address",
+            device: "Device and browser information",
+            time: "Date and time of service use",
+            cookies: "Cookies and local data (localStorage)"
+          },
+          optional: {
+            title: "2.3. Optional Data",
+            name: "Username (if provided)",
+            photos: "Card photos (if uploaded)"
+          }
+        },
+        dataUsage: {
+          title: "3. How We Use Your Data",
+          content1: "3.1. We use collected data for:",
+          purposes: {
+            access: "Providing access to the service",
+            storage: "Storing your loyalty cards",
+            improvement: "Improving app functionality",
+            support: "Technical support",
+            security: "Ensuring security",
+            legal: "Fulfilling legal requirements"
+          },
+          content2: "3.2. We do NOT use data for:",
+          notUsedFor: {
+            selling: "Selling to third parties",
+            spam: "Spam or intrusive advertising",
+            ads: "Sharing with advertising networks (without your consent)"
+          }
+        },
+        security: {
+          title: "4. Data Protection",
+          important: "IMPORTANT: We make reasonable efforts to protect your data, but CANNOT guarantee absolute security.",
+          content1: "4.1. Security measures:",
+          measures: {
+            encryption: "Password encryption (bcrypt)",
+            https: "HTTPS connections",
+            cardEncryption: "Card data encryption",
+            jwt: "JWT tokens for authorization",
+            rateLimit: "Rate limiting",
+            sqlProtection: "Protection against SQL injections"
+          },
+          content2: "4.2. Limitations:",
+          limitations: {
+            noMethod: "No data transmission method is 100% secure",
+            userResponsibility: "You are responsible for keeping passwords safe",
+            deviceSecurity: "If your device is compromised, data may be at risk"
+          }
+        },
+        cookies: {
+          title: "5. Cookies and Local Storage",
+          content1: "5.1. We use:",
+          types: {
+            localStorage: "localStorage — for storing JWT tokens and settings",
+            cookies: "Cookies — for session tracking",
+            analytics: "Google Analytics — for traffic analysis (if enabled)"
+          },
+          content2: "5.2. You can disable cookies in browser settings, but this may limit functionality."
+        },
+        thirdParty: {
+          title: "6. Third Party Data Sharing",
+          content1: "6.1. We may share data with:",
+          parties: {
+            hosting: "Hosting providers — for storing data on servers",
+            analytics: "Analytics services — Google Analytics (anonymized data)",
+            law: "Law enforcement — upon legal request"
+          },
+          content2: "6.2. We do NOT sell or rent your personal data."
+        },
+        rights: {
+          title: "7. Your Rights",
+          content1: "7.1. You have the right to:",
+          list: {
+            copy: "Get a copy of your data",
+            correct: "Correct inaccurate data",
+            delete: "Delete your account",
+            limit: "Restrict data processing",
+            revoke: "Withdraw consent to processing"
+          },
+          content2: "7.2. To exercise your rights, contact us through the feedback form."
+        },
+        retention: {
+          title: "8. Data Retention",
+          content1: "8.1. We store your data while:",
+          conditions: {
+            using: "You use the service",
+            legal: "It is necessary to fulfill legal requirements",
+            account: "You do not delete your account"
+          },
+          content2: "8.2. After account deletion, data is deleted within 30 days.",
+          content3: "8.3. Backups may be stored for up to 90 days."
+        },
+        children: {
+          title: "9. Children",
+          content1: "9.1. The service is intended for persons over 16 years old.",
+          content2: "9.2. We do not knowingly collect data from children under 16.",
+          content3: "9.3. If you are a parent/guardian — notify us about a child's use of the service."
+        },
+        international: {
+          title: "10. International Data Transfer",
+          content1: "10.1. Data may be stored on servers in different countries.",
+          content2: "10.2. By using the service, you agree to international data transfer."
+        },
+        changes: {
+          title: "11. Policy Changes",
+          content1: "11.1. We have the right to change this policy at any time.",
+          content2: "11.2. We will notify about significant changes via email or app notification.",
+          content3: "11.3. Continued use of the service after changes means your consent."
+        },
+        contact: {
+          title: "12. Contact Information",
+          content1: "For privacy questions contact:",
+          form: "Contact form: <a href=\"/contact\" style=\"color: var(--primary);\">Contacts</a>"
+        },
+        finalSummary: "SUMMARY: We collect minimally necessary data, protect it and do not sell to third parties. You can delete your account at any time. Use of the service is at your own risk.",
+        finalSummaryTitle: "SUMMARY:"
+      }
+    },
+
     // Common
     common: {
       cancel: "Cancel",

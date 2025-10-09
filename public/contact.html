@@ -256,7 +256,13 @@
 
                     <div class="form-group">
                         <label for="subject" data-i18n="contact.form.subject">Тема</label>
-                        <input type="text" id="subject" name="subject" data-i18n-placeholder="contact.form.subjectPlaceholder" required>
+                        <select id="subject" name="subject" required>
+                            <option value="support" data-i18n="contact.form.subjects.support">Підтримка</option>
+                            <option value="feedback" data-i18n="contact.form.subjects.feedback">Відгук</option>
+                            <option value="bug" data-i18n="contact.form.subjects.bug">Повідомлення про помилку</option>
+                            <option value="feature" data-i18n="contact.form.subjects.feature">Пропозиція функції</option>
+                            <option value="other" data-i18n="contact.form.subjects.other" selected>Інше</option>
+                        </select>
                     </div>
 
                     <div class="form-group">
@@ -352,6 +358,11 @@
         const currentTheme = savedTheme || systemTheme;
 
         document.documentElement.setAttribute('data-theme', currentTheme);
+        
+        // Update theme icons on page load
+        if (window.updateAllThemeIcons) {
+            window.updateAllThemeIcons(currentTheme);
+        }
 
         const themeToggles = document.querySelectorAll('#theme-toggle, #mobile-theme-toggle');
         themeToggles.forEach(toggle => {
@@ -361,11 +372,27 @@
                 const newTheme = current === 'light' ? 'dark' : 'light';
                 document.documentElement.setAttribute('data-theme', newTheme);
                 localStorage.setItem('theme', newTheme);
+                
+                // Update both desktop and mobile theme icons
+                if (window.updateAllThemeIcons) {
+                    window.updateAllThemeIcons(newTheme);
+                }
             });
         });
 
-        // Language switcher for both desktop and mobile
+        // Restore language switcher state
+        const savedLanguage = localStorage.getItem('language') || 'uk';
         const allLangBtns = document.querySelectorAll('.lang-btn, .mobile-lang-btn');
+        
+        // Set correct active state on page load
+        allLangBtns.forEach(btn => {
+            btn.classList.remove('active');
+            if (btn.dataset.lang === savedLanguage) {
+                btn.classList.add('active');
+            }
+        });
+        
+        // Language switcher for both desktop and mobile
         allLangBtns.forEach(btn => {
             btn.addEventListener('click', function() {
                 const lang = this.dataset.lang;

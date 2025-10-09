@@ -6,12 +6,25 @@ Allow: /icons/
 Allow: /manifest.json
 Allow: /sw.js
 
+# Public pages - explicitly allow
+Allow: /contact
+Allow: /blog
+Allow: /faq
+Allow: /terms
+Allow: /privacy
+
 # Don't index app pages (private user content)
 Disallow: /app.html
 Disallow: /app/
 
+# Don't index admin pages
+Disallow: /admin/
+
 # Don't index API endpoints
 Disallow: /api/
+
+# Don't index reset password page
+Disallow: /reset-password
 
 # Important files
 Sitemap: https://discard.com.ua/sitemap.xml
@@ -22,12 +35,25 @@ Crawl-delay: 1
 # Specific bot instructions
 User-agent: Googlebot
 Allow: /
+Allow: /contact
+Allow: /blog
+Allow: /faq
+Allow: /terms
+Allow: /privacy
 Crawl-delay: 1
 
 User-agent: Bingbot  
 Allow: /
+Allow: /contact
+Allow: /blog
+Allow: /faq
+Allow: /terms
+Allow: /privacy
 Crawl-delay: 1
 
 User-agent: facebookexternalhit
 Allow: /
 Allow: /icons/
+Allow: /contact
+Allow: /blog
+Allow: /faq
