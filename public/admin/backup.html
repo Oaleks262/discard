@@ -304,9 +304,9 @@
                         <div class="backup-info">
                             <div class="backup-filename">${backup.filename}</div>
                             <div class="backup-meta">
-                                <span>📅 ${formatDate(backup.createdAt)}</span>
-                                <span>👤 ${backup.createdBy}</span>
-                                <span>💾 ${formatSize(backup.size)}</span>
+                                <span>📅 ${formatDate(backup.created || backup.createdAt)}</span>
+                                <span>👤 ${backup.createdBy || 'Система'}</span>
+                                <span>💾 ${backup.size}</span>
                             </div>
                             ${backup.stats ? `
                                 <div class="backup-stats">
@@ -347,7 +347,9 @@
             btn.innerHTML = '⏳ Створення...';
 
             try {
-                const response = await authFetch('/api/admin/backup/create');
+                const response = await authFetch('/api/admin/backup/create', {
+                    method: 'POST'
+                });
                 const data = await response.json();
 
                 if (!data.success) {

@@ -1395,14 +1395,20 @@ app.get('/api/admin/backup/list', authenticateAdmin, async (req, res) => {
     const backupFiles = [];
     
     for (const file of files) {
-      if (file.endsWith('.zip') && file.startsWith('discard-backup-')) {
+      if (file.endsWith('.zip') && (file.startsWith('discard-backup-') || file.startsWith('auto-backup-'))) {
         const filePath = path.join(backupDir, file);
         const stats = await fs.stat(filePath);
+        
+        // Determine backup type and creator
+        const isAutoBackup = file.startsWith('auto-backup-');
+        const createdBy = isAutoBackup ? 'Автоматичний бекап' : req.user?.name || 'Адміністратор';
         
         backupFiles.push({
           filename: file,
           size: `${(stats.size / 1024 / 1024).toFixed(2)} MB`,
           created: stats.mtime.toISOString(),
+          createdBy: createdBy,
+          type: isAutoBackup ? 'auto' : 'manual',
           downloadUrl: `/api/admin/backup/download/${file}`
         });
       }
@@ -1567,6 +1573,48 @@ app.post('/api/admin/backup/restore', authenticateAdmin, upload.single('backupFi
     res.status(500).json({
       success: false,
       error: 'Помилка відновлення з резервної копії: ' + error.message
+    });
+  }
+});
+
+// Delete backup file
+app.delete('/api/admin/backup/:filename', authenticateAdmin, async (req, res) => {
+  try {
+    const { filename } = req.params;
+    const backupPath = path.join(__dirname, 'backups', filename);
+    
+    // Check if file exists
+    if (!(await fs.pathExists(backupPath))) {
+      return res.status(404).json({
+        success: false,
+        error: 'Файл резервної копії не знайдено'
+      });
+    }
+    
+    // Validate filename for security
+    if (!filename.match(/^(discard-backup-|auto-backup-)[\d-TZ]+\.zip$/)) {
+      return res.status(400).json({
+        success: false,
+        error: 'Недійсне ім\'я файлу'
+      });
+    }
+    
+    // Delete the file
+    await fs.remove(backupPath);
+    
+    console.log(`Backup deleted: ${filename}`);
+    
+    res.json({
+      success: true,
+      message: 'Резервну копію успішно видалено',
+      filename: filename
+    });
+    
+  } catch (error) {
+    console.error('Delete backup failed:', error);
+    res.status(500).json({
+      success: false,
+      error: 'Помилка видалення резервної копії'
     });
   }
 });
