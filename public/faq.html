@@ -20,7 +20,7 @@
         .faq-page {
             max-width: 900px;
             margin: 0 auto;
-            padding: var(--spacing-3xl) var(--spacing-xl);
+            padding: calc(var(--spacing-3xl) + 2rem) var(--spacing-xl) var(--spacing-3xl);
         }
 
         .faq-page h1 {
@@ -316,7 +316,7 @@
 
             noResults.classList.add('hidden');
 
-            container.innerHTML = items.map(item => {
+            const renderedItems = items.map(item => {
                 // Get translations directly from the translations object
                 const lang = window.i18n ? window.i18n.getCurrentLanguage() : 'uk';
                 const faqData = window.i18n?.translations?.[lang]?.faq?.items?.[item.key];
@@ -338,7 +338,16 @@
                         </div>
                     </div>
                 `;
-            }).join('');
+            }).filter(item => item !== ''); // Remove empty items
+
+            // Check if we have any actual content after filtering
+            if (renderedItems.length === 0) {
+                container.innerHTML = '';
+                noResults.classList.remove('hidden');
+                return;
+            }
+
+            container.innerHTML = renderedItems.join('');
         }
 
         // Format answer with line breaks

@@ -21,7 +21,7 @@
         .blog-page {
             max-width: 1200px;
             margin: 0 auto;
-            padding: var(--spacing-3xl) var(--spacing-xl);
+            padding: calc(var(--spacing-3xl) + 2rem) var(--spacing-xl) var(--spacing-3xl);
         }
 
         .blog-page h1 {
@@ -153,6 +153,77 @@
             .blog-grid {
                 grid-template-columns: 1fr;
             }
+        }
+
+        /* Pagination styles */
+        .pagination {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-sm);
+            justify-content: center;
+            margin: var(--spacing-xl) 0;
+            flex-wrap: wrap;
+        }
+
+        .pagination button {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 40px;
+            height: 40px;
+            padding: 0 var(--spacing-sm);
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            color: var(--text-primary);
+            font-size: var(--text-sm);
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            white-space: nowrap;
+            font-family: inherit;
+        }
+
+        .pagination button:hover:not(:disabled) {
+            background: var(--primary);
+            border-color: var(--primary);
+            color: white;
+            transform: translateY(-1px);
+            box-shadow: 0 2px 8px rgba(0, 102, 255, 0.3);
+        }
+
+        .pagination button.active {
+            background: var(--primary);
+            border-color: var(--primary);
+            color: white;
+            box-shadow: 0 2px 4px rgba(0, 102, 255, 0.2);
+        }
+
+        .pagination button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            pointer-events: none;
+            background: var(--bg-secondary);
+        }
+
+        /* Mobile pagination styles */
+        @media (max-width: 480px) {
+            .pagination {
+                gap: 0.5rem;
+            }
+            
+            .pagination button {
+                min-width: 36px;
+                height: 36px;
+                font-size: 0.75rem;
+                padding: 0 0.5rem;
+            }
+        }
+
+        /* Loading spinner */
+        .loading-spinner {
+            color: var(--text-secondary);
+            font-style: italic;
         }
     </style>
 </head>
@@ -335,8 +406,17 @@
 
         // Завантаження статей
         async function loadBlogPosts(page = 1, category = '') {
+            // Scroll to top when changing pages
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+            
             const container = document.getElementById('blogPosts');
             const noPosts = document.getElementById('noPosts');
+            
+            // Show loading state
+            container.innerHTML = '<div class="loading-spinner" style="text-align: center; padding: 2rem;">Завантаження...</div>';
 
             try {
                 const url = `/api/blog?page=${page}&limit=9&category=${category}`;

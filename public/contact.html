@@ -20,7 +20,7 @@
         .contact-page {
             max-width: 1200px;
             margin: 0 auto;
-            padding: var(--spacing-3xl) var(--spacing-xl);
+            padding: calc(var(--spacing-3xl) + 2rem) var(--spacing-xl) var(--spacing-3xl);
         }
 
         .contact-page h1 {
@@ -148,6 +148,13 @@
 
         .hidden {
             display: none;
+        }
+
+        /* Mobile responsive for contact buttons */
+        @media (max-width: 768px) {
+            .contact-buttons {
+                flex-direction: column !important;
+            }
         }
     </style>
 </head>
@@ -292,7 +299,7 @@
 
                 <div style="margin-top: var(--spacing-xl); padding-top: var(--spacing-xl); border-top: 1px solid var(--border);">
                     <h3 style="font-size: 1rem; margin-bottom: var(--spacing-md); color: var(--text-primary);">Або перегляньте</h3>
-                    <div style="display: flex; gap: var(--spacing-md);">
+                    <div style="display: flex; gap: var(--spacing-md);" class="contact-buttons">
                         <a href="/faq" class="cta-button" style="flex: 1; text-align: center;" data-i18n="nav.faq">FAQ</a>
                         <a href="/blog" class="cta-button" style="flex: 1; text-align: center; background-color: transparent; border: 1px solid var(--border);" data-i18n="nav.blog">Блог</a>
                     </div>
