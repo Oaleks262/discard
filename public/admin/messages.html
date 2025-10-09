@@ -30,7 +30,14 @@
         <!-- Main Content -->
         <main class="admin-main">
             <header class="admin-header">
-                <h1>Повідомлення</h1>
+                <div class="admin-header-left">
+                    <button class="mobile-menu-toggle" id="mobile-menu-toggle">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </button>
+                    <h1>Повідомлення</h1>
+                </div>
                 <div class="admin-header-actions">
                     <button class="theme-toggle" id="theme-toggle">🌙</button>
                 </div>
@@ -365,5 +372,6 @@
             loadMessages(1);
         });
     </script>
+    <script src="/admin/js/mobile-menu.js"></script>
 </body>
 </html>
