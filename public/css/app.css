@@ -1314,7 +1314,8 @@ a {
   background: var(--overlay);
 }
 
-.modal.show {
+.modal.show,
+.modal.active {
   display: flex;
 }
 
@@ -1944,7 +1945,8 @@ input:focus-visible,
   transition: all 0.3s ease;
 }
 
-.modal-overlay.show {
+.modal-overlay.show,
+.modal-overlay.active {
   opacity: 1;
   visibility: visible;
 }
@@ -2165,9 +2167,11 @@ input:focus-visible,
   transition: all 0.3s ease;
 }
 
-.app-modal-system.show {
+.app-modal-system.show,
+.app-modal-system.active {
   opacity: 1 !important;
   visibility: visible !important;
+  display: flex !important;
 }
 
 .app-modal-system .app-modal-content {

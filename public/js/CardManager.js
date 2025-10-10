@@ -4,6 +4,15 @@ class CardManager {
     this.app = app;
     this.currentCard = null;
     this.isThemeUpdate = false;
+    
+    // Initialize event listeners when DOM is ready
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', () => {
+        this.setupCardEventListeners();
+      });
+    } else {
+      this.setupCardEventListeners();
+    }
   }
 
   async handleAddCard(e) {
@@ -401,6 +410,106 @@ class CardManager {
     }
   }
 
+  showDeleteConfirmation() {
+    return new Promise((resolve) => {
+      // Create confirmation modal with unique classes
+      const modal = document.createElement('div');
+      modal.className = 'delete-confirm-modal';
+      modal.style.cssText = `
+        position: fixed !important;
+        top: 0 !important;
+        left: 0 !important;
+        right: 0 !important;
+        bottom: 0 !important;
+        z-index: 999999 !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        background: var(--overlay) !important;
+        backdrop-filter: blur(4px) !important;
+        font-family: var(--font-family) !important;
+      `;
+      
+      modal.innerHTML = `
+        <div class="modal-content">
+          <div class="modal-header">
+            <h3 class="modal-title">Підтвердження видалення</h3>
+            <button class="modal-close delete-close-btn">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                <path d="M18 6L6 18M6 6L18 18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+              </svg>
+            </button>
+          </div>
+          
+          <div class="modal-body" style="padding: var(--spacing-lg); text-align: center;">
+            <p style="margin: 0; color: var(--text-secondary); font-size: 1rem; line-height: 1.5;">
+              Ви впевнені, що хочете видалити картку<br>
+              <strong style="color: var(--text-primary);">"${this.currentCard?.name || 'цю картку'}"</strong>?
+            </p>
+          </div>
+          
+          <div style="padding: var(--spacing-lg); padding-top: 0;">
+            <div class="modal-actions">
+              <button class="modal-action-btn delete-cancel-btn" style="
+                background: var(--surface);
+                color: var(--text-secondary);
+                border: 2px solid var(--border);
+              ">
+                <span>Скасувати</span>
+              </button>
+              
+              <button class="modal-action-btn danger delete-confirm-btn" style="
+                color: white;
+                border: none;
+              ">
+                <svg viewBox="0 0 24 24" width="20" height="20" style="margin-right: 8px;">
+                  <polyline points="3,6 5,6 21,6" stroke="currentColor" stroke-width="2" fill="none"></polyline>
+                  <path d="M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a2 2 0 012-2h4a2 2 0 012 2v2" stroke="currentColor" stroke-width="2" fill="none"></path>
+                </svg>
+                <span>Видалити</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      `;
+      
+      document.body.appendChild(modal);
+      
+      const confirmBtn = modal.querySelector('.delete-confirm-btn');
+      const cancelBtn = modal.querySelector('.delete-cancel-btn');
+      const closeBtn = modal.querySelector('.delete-close-btn');
+      
+      const cleanup = () => {
+        modal.remove();
+        document.body.style.overflow = '';
+      };
+      
+      confirmBtn.addEventListener('click', () => {
+        cleanup();
+        resolve(true);
+      });
+      
+      cancelBtn.addEventListener('click', () => {
+        cleanup();
+        resolve(false);
+      });
+      
+      closeBtn.addEventListener('click', () => {
+        cleanup();
+        resolve(false);
+      });
+      
+      modal.addEventListener('click', (e) => {
+        if (e.target === modal) {
+          cleanup();
+          resolve(false);
+        }
+      });
+      
+      document.body.style.overflow = 'hidden';
+    });
+  }
+
   async deleteCard() {
     const cardId = this.currentCard?._id;
     if (!cardId) {
@@ -408,8 +517,14 @@ class CardManager {
       return;
     }
 
-    const confirmMessage = UIUtils.safeT('messages.confirmDelete', 'Ви впевнені, що хочете видалити цю картку?');
-    const confirmed = await UIUtils.showConfirm(confirmMessage);
+    // Close card modal first
+    this.closeCardModal();
+    
+    // Wait a bit for modal to close, then show confirmation
+    await new Promise(resolve => setTimeout(resolve, 300));
+    
+    // Create custom confirmation modal
+    const confirmed = await this.showDeleteConfirmation();
     if (!confirmed) return;
 
     try {
@@ -419,7 +534,6 @@ class CardManager {
 
       AppState.cards = response.cards;
       this.renderCards();
-      this.closeCardModal();
       
       // Save updated cards to localStorage
       if (this.app.dataManager) {
@@ -581,7 +695,19 @@ class CardManager {
     // Card modal
     document.getElementById('modal-close')?.addEventListener('click', this.closeCardModal.bind(this));
     document.getElementById('copy-code-btn')?.addEventListener('click', this.copyCardCode.bind(this));
-    document.getElementById('delete-card-btn')?.addEventListener('click', this.deleteCard.bind(this));
+    // Remove existing listeners and add new one for delete button
+    const deleteBtn = document.getElementById('delete-card-btn');
+    if (deleteBtn) {
+      // Clone button to remove all existing listeners
+      const newDeleteBtn = deleteBtn.cloneNode(true);
+      deleteBtn.parentNode.replaceChild(newDeleteBtn, deleteBtn);
+      
+      newDeleteBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        this.deleteCard();
+      });
+    }
     
     // Cancel add card button
     document.getElementById('cancel-add-card')?.addEventListener('click', this.cancelAddCard.bind(this));
