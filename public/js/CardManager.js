@@ -271,22 +271,13 @@ class CardManager {
       // Find updated card from AppState
       const updatedCard = AppState.cards.find(c => c._id === card._id);
       
-      console.log(`[${retryCount}/${maxRetries}] Checking card code:`, {
-        cardId: card._id,
-        hasCode: !!(updatedCard && updatedCard.code),
-        hasEncryptedCode: !!(updatedCard && updatedCard.encryptedCode),
-        codeLength: updatedCard?.code?.length || 0
-      });
-      
       if (updatedCard && updatedCard.code && updatedCard.code.trim() !== '') {
         // Code is now available, generate it
-        console.log('✅ Card code ready, generating modal code');
         this.currentCard = updatedCard;
         this.generateModalCode(updatedCard);
       } else if (retryCount < maxRetries) {
         // Try to trigger refresh from server if we have encrypted code but no plain code
         if (updatedCard && updatedCard.encryptedCode && !updatedCard.code && retryCount === 5) {
-          console.log('🔄 Triggering server refresh for card decryption');
           this.triggerCardRefresh();
         }
         
@@ -314,7 +305,6 @@ class CardManager {
         const response = await this.app.dataManager.apiCall('/auth/me', { method: 'GET' });
         if (response && response.cards) {
           AppState.cards = response.cards;
-          console.log('🔄 Cards refreshed from server');
         }
       }
     } catch (error) {

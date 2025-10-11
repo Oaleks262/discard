@@ -199,7 +199,6 @@ class CookieBanner {
         this.removeBanner();
 
         // Не завантажувати аналітику та трекери
-        console.log('User declined cookies');
     }
 
     removeBanner() {

@@ -125,8 +125,6 @@ class CryptoManager {
     } catch (error) {
       console.error('Error decrypting card data:', error);
       // For debugging - try to show what we have
-      console.log('Encrypted data length:', encryptedData.length);
-      console.log('First 50 chars:', encryptedData.substring(0, 50));
       throw new Error('Failed to decrypt card data');
     }
   }

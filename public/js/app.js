@@ -95,8 +95,6 @@ class LoyaltyCardsApp {
 
   // Core app methods
   switchTab(tabName) {
-    console.log(`Switching to tab: ${tabName}`);
-    
     // Update navigation
     document.querySelectorAll('.nav-item').forEach(item => {
       item.classList.remove('active');
@@ -104,20 +102,11 @@ class LoyaltyCardsApp {
     
     // More specific selector for nav items only
     const targetNavItem = document.querySelector(`.nav-item[data-tab="${tabName}"]`);
-    console.log(`Found nav item with data-tab="${tabName}":`, targetNavItem);
     
     if (targetNavItem) {
       targetNavItem.classList.add('active');
-      console.log(`Added active class to nav item with data-tab="${tabName}"`);
-      console.log(`Nav item classes after adding active:`, targetNavItem.className);
     } else {
       console.warn(`No nav item found for tab: ${tabName}`);
-      // Debug: show all nav items
-      const allNavItems = document.querySelectorAll('.nav-item');
-      console.log('All nav items:', allNavItems);
-      allNavItems.forEach(item => {
-        console.log(`Nav item data-tab: "${item.dataset.tab}"`);
-      });
     }
 
     // Update panels - use correct class name

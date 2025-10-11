@@ -110,7 +110,6 @@
                             setTimeout(() => {
                                 if (typeof QRCode !== 'undefined' || 
                                     typeof qrcode !== 'undefined') {
-                                    console.log(`✅ QRCode loaded and verified from CDN ${currentIndex + 1}: ${cdnUrls[currentIndex]}`);
                                     
                                     // Create unified interface if using qrcode-generator
                                     if (typeof qrcode !== 'undefined' && !window.QRCode) {
@@ -146,7 +145,6 @@
 
         // Create adapter for qrcode-generator to match QRCode.toCanvas API
         function createQRCodeAdapter() {
-            console.log('Creating QRCode adapter for qrcode-generator');
             
             window.QRCode = {
                 toCanvas: (canvas, text, options = {}, callback) => {
@@ -178,7 +176,6 @@
                             }
                         }
                         
-                        console.log('✅ QR code generated using qrcode-generator adapter');
                         if (callback) callback(null);
                     } catch (error) {
                         console.error('QRCode adapter error:', error);
@@ -199,11 +196,6 @@
                     const quaggaReady = typeof Quagga !== 'undefined';
                     const jsbarcodeReady = typeof JsBarcode !== 'undefined';
                     
-                    console.log('📊 Library status check:');
-                    console.log('- QRCode (generation):', qrcodeReady);
-                    console.log('- jsQR (QR scanning):', jsqrReady);
-                    console.log('- Quagga (barcode scanning):', quaggaReady);
-                    console.log('- JsBarcode (barcode generation):', jsbarcodeReady);
                     
                     return {
                         qrcode: qrcodeReady,
@@ -217,14 +209,12 @@
                 // Initial check
                 let status = checkAllLibraries();
                 if (status.allReady) {
-                    console.log('✅ All libraries already available');
                     resolve();
                     return;
                 }
                 
                 // If QRCode not ready, try loading it manually
                 if (!status.qrcode) {
-                    console.log('📦 Loading QRCode library...');
                     await loadQRCodeLibrary();
                 }
                 
@@ -242,7 +232,6 @@
                             createQRCodeAdapter();
                         }
                         
-                        console.log('✅ All libraries ready');
                         resolve();
                     } else if (attempts >= maxAttempts) {
                         console.error('❌ Some libraries still not available after loading attempts');
@@ -292,7 +281,6 @@
                             ctx.fillStyle = options.color?.light || '#FFFFFF';
                             ctx.fillRect(0, 0, width, height);
                             ctx.drawImage(img, 0, 0, width, height);
-                            console.log('✅ QR code generated using QR Server API');
                             if (callback) callback(null);
                         };
                         img.onerror = function() {
@@ -356,7 +344,6 @@
                                 }
                             }
                             
-                            console.log('✅ QR-like pattern generated based on text data');
                             if (callback) callback(null);
                         };
                         
@@ -429,9 +416,7 @@
         
         // Initialize libraries when page loads
         document.addEventListener('DOMContentLoaded', () => {
-            console.log('🚀 Page loaded, waiting for libraries...');
             waitForLibraries().then(() => {
-                console.log('📚 All libraries ready');
                 window.dispatchEvent(new CustomEvent('librariesReady'));
                 
                 // Test QR code generation
@@ -442,7 +427,6 @@
                             if (error) {
                                 console.error('❌ QRCode test failed:', error);
                             } else {
-                                console.log('✅ QRCode test passed - real library working');
                             }
                         });
                     } catch (testError) {
@@ -1070,8 +1054,8 @@
     <script>
         if ('serviceWorker' in navigator) {
             navigator.serviceWorker.register('/sw.js')
-                .then(registration => console.log('SW registered'))
-                .catch(error => console.log('SW registration failed'));
+                .then(registration => {/* SW registered */})
+                .catch(error => console.error('SW registration failed:', error));
         }
     </script>
 </body>

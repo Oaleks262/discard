@@ -41,7 +41,6 @@ class AdSense {
         }
 
         this.initialized = true;
-        console.log('Google AdSense initialized:', this.publisherId);
     }
 
     // Створити блок реклами

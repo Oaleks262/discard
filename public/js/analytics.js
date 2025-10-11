@@ -47,7 +47,6 @@ class Analytics {
         });
 
         this.initialized = true;
-        console.log('Google Analytics initialized:', this.gaId);
     }
 
     // Відправити подію

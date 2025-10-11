@@ -93,7 +93,6 @@ class MigrationManager {
           // This card was auto-migrated and fixed for display - contains plain text in code
           // We need to properly encrypt it
           try {
-            console.log(`🔐 Properly encrypting card: ${card.name}`);
             const encryptedCode = await this.dataManager.cryptoManager.encryptCard(
               { code: card.code }, 
               this.dataManager.encryptionKey
@@ -114,7 +113,6 @@ class MigrationManager {
                   isEncrypted: true
                 })
               });
-              console.log(`✅ Card "${card.name}" encrypted and updated on server`);
             } catch (serverError) {
               console.error('Failed to update card on server:', serverError);
             }

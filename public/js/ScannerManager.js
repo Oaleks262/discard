@@ -20,7 +20,6 @@ class ScannerManager {
                         document.referrer.includes('android-app://');
     
     if (isStandalone) {
-      console.log('🎯 Running in PWA standalone mode - camera permissions may need manual setup');
     }
 
     // Check if required scanning libraries are available
@@ -59,13 +58,11 @@ class ScannerManager {
       // Detect mobile device for optimized settings
       const isMobile = /Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
       
-      console.log('Camera access attempt:', { isStandalone, isMobile, userAgent: navigator.userAgent });
       
       // Check camera permissions first, especially important for PWA
       if (isStandalone && navigator.permissions) {
         try {
           const permissionStatus = await navigator.permissions.query({ name: 'camera' });
-          console.log('Camera permission status:', permissionStatus.state);
           
           if (permissionStatus.state === 'denied') {
             throw new Error('CameraPermissionDenied');

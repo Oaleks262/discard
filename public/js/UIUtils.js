@@ -209,7 +209,6 @@ class UIUtils {
   }
 
   static showModal(options = {}) {
-    console.log('UIUtils.showModal called with options:', options);
     const {
       title = 'Повідомлення',
       message = '',
@@ -220,7 +219,6 @@ class UIUtils {
     } = options;
 
     return new Promise((resolve) => {
-      console.log('UIUtils.showModal: Creating promise, will call resolve when modal closes');
       // Create modal if it doesn't exist
       let modal = document.getElementById('app-modal');
       if (!modal) {
@@ -303,10 +301,8 @@ class UIUtils {
       document.addEventListener('keydown', escHandler);
 
       // Show modal
-      console.log('UIUtils.showModal: Adding active class and showing modal');
       overlay.classList.add('active');
       document.body.style.overflow = 'hidden';
-      console.log('UIUtils.showModal: Modal should now be visible');
       
       // Focus on confirm button
       setTimeout(() => {
