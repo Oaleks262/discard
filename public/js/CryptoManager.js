@@ -283,12 +283,6 @@ class CryptoManager {
     }
   }
 
-  // Generate a test encryption key for development/testing
-  async generateTestKey() {
-    const testEmail = 'test@discard.com';
-    const testPassword = 'testpassword123';
-    return await this.generateKey(testEmail, testPassword);
-  }
 }
 
 // Export for use in other modules
