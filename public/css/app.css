@@ -196,9 +196,10 @@ a {
   bottom: 0;
   background: linear-gradient(135deg, var(--bg-primary) 0%, var(--bg-secondary) 100%);
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   justify-content: center;
   z-index: var(--z-modal);
+  overflow-y: auto;
 }
 
 .auth-container {
@@ -206,6 +207,26 @@ a {
   max-width: 400px;
   margin: var(--spacing-lg) var(--spacing-md);
   padding: var(--spacing-md);
+}
+
+/* Desktop - center vertically */
+@media (min-width: 769px) {
+  .auth-screen {
+    align-items: center;
+  }
+}
+
+/* Mobile - login centered, register from top */
+@media (max-width: 768px) {
+  /* When login form is visible - center */
+  .auth-screen:has(#login-form:not(.hidden)) {
+    align-items: center;
+  }
+
+  /* When register form is visible - from top */
+  .auth-screen:has(#register-form:not(.hidden)) {
+    align-items: flex-start;
+  }
 }
 
 .auth-header {
